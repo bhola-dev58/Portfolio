@@ -158,9 +158,6 @@ export const Contact = () => {
                     <p className="text-sm text-muted-foreground mt-1">
                       💼 Open to internship and full-time opportunities
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      🚀 Available for freelance projects
-                    </p>
                   </div>
                 </div>
               </div>
