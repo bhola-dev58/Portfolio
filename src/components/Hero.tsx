@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, Code2 } from "lucide-react";
 import profileImage from "@/assets/profile.png";
 import { Link } from "react-router-dom";
+import resumePdf from "@/assets/resume/My_Resume.pdf";
 
 export const Hero = () => {
   return (
@@ -64,6 +65,16 @@ export const Hero = () => {
                 asChild
               >
                 <Link to="/contact">Contact Me</Link>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                asChild
+              >
+                <a href={resumePdf} download="Bhola_Yadav_Resume.pdf">
+                  Download Resume
+                </a>
               </Button>
             </motion.div>
 
