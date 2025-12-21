@@ -7,7 +7,7 @@ Welcome to my personal portfolio website! This project is a modern, responsive, 
 - **Modern UI/UX**: Designed with a focus on aesthetics and usability, featuring a default dark mode for visual comfort.
 - **Responsive Design**: Fully responsive layout that looks great on devices of all sizes.
 - **Interactive Elements**: Includes smooth page transitions, animated backgrounds, and interactive components.
-- **Multi-Page Layout**: Dedicated pages for Home, About Me, Projects, and Contact.
+- **Multi-Page Layout**: Dedicated pages for Home, Internship, Projects, About and Contact.
 - **Dynamic Content**: easily updateable project and personal information.
 
 
@@ -18,11 +18,14 @@ Here is a glimpse of the application:
 ### Home Page
 ![Home Page](src/assets/screenshot%20of%20output/localhost_8080_%20(1).png)
 
-### About Page
-![About Page](src/assets/screenshot%20of%20output/About_page.png)
+### Internship Page
+![Internship Page](src/assets/screenshot%20of%20output/Internship_page.png)
 
 ### Projects Page
 ![Projects Page](src/assets/screenshot%20of%20output/Project.png)
+
+### About Page
+![About Page](src/assets/screenshot%20of%20output/About_page.png)
 
 ### Contact Page
 ![Contact Page](src/assets/screenshot%20of%20output/contact_page.png)
