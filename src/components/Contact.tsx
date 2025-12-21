@@ -12,20 +12,38 @@ export const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
-      label: "Email",
+      label: "Personal Email",
       value: "bhola.dev58@gmail.com",
       href: "mailto:bhola.dev58@gmail.com",
     },
     {
+      icon: Mail,
+      label: "College Email",
+      value: "bhya23cs@cmrit.ac.in",
+      href: "mailto:bhya23cs@cmrit.ac.in",
+    },
+    {
       icon: Phone,
-      label: "Phone",
+      label: "Phone (IN)",
       value: "+91 9198709984",
       href: "tel:+919198709984",
     },
     {
+      icon: Phone,
+      label: "Phone (NP)",
+      value: "+977 9864567310",
+      href: "tel:+9779864567310",
+    },
+    {
       icon: MapPin,
-      label: "Location",
-      value: "Bangalore, Karnataka",
+      label: "Temporary Address",
+      value: "Bangalore, Karnataka India",
+      href: null,
+    },
+    {
+      icon: MapPin,
+      label: "Permanent Address",
+      value: "Marchwari-3, Rupandehi Nepal",
       href: null,
     },
   ];

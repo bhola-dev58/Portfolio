@@ -33,8 +33,8 @@ To run this project locally, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/bhola-dev58/Resume_with_multi_page.git
-    cd Resume_with_multi_page
+    git clone https://github.com/bhola-dev58/Portfolio.git
+    cd Portfolio
     ```
 
 2.  **Install dependencies:**

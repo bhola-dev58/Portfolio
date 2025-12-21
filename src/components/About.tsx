@@ -72,7 +72,7 @@ export const About = () => {
                         <GraduationCap className="w-4 h-4 text-primary" />
                         Shree Susanskrit Secondary School
                       </h4>
-                      <p className="text-sm text-muted-foreground">12th Grade - Science (Technical)</p>
+                      <p className="text-sm text-muted-foreground">12th Grade - Science (Technical and Vocational)</p>
                       <p className="text-sm text-muted-foreground">78%</p>
                     </div>
                   </div>
@@ -88,7 +88,7 @@ export const About = () => {
                         <GraduationCap className="w-4 h-4 text-primary/60" />
                         Shree Susanskrit Secondary School
                       </h4>
-                      <p className="text-sm text-muted-foreground">10th Standard</p>
+                      <p className="text-sm text-muted-foreground">10th Standard - Science (Technical and Vocational)</p>
                       <p className="text-sm text-muted-foreground">80%</p>
                     </div>
                   </div>
@@ -100,9 +100,12 @@ export const About = () => {
               <h3 className="text-2xl font-bold mb-4 text-primary">Personal Details</h3>
               <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
                 <div>
-                  <p><span className="font-semibold text-foreground">Location:</span> Bangalore, Karnataka</p>
-                  <p><span className="font-semibold text-foreground">Email:</span> bhola.dev58@gmail.com</p>
-                  <p><span className="font-semibold text-foreground">Phone:</span> +91 9198709984</p>
+                  <p><span className="font-semibold text-foreground">Temporary Address:</span> Bangalore, Karnataka India</p>
+                  <p><span className="font-semibold text-foreground">Permanent Address:</span> Marchwari-3, Rupandehi Nepal</p>
+                  <p><span className="font-semibold text-foreground">Personal Email:</span> bhola.dev58@gmail.com</p>
+                  <p><span className="font-semibold text-foreground">College Email:</span> bhya23cs@cmrit.ac.in</p>
+                  <p><span className="font-semibold text-foreground">Phone (IN):</span> +91 9198709984</p>
+                  <p><span className="font-semibold text-foreground">Phone (NP):</span> +977 9864567310</p>
                 </div>
                 <div>
                   <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
