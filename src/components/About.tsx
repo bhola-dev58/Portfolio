@@ -1,12 +1,33 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { GraduationCap } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+
+interface Profile {
+  email_personal: string;
+  email_college: string;
+  phone_in: string;
+  phone_np: string;
+  address_temp: string;
+  address_perm: string;
+}
 
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data } = await supabase.from("profile").select("*").single();
+      if (data) setProfile(data);
+      setLoading(false);
+    }
+    fetchProfile();
+  }, []);
 
   return (
     <section id="about" className="min-h-screen flex items-center py-20 px-4">
@@ -25,8 +46,7 @@ export const About = () => {
               <h3 className="text-2xl font-bold mb-4 text-primary">Career Objective</h3>
               <p className="text-muted-foreground leading-relaxed">
                 To obtain a challenging position in Software Engineering where I can leverage my
-                expertise in Java, Python, and Web Development to contribute to organizational
-                success while enhancing my professional growth.
+                expertise to contribute to organizational success while enhancing my professional growth.
               </p>
               <div className="mt-6">
                 <img
@@ -98,21 +118,27 @@ export const About = () => {
 
             <Card className="p-8 card-shadow bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all md:col-span-2">
               <h3 className="text-2xl font-bold mb-4 text-primary">Personal Details</h3>
-              <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
-                <div>
-                  <p><span className="font-semibold text-foreground">Temporary Address:</span> Bangalore, Karnataka India</p>
-                  <p><span className="font-semibold text-foreground">Permanent Address:</span> Marchwari-3, Rupandehi Nepal</p>
-                  <p><span className="font-semibold text-foreground">Personal Email:</span> bhola.dev58@gmail.com</p>
-                  <p><span className="font-semibold text-foreground">College Email:</span> bhya23cs@cmrit.ac.in</p>
-                  <p><span className="font-semibold text-foreground">Phone (IN):</span> +91 9198709984</p>
-                  <p><span className="font-semibold text-foreground">Phone (NP):</span> +977 9864567310</p>
+              {loading ? (
+                <p className="text-muted-foreground">Loading profile...</p>
+              ) : profile ? (
+                <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
+                  <div>
+                    <p><span className="font-semibold text-foreground">Temporary Address:</span> {profile.address_temp}</p>
+                    <p><span className="font-semibold text-foreground">Permanent Address:</span> {profile.address_perm}</p>
+                    <p><span className="font-semibold text-foreground">Personal Email:</span> {profile.email_personal}</p>
+                    <p><span className="font-semibold text-foreground">College Email:</span> {profile.email_college}</p>
+                    <p><span className="font-semibold text-foreground">Phone (IN):</span> {profile.phone_in}</p>
+                    <p><span className="font-semibold text-foreground">Phone (NP):</span> {profile.phone_np}</p>
+                  </div>
+                  <div>
+                    <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
+                    <p><span className="font-semibold text-foreground">Nationality:</span> Nepali</p>
+                    <p><span className="font-semibold text-foreground">Languages:</span> English, Hindi, Nepali</p>
+                  </div>
                 </div>
-                <div>
-                  <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
-                  <p><span className="font-semibold text-foreground">Nationality:</span> Nepali</p>
-                  <p><span className="font-semibold text-foreground">Languages:</span> English, Hindi, Nepali</p>
-                </div>
-              </div>
+              ) : (
+                <p className="text-destructive">Failed to load profile.</p>
+              )}
             </Card>
           </div>
         </motion.div>
