@@ -33,6 +33,7 @@ interface Experience {
     period: string;
     type: string;
     description: string[];
+    internship_url?: string;
 }
 
 interface Project {
@@ -42,6 +43,7 @@ interface Project {
     description: string;
     highlights: string[];
     tags: string[];
+    github_url?: string;
 }
 
 const AdminDashboard = () => {
@@ -408,9 +410,10 @@ const ExperienceManager = () => {
     const [period, setPeriod] = useState("");
     const [type, setType] = useState("Internship");
     const [desc, setDesc] = useState("");
+    const [internshipUrl, setInternshipUrl] = useState("");
 
     const fetchData = async () => {
-        const { data } = await supabase.from("experiences").select("*").order("id", { ascending: false });
+        const { data } = await supabase.from("experiences").select("*").order("id", { ascending: true });
         if (data) setData(data);
     };
 
@@ -424,6 +427,7 @@ const ExperienceManager = () => {
             setPeriod(item.period);
             setType(item.type);
             setDesc(item.description.join("\n"));
+            setInternshipUrl(item.internship_url || "");
         } else {
             setEditingItem(null);
             setTitle("");
@@ -431,6 +435,7 @@ const ExperienceManager = () => {
             setPeriod("");
             setType("Internship");
             setDesc("");
+            setInternshipUrl("");
         }
         setIsOpen(true);
     };
@@ -450,6 +455,7 @@ const ExperienceManager = () => {
             period,
             type,
             description: desc.split("\n").filter(x => x.trim()),
+            internship_url: internshipUrl,
         };
 
         if (editingItem) {
@@ -503,6 +509,7 @@ const ExperienceManager = () => {
                         <Input placeholder="Period" value={period} onChange={e => setPeriod(e.target.value)} required />
                         <Input placeholder="Type" value={type} onChange={e => setType(e.target.value)} required />
                         <Textarea placeholder="Description (lines)" value={desc} onChange={e => setDesc(e.target.value)} className="h-32" required />
+                        <Input placeholder="Internship/Certificate URL" value={internshipUrl} onChange={e => setInternshipUrl(e.target.value)} />
                         <Button type="submit" className="w-full">Save</Button>
                     </form>
                 </DialogContent>
@@ -523,6 +530,7 @@ const ProjectManager = () => {
     const [desc, setDesc] = useState("");
     const [highlights, setHighlights] = useState("");
     const [tags, setTags] = useState("");
+    const [githubUrl, setGithubUrl] = useState("");
 
     const fetchData = async () => {
         const { data } = await supabase.from("projects").select("*").order("id", { ascending: true });
@@ -539,6 +547,7 @@ const ProjectManager = () => {
             setDesc(item.description);
             setHighlights(item.highlights.join("\n"));
             setTags(item.tags.join(", "));
+            setGithubUrl(item.github_url || "");
         } else {
             setEditingItem(null);
             setTitle("");
@@ -546,6 +555,7 @@ const ProjectManager = () => {
             setDesc("");
             setHighlights("");
             setTags("");
+            setGithubUrl("");
         }
         setIsOpen(true);
     };
@@ -565,6 +575,7 @@ const ProjectManager = () => {
             description: desc,
             highlights: highlights.split("\n").filter(x => x.trim()),
             tags: tags.split(",").map(x => x.trim()).filter(x => x),
+            github_url: githubUrl,
         };
 
         if (editingItem) {
@@ -616,6 +627,7 @@ const ProjectManager = () => {
                         <Textarea placeholder="Description" value={desc} onChange={e => setDesc(e.target.value)} required />
                         <Textarea placeholder="Highlights (one per line)" value={highlights} onChange={e => setHighlights(e.target.value)} className="h-24" required />
                         <Input placeholder="Tags (comma separated, e.g. React, Java)" value={tags} onChange={e => setTags(e.target.value)} required />
+                        <Input placeholder="Github Repo URL" value={githubUrl} onChange={e => setGithubUrl(e.target.value)} />
                         <Button type="submit" className="w-full">Save</Button>
                     </form>
                 </DialogContent>

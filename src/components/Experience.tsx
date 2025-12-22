@@ -12,6 +12,7 @@ interface Experience {
   period: string;
   type: string;
   description: string[];
+  internship_url?: string;
 }
 
 export const Experience = () => {
@@ -26,7 +27,7 @@ export const Experience = () => {
         const { data, error } = await supabase
           .from("experiences")
           .select("*")
-          .order("id", { ascending: false });
+          .order("id", { ascending: true });
 
         if (error) {
           console.error("Error fetching experiences:", error);
@@ -114,6 +115,13 @@ export const Experience = () => {
                               </li>
                             ))}
                           </ul>
+                          {exp.internship_url && (
+                            <div className="mt-4">
+                              <a href={exp.internship_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
+                                View Certificate / Letter <Award className="ml-1 w-4 h-4" />
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </Card>

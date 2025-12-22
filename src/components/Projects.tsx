@@ -13,6 +13,7 @@ interface Project {
   description: string;
   highlights: string[];
   tags: string[];
+  github_url?: string;
 }
 
 export const Projects = () => {
@@ -143,5 +144,13 @@ const ProjectCard = ({ project }: { project: Project }) => (
         </Badge>
       ))}
     </div>
+
+    {project.github_url && (
+      <div className="mt-4">
+        <a href={project.github_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
+          View on GitHub <ExternalLink className="ml-1 w-4 h-4" />
+        </a>
+      </div>
+    )}
   </Card>
 );
