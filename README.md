@@ -8,12 +8,17 @@ Welcome to my personal portfolio website! This project is a modern, responsive, 
 - **Responsive Design**: Fully responsive layout that looks great on devices of all sizes.
 - **Interactive Elements**: Includes smooth page transitions, animated backgrounds, and interactive components.
 - **Multi-Page Layout**: Dedicated pages for Home, Internship, Projects, About and Contact.
-- **Dynamic Content**: easily updateable project and personal information.
+- **Dynamic Content**: Powered by **Supabase** (PostgreSQL) for real-time data fetching (Internship Experience).
+- **Admin Dashboard**: Secure admin panel to Add, Edit, and Delete internship experiences dynamically.
+- **Authentication**: Secure login for admin access.
 
+## 🛠️ Tech Stack
+
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, Framer Motion
+- **Backend/Database**: Supabase (PostgreSQL, Auth)
+- **UI Components**: Shadcn UI, Lucide React
 
 ## 📸 Screenshots
-
-Here is a glimpse of the application:
 
 ### Home Page
 ![Home Page](src/assets/screenshot%20of%20output/localhost_8080_%20(1).png)
@@ -43,26 +48,54 @@ To run this project locally, follow these steps:
 2.  **Install dependencies:**
     ```bash
     npm install
-    # or
-    bun install
     ```
 
-3.  **Run the development server:**
+3.  **Set up Environment Variables:**
+    Create a `.env` file in the root directory and add your Supabase credentials:
+    ```env
+    VITE_SUPABASE_URL=your_supabase_url
+    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
+
+4.  **Run the development server:**
     ```bash
     npm run dev
-    # or
-    bun run dev
     ```
 
-4.  **Open in your browser:**
-    Open [http://localhost:8080](http://localhost:8080) (or the port shown in your terminal) to view the app.
+5.  **Open in your browser:**
+    Open [http://localhost:8080](http://localhost:8080) to view the app.
+
+## 🎨 Tailwind CSS Integration
+
+This project is built with **Tailwind CSS** for handling styles. The integration allows for utility-first CSS classes directly in the markup.
+
+**Setup Overview:**
+1.  **Installation**: Tailwind and its peer dependencies (PostCSS, Autoprefixer) are installed.
+    ```bash
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init -p
+    ```
+2.  **Configuration**: The `tailwind.config.ts` file is customized to include paths to all template files (`./index.html`, `./src/**/*.{js,ts,jsx,tsx}`).
+3.  **Directives**: The `src/index.css` file includes the imperative Tailwind directives:
+    ```css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+
+## 🔐 Admin Access
+
+To access the admin dashboard:
+1.  Navigate to `/admin/login`.
+2.  Login with your admin credentials.
+3.  Manage your portfolio data entirely from the UI!
 
 ## 📂 Project Structure
 
-- `src/pages`: Contains the main page components (Home, About, Projects, Contact).
-- `src/components`: Reusable UI components and specific sections (Hero, Navbar, etc.).
-- `src/assets`: Static assets like images and screenshots.
-- `src/lib`: Utility functions and helper code.
+- `src/pages`: Main page components (Home, About, Projects, Contact, Admin).
+- `src/components`: Reusable UI components (Hero, Navbar, Experience, etc.).
+- `src/lib`: Utility functions and Supabase configuration.
+- `src/assets`: Static assets.
 
 ## 🤝 Contributing
 
