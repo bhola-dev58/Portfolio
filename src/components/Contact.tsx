@@ -1,72 +1,53 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Github, Linkedin, Code2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+
+interface Profile {
+  email_personal: string;
+  email_college: string;
+  phone_in: string;
+  phone_np: string;
+  address_temp: string;
+  address_perm: string;
+  github: string;
+  linkedin: string;
+  leetcode: string;
+  status_text: string;
+  open_for: string;
+}
 
 export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data } = await supabase.from("profile").select("*").single();
+      if (data) setProfile(data);
+    }
+    fetchProfile();
+  }, []);
+
+  if (!profile) return null; // Or loading spinner
 
   const contactInfo = [
-    {
-      icon: Mail,
-      label: "Personal Email",
-      value: "bhola.dev58@gmail.com",
-      href: "mailto:bhola.dev58@gmail.com",
-    },
-    {
-      icon: Mail,
-      label: "College Email",
-      value: "bhya23cs@cmrit.ac.in",
-      href: "mailto:bhya23cs@cmrit.ac.in",
-    },
-    {
-      icon: Phone,
-      label: "Phone (IN)",
-      value: "+91 9198709984",
-      href: "tel:+919198709984",
-    },
-    {
-      icon: Phone,
-      label: "Phone (NP)",
-      value: "+977 9864567310",
-      href: "tel:+9779864567310",
-    },
-    {
-      icon: MapPin,
-      label: "Temporary Address",
-      value: "Bangalore, Karnataka India",
-      href: null,
-    },
-    {
-      icon: MapPin,
-      label: "Permanent Address",
-      value: "Marchwari-3, Rupandehi Nepal",
-      href: null,
-    },
+    { icon: Mail, label: "Personal Email", value: profile.email_personal, href: `mailto:${profile.email_personal}` },
+    { icon: Mail, label: "College Email", value: profile.email_college, href: `mailto:${profile.email_college}` },
+    { icon: Phone, label: "Phone (IN)", value: profile.phone_in, href: `tel:${profile.phone_in}` },
+    { icon: Phone, label: "Phone (NP)", value: profile.phone_np, href: `tel:${profile.phone_np}` },
+    { icon: MapPin, label: "Temporary Address", value: profile.address_temp, href: null },
+    { icon: MapPin, label: "Permanent Address", value: profile.address_perm, href: null },
   ];
 
   const socialLinks = [
-    {
-      icon: Github,
-      label: "GitHub",
-      href: "https://github.com/bhola-dev58",
-      color: "hover:text-primary",
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      href: "https://linkedin.com/in/bhya23cse",
-      color: "hover:text-secondary",
-    },
-    {
-      icon: Code2,
-      label: "LeetCode",
-      href: "https://leetcode.com/u/bhola-dev58",
-      color: "hover:text-primary",
-    },
+    { icon: Github, label: "GitHub", href: profile.github, color: "hover:text-primary" },
+    { icon: Linkedin, label: "LinkedIn", href: profile.linkedin, color: "hover:text-secondary" },
+    { icon: Code2, label: "LeetCode", href: profile.leetcode, color: "hover:text-primary" },
   ];
 
   return (
@@ -74,7 +55,7 @@ export const Contact = () => {
       <div className="container mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
@@ -91,7 +72,7 @@ export const Contact = () => {
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                         className="flex items-start gap-4"
                       >
@@ -101,10 +82,7 @@ export const Contact = () => {
                         <div>
                           <p className="text-sm text-muted-foreground">{info.label}</p>
                           {info.href ? (
-                            <a
-                              href={info.href}
-                              className="text-foreground hover:text-primary transition-colors"
-                            >
+                            <a href={info.href} className="text-foreground hover:text-primary transition-colors">
                               {info.value}
                             </a>
                           ) : (
@@ -124,10 +102,8 @@ export const Contact = () => {
                           href={social.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                          transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                          className={`p-3 rounded-full bg-muted ${social.color} transition-all hover:scale-110`}
+                          whileHover={{ scale: 1.1 }}
+                          className={`p-3 rounded-full bg-muted ${social.color} transition-all`}
                         >
                           <social.icon className="w-5 h-5" />
                         </motion.a>
@@ -147,17 +123,13 @@ export const Contact = () => {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground glow-effect"
                     asChild
                   >
-                    <a href="mailto:bhola.dev58@gmail.com">Send Me an Email</a>
+                    <a href={`mailto:${profile.email_personal}`}>Send Me an Email</a>
                   </Button>
 
                   <div className="mt-8 p-6 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 text-secondary">Current Status</h4>
-                    <p className="text-sm text-muted-foreground">
-                      🎓 B.E. Student at CMR Institute of Technology
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      💼 Open to internship and full-time opportunities
-                    </p>
+                    <p className="text-sm text-muted-foreground">🎓 {profile.status_text}</p>
+                    <p className="text-sm text-muted-foreground mt-1">💼 {profile.open_for}</p>
                   </div>
                 </div>
               </div>
