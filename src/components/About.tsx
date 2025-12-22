@@ -18,15 +18,23 @@ export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [education, setEducation] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingEducation, setLoadingEducation] = useState(true);
 
   useEffect(() => {
-    async function fetchProfile() {
-      const { data } = await supabase.from("profile").select("*").single();
-      if (data) setProfile(data);
+    async function fetchData() {
+      // Fetch Profile
+      const { data: profileData } = await supabase.from("profile").select("*").single();
+      if (profileData) setProfile(profileData);
       setLoading(false);
+
+      // Fetch Education
+      const { data: educationData } = await supabase.from("education").select("*").order("id", { ascending: true });
+      if (educationData) setEducation(educationData);
+      setLoadingEducation(false);
     }
-    fetchProfile();
+    fetchData();
   }, []);
 
   return (
@@ -65,53 +73,28 @@ export const About = () => {
                 <div className="absolute left-5 top-8 bottom-8 w-0.5 bg-gradient-to-b from-secondary via-primary to-secondary/20" />
 
                 <div className="space-y-8">
-                  {/* University */}
-                  <div className="relative pl-12">
-                    <div className="absolute left-3 top-1 w-4 h-4 rounded-full bg-secondary border-4 border-background shadow-lg z-10" />
-                    <div className="space-y-1">
-                      <div className="inline-block px-2 py-0.5 rounded-full bg-secondary/10 text-secondary text-xs font-semibold mb-1">
-                        2023 - 2027
+                  {loadingEducation ? (
+                    <p className="pl-12 text-muted-foreground">Loading education...</p>
+                  ) : education.length === 0 ? (
+                    <p className="pl-12 text-muted-foreground">No education details found.</p>
+                  ) : (
+                    education.map((edu) => (
+                      <div key={edu.id} className="relative pl-12">
+                        <div className={`absolute left-3 top-1 w-4 h-4 rounded-full border-4 border-background shadow-lg z-10 ${edu.id % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
+                        <div className="space-y-1">
+                          <div className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-1 ${edu.id % 2 === 0 ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
+                            {edu.period}
+                          </div>
+                          <h4 className="font-semibold text-foreground flex items-center gap-2">
+                            <GraduationCap className={`w-4 h-4 ${edu.id % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                            {edu.institution}
+                          </h4>
+                          <p className="text-sm text-muted-foreground">{edu.degree}</p>
+                          <p className="text-sm text-muted-foreground">{edu.score}</p>
+                        </div>
                       </div>
-                      <h4 className="font-semibold text-foreground flex items-center gap-2">
-                        <GraduationCap className="w-4 h-4 text-secondary" />
-                        CMR Institute of Technology
-                      </h4>
-                      <p className="text-sm text-muted-foreground">B.E. in Computer Science and Engineering</p>
-                      <p className="text-sm text-muted-foreground">CGPA: 7.2/10 (till 4th sem)</p>
-                    </div>
-                  </div>
-
-                  {/* 12th Grade */}
-                  <div className="relative pl-12">
-                    <div className="absolute left-3 top-1 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10" />
-                    <div className="space-y-1">
-                      <div className="inline-block px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-1">
-                        2021
-                      </div>
-                      <h4 className="font-semibold text-foreground flex items-center gap-2">
-                        <GraduationCap className="w-4 h-4 text-primary" />
-                        Shree Susanskrit Secondary School
-                      </h4>
-                      <p className="text-sm text-muted-foreground">12th Grade - Science (Technical and Vocational)</p>
-                      <p className="text-sm text-muted-foreground">78%</p>
-                    </div>
-                  </div>
-
-                  {/* 10th Grade */}
-                  <div className="relative pl-12">
-                    <div className="absolute left-3 top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background shadow-lg z-10" />
-                    <div className="space-y-1">
-                      <div className="inline-block px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-1">
-                        2019
-                      </div>
-                      <h4 className="font-semibold text-foreground flex items-center gap-2">
-                        <GraduationCap className="w-4 h-4 text-primary/60" />
-                        Shree Susanskrit Secondary School
-                      </h4>
-                      <p className="text-sm text-muted-foreground">10th Standard - Science (Technical and Vocational)</p>
-                      <p className="text-sm text-muted-foreground">80%</p>
-                    </div>
-                  </div>
+                    ))
+                  )}
                 </div>
               </div>
             </Card>

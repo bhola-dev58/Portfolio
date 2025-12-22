@@ -20,7 +20,7 @@ export const Certifications = () => {
 
   useEffect(() => {
     async function fetchCertifications() {
-      const { data } = await supabase.from("certifications").select("*").order("id", { ascending: false });
+      const { data } = await supabase.from("certifications").select("*").order("id", { ascending: true });
       if (data) setCertifications(data);
       setLoading(false);
     }

@@ -26,7 +26,7 @@ export const Projects = () => {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
-        .order("id", { ascending: false });
+        .order("id", { ascending: true });
 
       if (!error && data) {
         setProjects(data);
