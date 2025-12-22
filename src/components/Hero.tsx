@@ -41,7 +41,7 @@ export const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Crafting innovative solutions with Java, Python, React, and AI.
+              Crafting innovative solutions with Java, Python, ReactJS, and AI.
               Passionate about building scalable applications that make a difference.
             </motion.p>
 
