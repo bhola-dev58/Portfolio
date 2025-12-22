@@ -12,6 +12,9 @@ import NotFound from "./pages/NotFound";
 import JQueryEffect from "./components/JQueryEffect";
 import AnimatedBackground from "./components/AnimatedBackground";
 import { useEffect } from "react";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
@@ -37,6 +40,13 @@ const App = () => {
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Route>
+
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            </Route>
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
