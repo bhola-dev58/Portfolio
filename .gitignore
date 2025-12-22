@@ -34,7 +34,7 @@ jspm_packages
 .env.production.local
 
 # Production build output
-dist
+
 test
 # Editor directories and files
 .vscode/*
