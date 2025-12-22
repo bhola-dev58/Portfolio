@@ -55,13 +55,21 @@ export const About = () => {
               <p className="text-muted-foreground leading-relaxed">
                 To obtain a challenging position in Software Engineering where I can leverage my
                 expertise to contribute to organizational success while enhancing my professional growth.
-              </p>
-              <div className="mt-6">
-                <img
-                  src="https://leetcard.jacoblin.cool/bhola-dev58?ext=heatmap&width=600"
-                  alt="LeetCode Stats"
-                  className="w-full rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
-                />
+              </p><br></br>
+              <h2 className="text-xl mb-2 text-primary">LeetCode Stats 👇👇👇</h2>
+              <div className="mt-2">
+                <a
+                  href="https://leetcode.com/u/bhola-dev58/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <img
+                    src="https://leetcard.jacoblin.cool/bhola-dev58?ext=heatmap&width=600"
+                    alt="LeetCode Stats"
+                    className="w-full rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+                  />
+                </a>
               </div>
             </Card>
 
