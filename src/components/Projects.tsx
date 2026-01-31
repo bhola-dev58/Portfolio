@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -37,7 +38,32 @@ export const Projects = () => {
     fetchProjects();
   }, []);
 
-  if (loading) return null; // Or a loading spinner
+  if (loading) {
+    return (
+      <section id="projects" className="min-h-screen flex items-center py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-4xl md:text-5xl font-bold mb-16 text-center">
+            <Skeleton className="h-12 w-64 mx-auto" />
+          </div>
+          <div className="max-w-5xl mx-auto relative space-y-16 md:space-y-20">
+            {[1, 2, 3].map((_, index) => (
+              <div key={index} className="md:grid md:grid-cols-2 md:gap-12">
+                <div className="hidden md:block">
+                  {index % 2 !== 0 && <SkeletonProjectCard />}
+                </div>
+                <div className="ml-12 md:ml-0">
+                  <div className="md:hidden"><SkeletonProjectCard /></div>
+                  <div className="hidden md:block">
+                    {index % 2 === 0 && <SkeletonProjectCard />}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" className="min-h-screen flex items-center py-20 px-4">
@@ -152,5 +178,23 @@ const ProjectCard = ({ project }: { project: Project }) => (
         </a>
       </div>
     )}
+  </Card>
+);
+
+const SkeletonProjectCard = () => (
+  <Card className="p-6 card-shadow bg-card/50 backdrop-blur-sm border-border/50 h-full">
+    <Skeleton className="h-6 w-24 rounded-full mb-3" />
+    <Skeleton className="h-8 w-3/4 mb-3" />
+    <Skeleton className="h-20 w-full mb-4" />
+    <div className="space-y-2 mb-4">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+    </div>
+    <div className="flex gap-2 mb-4">
+      <Skeleton className="h-6 w-16" />
+      <Skeleton className="h-6 w-16" />
+      <Skeleton className="h-6 w-16" />
+    </div>
+    <Skeleton className="h-5 w-32" />
   </Card>
 );

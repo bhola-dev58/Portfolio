@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Award, ExternalLink } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -41,7 +42,17 @@ export const Certifications = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {loading ? (
-              <p className="col-span-full text-center text-muted-foreground">Loading certifications...</p>
+              Array.from({ length: 3 }).map((_, i) => (
+                <Card key={i} className="p-6 card-shadow bg-card/50 backdrop-blur-sm border-border/50 h-full">
+                  <div className="flex items-start gap-4">
+                    <Skeleton className="w-12 h-12 rounded-full shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                    </div>
+                  </div>
+                </Card>
+              ))
             ) : certifications.length === 0 ? (
               <p className="col-span-full text-center text-muted-foreground">No certifications found.</p>
             ) : (

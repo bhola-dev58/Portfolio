@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/lib/supabase";
 
 interface SkillCategory {
@@ -53,7 +54,17 @@ export const Skills = () => {
 
           <div className="max-w-5xl mx-auto space-y-8">
             {loading ? (
-              <p className="text-center text-muted-foreground">Loading skills...</p>
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow space-y-4">
+                  <Skeleton className="h-8 w-48 mb-4" />
+                  <div className="flex flex-wrap gap-3">
+                    <Skeleton className="h-8 w-24 rounded-full" />
+                    <Skeleton className="h-8 w-32 rounded-full" />
+                    <Skeleton className="h-8 w-20 rounded-full" />
+                    <Skeleton className="h-8 w-28 rounded-full" />
+                  </div>
+                </div>
+              ))
             ) : (
               skillCategories.map((skillCat, categoryIndex) => (
                 <motion.div
