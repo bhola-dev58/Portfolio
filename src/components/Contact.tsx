@@ -123,7 +123,7 @@ export const Contact = () => {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground glow-effect"
                     asChild
                   >
-                    <a href={`mailto:${profile.email_personal}`}>Send Me an Email</a>
+                    <a href="https://mail.google.com/mail/u/0/?hl=en&tf=cm&fs=1&to=bhola.dev58@gmail.com">Send Me an Email</a>
                   </Button>
 
                   <div className="mt-8 p-6 bg-muted/50 rounded-lg">

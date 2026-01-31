@@ -46,6 +46,8 @@ interface Project {
     github_url?: string;
 }
 
+import SEO from "@/components/SEO";
+
 const AdminDashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("experience");
@@ -58,6 +60,7 @@ const AdminDashboard = () => {
 
     return (
         <div className="min-h-screen p-8 pt-24 space-y-8 container mx-auto">
+            <SEO title="Admin Dashboard" />
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Admin Dashboard</h1>
                 <Button variant="destructive" onClick={handleLogout} className="gap-2">

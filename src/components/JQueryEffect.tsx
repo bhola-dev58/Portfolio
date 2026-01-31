@@ -1,39 +1,38 @@
 
-import { useEffect } from 'react';
-import $ from 'jquery';
+import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 
 const JQueryEffect = () => {
+    const [isVisible, setIsVisible] = useState(false);
+
     useEffect(() => {
-        // jQuery code for back-to-top functionality
-        const $btn = $('#back-to-top');
-
-        $(window).scroll(function () {
-            if ($(window).scrollTop()! > 300) {
-                $btn.fadeIn();
+        const toggleVisibility = () => {
+            if (window.scrollY > 300) {
+                setIsVisible(true);
             } else {
-                $btn.fadeOut();
+                setIsVisible(false);
             }
-        });
-
-        $btn.on('click', function (e) {
-            e.preventDefault();
-            $('html, body').animate({ scrollTop: 0 }, '300');
-        });
-
-        return () => {
-            // Cleanup
-            $(window).off('scroll');
-            $btn.off('click');
         };
+
+        window.addEventListener("scroll", toggleVisibility);
+
+        return () => window.removeEventListener("scroll", toggleVisibility);
     }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
+
+    if (!isVisible) return null;
 
     return (
         <button
-            id="back-to-top"
-            className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hidden hover:bg-primary/90 transition-colors"
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all animate-in fade-in zoom-in duration-300"
             aria-label="Back to top"
-            style={{ display: 'none' }} // Initially hidden, jQuery will handle show/hide
         >
             <ArrowUp size={24} />
             <span className="sr-only">Back to top</span>
