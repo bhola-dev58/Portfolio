@@ -2,9 +2,12 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Github, Linkedin, Code2 } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Code2, Send } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 interface Profile {
   email_personal: string;
@@ -116,15 +119,10 @@ export const Contact = () => {
                   <h3 className="text-2xl font-bold mb-6">Let's Work Together</h3>
                   <p className="text-muted-foreground mb-6">
                     I'm currently looking for new opportunities and exciting projects.
-                    Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                    Fill out the form below to send me a message directly!
                   </p>
-                  <Button
-                    size="lg"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground glow-effect"
-                    asChild
-                  >
-                    <a href="https://mail.google.com/mail/u/0/?hl=en&tf=cm&fs=1&to=bhola.dev58@gmail.com">Send Me an Email</a>
-                  </Button>
+
+                  <ContactForm />
 
                   <div className="mt-8 p-6 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 text-secondary">Current Status</h4>
@@ -138,5 +136,75 @@ export const Contact = () => {
         </motion.div>
       </div>
     </section>
+  );
+};
+
+const ContactForm = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.from("messages").insert([
+        { name, email, message }
+      ]);
+
+      if (error) throw error;
+
+      toast.success("Message sent successfully!");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Input
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="bg-background/50"
+        />
+      </div>
+      <div className="space-y-2">
+        <Input
+          type="email"
+          placeholder="Your Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="bg-background/50"
+        />
+      </div>
+      <div className="space-y-2">
+        <Textarea
+          placeholder="Your Message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          required
+          className="bg-background/50 min-h-[120px]"
+        />
+      </div>
+      <Button
+        type="submit"
+        className="w-full gap-2"
+        disabled={loading}
+      >
+        {loading ? "Sending..." : <>Send Message <Send size={16} /></>}
+      </Button>
+    </form>
   );
 };
