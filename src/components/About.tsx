@@ -22,6 +22,28 @@ export const About = () => {
   const [loading, setLoading] = useState(true);
   const [loadingEducation, setLoadingEducation] = useState(true);
 
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    // Initial check
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "catppuccin");
+
+    // Observer for changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "class") {
+          const isDark = document.documentElement.classList.contains("dark");
+          setTheme(isDark ? "dark" : "catppuccin");
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     async function fetchData() {
       // Fetch Profile
@@ -65,7 +87,7 @@ export const About = () => {
                   className="block"
                 >
                   <img
-                    src="https://leetcard.jacoblin.cool/bhola-dev58?ext=heatmap&width=600"
+                    src={`https://leetcard.jacoblin.cool/bhola-dev58?ext=heatmap&theme=${theme}&width=600`}
                     alt="LeetCode Stats"
                     className="w-full rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
                   />

@@ -4,8 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
-import JQueryEffect from "./components/JQueryEffect";
-import AnimatedBackground from "./components/AnimatedBackground";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -30,9 +29,7 @@ const PageLoader = () => (
 const queryClient = new QueryClient();
 
 const App = () => {
-  useEffect(() => {
-    document.documentElement.classList.add("dark");
-  }, []);
+
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -40,8 +37,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <AnimatedBackground />
-          <JQueryEffect />
+
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route element={<Layout />}>

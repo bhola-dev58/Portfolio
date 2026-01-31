@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -15,6 +16,7 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +25,23 @@ export const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Theme Logic
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const initialTheme = savedTheme || systemTheme;
+
+    setTheme(initialTheme);
+    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    localStorage.setItem("theme", newTheme);
+  };
 
   return (
     <motion.nav
@@ -58,10 +77,35 @@ export const Navbar = () => {
                 </motion.button>
               </Link>
             ))}
+
+            {/* Theme Toggle Button (Desktop) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="ml-2"
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="rounded-full hover:bg-accent/50"
+              >
+                {theme === "dark" ? <Sun size={20} className="text-orange" /> : <Moon size={20} className="text-blue-600" />}
+              </Button>
+            </motion.div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="rounded-full hover:bg-accent/50 mr-1"
+            >
+              {theme === "dark" ? <Sun size={20} className="text-orange" /> : <Moon size={20} className="text-blue-600" />}
+            </Button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-foreground hover:text-orange transition-colors p-2"

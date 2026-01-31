@@ -85,7 +85,7 @@ export const Skills = () => {
                       >
                         <Badge
                           variant="secondary"
-                          className="px-4 py-2 text-sm bg-secondary/20 hover:bg-secondary/30 border border-secondary/50 text-secondary-foreground transition-all"
+                          className="px-4 py-2 text-sm bg-secondary/20 hover:bg-secondary/30 border border-secondary/50 text-black dark:text-secondary-foreground transition-all"
                         >
                           {skill}
                         </Badge>

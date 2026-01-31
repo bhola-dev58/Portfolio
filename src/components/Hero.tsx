@@ -9,13 +9,13 @@ export const Hero = () => {
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
       <div className="container mx-auto z-10">
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-8 items-center max-w-7xl mx-auto">
           {/* Left Section - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center md:text-left"
+            className="text-center md:text-left md:pr-8"
           >
             <motion.h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
@@ -122,7 +122,7 @@ export const Hero = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex justify-center md:justify-end"
+            className="flex justify-center md:justify-end lg:justify-center"
           >
             <div className="relative">
               <motion.div
