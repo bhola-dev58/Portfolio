@@ -115,6 +115,7 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
+      <hr className="border-border/50" />
 
       {/* Mobile Navigation */}
       <AnimatePresence>
