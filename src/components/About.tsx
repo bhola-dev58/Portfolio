@@ -140,12 +140,10 @@ export const About = () => {
                     <p><span className="font-semibold text-foreground">Permanent Address:</span> {profile.address_perm}</p>
                     <p><span className="font-semibold text-foreground">Personal Email:</span> {profile.email_personal}</p>
                     <p><span className="font-semibold text-foreground">College Email:</span> {profile.email_college}</p>
-                    <p><span className="font-semibold text-foreground">Phone (IN):</span> {profile.phone_in}</p>
-                    <p><span className="font-semibold text-foreground">Phone (NP):</span> {profile.phone_np}</p>
+                    <p><span className="font-semibold text-foreground">Phone:</span> {profile.phone_in}</p>
                   </div>
                   <div>
                     <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
-                    <p><span className="font-semibold text-foreground">Nationality:</span> Nepali</p>
                     <p><span className="font-semibold text-foreground">Languages:</span> English, Hindi, Nepali</p>
                   </div>
                 </div>

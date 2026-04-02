@@ -41,12 +41,8 @@ export const ProfileManager = () => {
                     <Input value={profile.email_college} onChange={e => handleChange("email_college", e.target.value)} />
                 </div>
                 <div className="space-y-2">
-                    <Label>Phone (IN)</Label>
+                    <Label>Phone</Label>
                     <Input value={profile.phone_in} onChange={e => handleChange("phone_in", e.target.value)} />
-                </div>
-                <div className="space-y-2">
-                    <Label>Phone (NP)</Label>
-                    <Input value={profile.phone_np} onChange={e => handleChange("phone_np", e.target.value)} />
                 </div>
             </div>
 

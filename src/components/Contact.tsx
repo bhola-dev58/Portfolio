@@ -41,8 +41,7 @@ export const Contact = () => {
   const contactInfo = [
     { icon: Mail, label: "Personal Email", value: profile.email_personal, href: `mailto:${profile.email_personal}` },
     { icon: Mail, label: "College Email", value: profile.email_college, href: `mailto:${profile.email_college}` },
-    { icon: Phone, label: "Phone (IN)", value: profile.phone_in, href: `tel:${profile.phone_in}` },
-    { icon: Phone, label: "Phone (NP)", value: profile.phone_np, href: `tel:${profile.phone_np}` },
+    { icon: Phone, label: "Phone", value: profile.phone_in, href: `tel:${profile.phone_in}` },
     { icon: MapPin, label: "Temporary Address", value: profile.address_temp, href: null },
     { icon: MapPin, label: "Permanent Address", value: profile.address_perm, href: null },
   ];
