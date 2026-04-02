@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.vscode
+.env
+.env.local
+npm-debug.log
+bun.lockb
+package-lock.json
+README.md
+DOCKER_PLAN.md
+Dockerfile
+docker-compose.yml
