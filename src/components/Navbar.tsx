@@ -58,7 +58,7 @@ export const Navbar = () => {
               animate={{ opacity: 1 }}
               className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent cursor-pointer"
             >
-              Bhola Yadav
+              Bhola-Yadav
             </motion.div>
           </Link>
 
