@@ -32,7 +32,7 @@ export const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Full-Stack Developer & AI Enthusiast
+              Full Stack Developer & AI Enthusiast
             </motion.p>
 
             <motion.p
