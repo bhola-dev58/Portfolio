@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Globe } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface Project {
@@ -15,6 +15,7 @@ interface Project {
   highlights: string[];
   tags: string[];
   github_url?: string;
+  deployed_url?: string;
 }
 
 export const Projects = () => {
@@ -171,11 +172,30 @@ const ProjectCard = ({ project }: { project: Project }) => (
       ))}
     </div>
 
-    {project.github_url && (
-      <div className="mt-4">
-        <a href={project.github_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
-          View on GitHub <ExternalLink className="ml-1 w-4 h-4" />
-        </a>
+    {(project.github_url || project.deployed_url) && (
+      <div className="mt-4 flex flex-wrap gap-3">
+        {project.github_url && (
+          <a
+            href={project.github_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+          >
+            <ExternalLink className="w-4 h-4" />
+            GitHub
+          </a>
+        )}
+        {project.deployed_url && (
+          <a
+            href={project.deployed_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm font-medium text-secondary hover:underline"
+          >
+            <Globe className="w-4 h-4" />
+            Live Demo
+          </a>
+        )}
       </div>
     )}
   </Card>
