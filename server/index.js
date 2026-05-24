@@ -17,8 +17,28 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+const allowedOrigins = [
+    'http://localhost:8080',
+    'http://localhost:8082',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://www.bhola-yadav.com.np',
+    'https://bhola-yadav.com.np'
+];
+
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://localhost:8082', 'http://localhost:5173', 'http://localhost:3000'],
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        
+        const isAllowed = allowedOrigins.includes(origin) || 
+                          origin.endsWith('.vercel.app');
+                          
+        if (isAllowed) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 app.use(express.json());
