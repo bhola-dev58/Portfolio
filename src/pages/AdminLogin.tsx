@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,14 +21,14 @@ const AdminLogin = () => {
         setLoading(true);
 
         try {
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await auth.signInWithPassword({
                 email,
                 password,
             });
 
-            if (error) throw error;
+            if (error) throw new Error(error.message);
 
-            if (data.session) {
+            if (data?.session) {
                 toast.success("Welcome back, Admin!");
                 navigate("/admin/dashboard");
             }
@@ -49,32 +49,13 @@ const AdminLogin = () => {
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="admin@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="bg-background/50"
-                        />
+                        <Input id="email" type="email" placeholder="admin@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-background/50" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="bg-background/50"
-                        />
+                        <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="bg-background/50" />
                     </div>
-                    <Button
-                        type="submit"
-                        className="w-full bg-primary hover:bg-primary/90"
-                        disabled={loading}
-                    >
+                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
                         {loading ? "Logging in..." : "Login"}
                     </Button>
                 </form>

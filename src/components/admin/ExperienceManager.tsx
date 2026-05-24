@@ -1,27 +1,15 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
+import { experiences as experiencesApi } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 interface Experience {
-    id: number;
+    id: string;
     title: string;
     company_name: string;
     period: string;
@@ -34,8 +22,6 @@ export const ExperienceManager = () => {
     const [data, setData] = useState<Experience[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<Experience | null>(null);
-
-    // Form Fields
     const [title, setTitle] = useState("");
     const [company, setCompany] = useState("");
     const [period, setPeriod] = useState("");
@@ -44,77 +30,52 @@ export const ExperienceManager = () => {
     const [internshipUrl, setInternshipUrl] = useState("");
 
     const fetchData = async () => {
-        const { data } = await supabase.from("experiences").select("*").order("id", { ascending: true });
-        if (data) setData(data);
+        const { data: result } = await experiencesApi.getAll();
+        if (result) setData(result as Experience[]);
     };
-
     useEffect(() => { fetchData(); }, []);
 
     const openModal = (item?: Experience) => {
         if (item) {
-            setEditingItem(item);
-            setTitle(item.title);
-            setCompany(item.company_name);
-            setPeriod(item.period);
-            setType(item.type);
-            setDesc(item.description.join("\n"));
+            setEditingItem(item); setTitle(item.title); setCompany(item.company_name);
+            setPeriod(item.period); setType(item.type); setDesc(item.description.join("\n"));
             setInternshipUrl(item.internship_url || "");
         } else {
-            setEditingItem(null);
-            setTitle("");
-            setCompany("");
-            setPeriod("");
-            setType("Internship");
-            setDesc("");
-            setInternshipUrl("");
+            setEditingItem(null); setTitle(""); setCompany(""); setPeriod("");
+            setType("Internship"); setDesc(""); setInternshipUrl("");
         }
         setIsOpen(true);
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id: string) => {
         if (!confirm("Delete this?")) return;
-        await supabase.from("experiences").delete().eq("id", id);
-        fetchData();
-        toast.success("Deleted");
+        await experiencesApi.delete(id);
+        fetchData(); toast.success("Deleted");
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const payload = {
-            title,
-            company_name: company,
-            period,
-            type,
+            title, company_name: company, period, type,
             description: desc.split("\n").filter(x => x.trim()),
             internship_url: internshipUrl,
         };
-
         if (editingItem) {
-            await supabase.from("experiences").update(payload).eq("id", editingItem.id);
+            await experiencesApi.update(editingItem.id, payload);
             toast.success("Updated");
         } else {
-            await supabase.from("experiences").insert([payload]);
+            await experiencesApi.create(payload);
             toast.success("Created");
         }
-        setIsOpen(false);
-        fetchData();
+        setIsOpen(false); fetchData();
     };
 
     return (
         <div className="space-y-4 mt-4">
-            <div className="flex justify-end">
-                <Button onClick={() => openModal()} className="gap-2"><Plus size={16} /> Add Experience</Button>
-            </div>
+            <div className="flex justify-end"><Button onClick={() => openModal()} className="gap-2"><Plus size={16} /> Add Experience</Button></div>
             <div className="rounded-md border bg-card">
                 <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Company</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
+                    <TableHeader><TableRow><TableHead>Title</TableHead><TableHead>Company</TableHead><TableHead>Type</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
                     <TableBody>
                         {data.map((item) => (
                             <TableRow key={item.id}>
@@ -130,7 +91,6 @@ export const ExperienceManager = () => {
                     </TableBody>
                 </Table>
             </div>
-
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent>
                     <DialogHeader><DialogTitle>{editingItem ? "Edit" : "Add"} Experience</DialogTitle></DialogHeader>

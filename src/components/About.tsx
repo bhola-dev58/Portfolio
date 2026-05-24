@@ -3,7 +3,7 @@ import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { GraduationCap } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { profile as profileApi, education as educationApi } from "@/lib/api";
 
 interface Profile {
   email_personal: string;
@@ -17,7 +17,7 @@ interface Profile {
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profileData, setProfileData] = useState<Profile | null>(null);
   const [education, setEducation] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingEducation, setLoadingEducation] = useState(true);
@@ -47,13 +47,13 @@ export const About = () => {
   useEffect(() => {
     async function fetchData() {
       // Fetch Profile
-      const { data: profileData } = await supabase.from("profile").select("*").single();
-      if (profileData) setProfile(profileData);
+      const { data: pData } = await profileApi.get();
+      if (pData) setProfileData(pData as any);
       setLoading(false);
 
       // Fetch Education
-      const { data: educationData } = await supabase.from("education").select("*").order("id", { ascending: true });
-      if (educationData) setEducation(educationData);
+      const { data: eData } = await educationApi.getAll();
+      if (eData) setEducation(eData as any[]);
       setLoadingEducation(false);
     }
     fetchData();
@@ -108,15 +108,15 @@ export const About = () => {
                   ) : education.length === 0 ? (
                     <p className="pl-12 text-muted-foreground">No education details found.</p>
                   ) : (
-                    education.map((edu) => (
-                      <div key={edu.id} className="relative pl-12">
-                        <div className={`absolute left-3 top-1 w-4 h-4 rounded-full border-4 border-background shadow-lg z-10 ${edu.id % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
+                    education.map((edu, index) => (
+                      <div key={edu.id || edu._id} className="relative pl-12">
+                        <div className={`absolute left-3 top-1 w-4 h-4 rounded-full border-4 border-background shadow-lg z-10 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
                         <div className="space-y-1">
-                          <div className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-1 ${edu.id % 2 === 0 ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
+                          <div className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-1 ${index % 2 === 0 ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
                             {edu.period}
                           </div>
                           <h4 className="font-semibold text-foreground flex items-center gap-2">
-                            <GraduationCap className={`w-4 h-4 ${edu.id % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                            <GraduationCap className={`w-4 h-4 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
                             {edu.institution}
                           </h4>
                           <p className="text-sm text-muted-foreground">{edu.degree}</p>
@@ -133,14 +133,14 @@ export const About = () => {
               <h3 className="text-2xl font-bold mb-4 text-primary">Personal Details</h3>
               {loading ? (
                 <p className="text-muted-foreground">Loading profile...</p>
-              ) : profile ? (
+              ) : profileData ? (
                 <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
                   <div>
-                    <p><span className="font-semibold text-foreground">Temporary Address:</span> {profile.address_temp}</p>
-                    <p><span className="font-semibold text-foreground">Permanent Address:</span> {profile.address_perm}</p>
-                    <p><span className="font-semibold text-foreground">Personal Email:</span> {profile.email_personal}</p>
-                    <p><span className="font-semibold text-foreground">College Email:</span> {profile.email_college}</p>
-                    <p><span className="font-semibold text-foreground">Phone:</span> {profile.phone_in}</p>
+                    <p><span className="font-semibold text-foreground">Temporary Address:</span> {profileData.address_temp}</p>
+                    <p><span className="font-semibold text-foreground">Permanent Address:</span> {profileData.address_perm}</p>
+                    <p><span className="font-semibold text-foreground">Personal Email:</span> {profileData.email_personal}</p>
+                    <p><span className="font-semibold text-foreground">College Email:</span> {profileData.email_college}</p>
+                    <p><span className="font-semibold text-foreground">Phone:</span> {profileData.phone_in}</p>
                   </div>
                   <div>
                     <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>

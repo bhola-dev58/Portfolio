@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Github, Linkedin, Code2, Send } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { profile as profileApi, messages as messagesApi } from "@/lib/api";
 import { toast } from "sonner";
 
 interface Profile {
@@ -30,13 +30,13 @@ export const Contact = () => {
 
   useEffect(() => {
     async function fetchProfile() {
-      const { data } = await supabase.from("profile").select("*").single();
-      if (data) setProfile(data);
+      const { data } = await profileApi.get();
+      if (data) setProfile(data as any);
     }
     fetchProfile();
   }, []);
 
-  if (!profile) return null; // Or loading spinner
+  if (!profile) return null;
 
   const contactInfo = [
     { icon: Mail, label: "Personal Email", value: profile.email_personal, href: `mailto:${profile.email_personal}` },
@@ -55,15 +55,10 @@ export const Contact = () => {
   return (
     <section id="contact" className="min-h-screen flex items-center py-20 px-4">
       <div className="container mx-auto" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             Get In <span className="text-gradient">Touch</span>
           </h2>
-
           <div className="max-w-4xl mx-auto">
             <Card className="p-8 md:p-12 card-shadow bg-card/50 backdrop-blur-sm border-border/50">
               <div className="grid md:grid-cols-2 gap-8">
@@ -71,58 +66,30 @@ export const Contact = () => {
                   <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
                   <div className="space-y-6">
                     {contactInfo.map((info, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="flex items-start gap-4"
-                      >
-                        <div className="p-3 rounded-full bg-primary/10">
-                          <info.icon className="w-5 h-5 text-primary" />
-                        </div>
+                      <motion.div key={index} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }} className="flex items-start gap-4">
+                        <div className="p-3 rounded-full bg-primary/10"><info.icon className="w-5 h-5 text-primary" /></div>
                         <div>
                           <p className="text-sm text-muted-foreground">{info.label}</p>
-                          {info.href ? (
-                            <a href={info.href} className="text-foreground hover:text-primary transition-colors">
-                              {info.value}
-                            </a>
-                          ) : (
-                            <p className="text-foreground">{info.value}</p>
-                          )}
+                          {info.href ? (<a href={info.href} className="text-foreground hover:text-primary transition-colors">{info.value}</a>) : (<p className="text-foreground">{info.value}</p>)}
                         </div>
                       </motion.div>
                     ))}
                   </div>
-
                   <div className="mt-8">
                     <h4 className="text-lg font-semibold mb-4">Connect With Me</h4>
                     <div className="flex gap-4">
                       {socialLinks.map((social, index) => (
-                        <motion.a
-                          key={index}
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          className={`p-3 rounded-full bg-muted ${social.color} transition-all`}
-                        >
+                        <motion.a key={index} href={social.href} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.1 }} className={`p-3 rounded-full bg-muted ${social.color} transition-all`}>
                           <social.icon className="w-5 h-5" />
                         </motion.a>
                       ))}
                     </div>
                   </div>
                 </div>
-
                 <div>
                   <h3 className="text-2xl font-bold mb-6">Let's Work Together</h3>
-                  <p className="text-muted-foreground mb-6">
-                    I'm currently looking for new opportunities and exciting projects.
-                    Fill out the form below to send me a message directly!
-                  </p>
-
+                  <p className="text-muted-foreground mb-6">I'm currently looking for new opportunities and exciting projects. Fill out the form below to send me a message directly!</p>
                   <ContactForm />
-
                   <div className="mt-8 p-6 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 text-secondary">Current Status</h4>
                     <p className="text-sm text-muted-foreground">🎓 {profile.status_text}</p>
@@ -147,19 +114,12 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      const { error } = await supabase.from("messages").insert([
-        { name, email, message }
-      ]);
-
-      if (error) throw error;
-
+      const { error } = await messagesApi.create({ name, email, message });
+      if (error) throw new Error(error);
       toast.success("Message sent successfully!");
-      setName("");
-      setEmail("");
-      setMessage("");
-    } catch (error) {
+      setName(""); setEmail(""); setMessage("");
+    } catch (error: any) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message. Please try again.");
     } finally {
@@ -169,41 +129,10 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Input
-          placeholder="Your Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="bg-background/50"
-        />
-      </div>
-      <div className="space-y-2">
-        <Input
-          type="email"
-          placeholder="Your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="bg-background/50"
-        />
-      </div>
-      <div className="space-y-2">
-        <Textarea
-          placeholder="Your Message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-          className="bg-background/50 min-h-[120px]"
-        />
-      </div>
-      <Button
-        type="submit"
-        className="w-full gap-2"
-        disabled={loading}
-      >
-        {loading ? "Sending..." : <>Send Message <Send size={16} /></>}
-      </Button>
+      <div className="space-y-2"><Input placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required className="bg-background/50" /></div>
+      <div className="space-y-2"><Input type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-background/50" /></div>
+      <div className="space-y-2"><Textarea placeholder="Your Message..." value={message} onChange={(e) => setMessage(e.target.value)} required className="bg-background/50 min-h-[120px]" /></div>
+      <Button type="submit" className="w-full gap-2" disabled={loading}>{loading ? "Sending..." : <>Send Message <Send size={16} /></>}</Button>
     </form>
   );
 };

@@ -9,8 +9,8 @@ COPY package*.json ./
 RUN npm install
 
 # Pass build arguments for Vite
-ARG VITE_SUPABASE_URL
-ARG VITE_SUPABASE_ANON_KEY
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
 # Copy the rest of the application code
 COPY . .

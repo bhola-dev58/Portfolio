@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LogOut } from "lucide-react";
@@ -21,7 +21,7 @@ const AdminDashboard = () => {
 
     // Auth Logout
     const handleLogout = async () => {
-        await supabase.auth.signOut();
+        await auth.signOut();
         navigate("/admin/login");
     };
 
@@ -46,33 +46,13 @@ const AdminDashboard = () => {
                     <TabsTrigger value="messages">Inbox</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="experience">
-                    <ExperienceManager />
-                </TabsContent>
-
-                <TabsContent value="projects">
-                    <ProjectManager />
-                </TabsContent>
-
-                <TabsContent value="profile">
-                    <ProfileManager />
-                </TabsContent>
-
-                <TabsContent value="skills">
-                    <SkillsManager />
-                </TabsContent>
-
-                <TabsContent value="certifications">
-                    <CertificationManager />
-                </TabsContent>
-
-                <TabsContent value="education">
-                    <EducationManager />
-                </TabsContent>
-
-                <TabsContent value="messages">
-                    <MessageManager />
-                </TabsContent>
+                <TabsContent value="experience"><ExperienceManager /></TabsContent>
+                <TabsContent value="projects"><ProjectManager /></TabsContent>
+                <TabsContent value="profile"><ProfileManager /></TabsContent>
+                <TabsContent value="skills"><SkillsManager /></TabsContent>
+                <TabsContent value="certifications"><CertificationManager /></TabsContent>
+                <TabsContent value="education"><EducationManager /></TabsContent>
+                <TabsContent value="messages"><MessageManager /></TabsContent>
             </Tabs>
         </div>
     );

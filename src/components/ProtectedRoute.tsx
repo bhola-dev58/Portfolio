@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/api";
 
 const ProtectedRoute = () => {
     const [loading, setLoading] = useState(true);
@@ -9,14 +9,14 @@ const ProtectedRoute = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await auth.getSession();
             setAuthenticated(!!session);
             setLoading(false);
         };
 
         checkAuth();
 
-        const { data: authListener } = supabase.auth.onAuthStateChange(
+        const { data: authListener } = auth.onAuthStateChange(
             (_event, session) => {
                 setAuthenticated(!!session);
                 setLoading(false);

@@ -5,10 +5,10 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Globe } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { projects as projectsApi } from "@/lib/api";
 
 interface Project {
-  id: number;
+  id: string;
   title: string;
   period: string;
   description: string;
@@ -26,13 +26,10 @@ export const Projects = () => {
 
   useEffect(() => {
     async function fetchProjects() {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .order("id", { ascending: true });
+      const { data, error } = await projectsApi.getAll();
 
       if (!error && data) {
-        setProjects(data);
+        setProjects(data as Project[]);
       }
       setLoading(false);
     }

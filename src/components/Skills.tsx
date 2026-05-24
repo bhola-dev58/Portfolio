@@ -3,10 +3,10 @@ import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabase } from "@/lib/supabase";
+import { skills as skillsApi } from "@/lib/api";
 
 interface SkillCategory {
-  id: number;
+  id: string;
   category: string;
   items: string[];
 }
@@ -20,15 +20,11 @@ export const Skills = () => {
   useEffect(() => {
     async function fetchSkills() {
       try {
-        const { data, error } = await supabase
-          .from("skills")
-          .select("*")
-          .order("id", { ascending: true });
-
+        const { data, error } = await skillsApi.getAll();
         if (error) {
           console.error("Error fetching skills:", error);
         } else if (data) {
-          setSkillCategories(data);
+          setSkillCategories(data as SkillCategory[]);
         }
       } catch (err) {
         console.error("Error:", err);
@@ -36,22 +32,16 @@ export const Skills = () => {
         setLoading(false);
       }
     }
-
     fetchSkills();
   }, []);
 
   return (
     <section id="skills" className="min-h-screen flex items-center py-20 px-4">
       <div className="container mx-auto" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 50 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             Technical <span className="text-gradient">Skills</span>
           </h2>
-
           <div className="max-w-5xl mx-auto space-y-8">
             {loading ? (
               Array.from({ length: 3 }).map((_, i) => (
@@ -67,28 +57,12 @@ export const Skills = () => {
               ))
             ) : (
               skillCategories.map((skillCat, categoryIndex) => (
-                <motion.div
-                  key={skillCat.id}
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.8, delay: categoryIndex * 0.2 }}
-                  className="bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow hover:border-primary/50 transition-all"
-                >
+                <motion.div key={skillCat.id} initial={{ opacity: 0, x: -50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8, delay: categoryIndex * 0.2 }} className="bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow hover:border-primary/50 transition-all">
                   <h3 className="text-xl font-bold mb-4 text-primary">{skillCat.category}</h3>
                   <div className="flex flex-wrap gap-3">
                     {skillCat.items.map((skill, index) => (
-                      <motion.div
-                        key={`${skillCat.id}-${index}`}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.5, delay: categoryIndex * 0.2 + index * 0.1 }}
-                      >
-                        <Badge
-                          variant="secondary"
-                          className="px-4 py-2 text-sm bg-secondary/20 hover:bg-secondary/30 border border-secondary/50 text-black dark:text-secondary-foreground transition-all"
-                        >
-                          {skill}
-                        </Badge>
+                      <motion.div key={`${skillCat.id}-${index}`} initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: categoryIndex * 0.2 + index * 0.1 }}>
+                        <Badge variant="secondary" className="px-4 py-2 text-sm bg-secondary/20 hover:bg-secondary/30 border border-secondary/50 text-black dark:text-secondary-foreground transition-all">{skill}</Badge>
                       </motion.div>
                     ))}
                   </div>
@@ -96,21 +70,10 @@ export const Skills = () => {
               ))
             )}
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-12 text-center"
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.8 }} className="mt-12 text-center">
             <div className="inline-block bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow">
               <h3 className="text-xl font-bold mb-3 text-secondary">Coding Platform</h3>
-              <a
-                href="https://leetcode.com/u/bhola-dev58"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              <a href="https://leetcode.com/u/bhola-dev58" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 LeetCode: <span className="font-semibold">bhola-dev58</span>
               </a>
             </div>
