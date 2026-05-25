@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
-  { name: "Home", href: "/" },
-  { name: "Internship", href: "/internship" },
-  { name: "Projects", href: "/projects" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Home", targetId: "home" },
+  { name: "About", targetId: "about" },
+  { name: "Skills", targetId: "skills" },
+  { name: "Internship", targetId: "experience" },
+  { name: "Projects", targetId: "projects" },
+  { name: "Certifications", targetId: "certifications" },
+  { name: "Contact", targetId: "contact" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +34,50 @@ export const Navbar = () => {
     localStorage.setItem("theme", "light");
   }, []);
 
+  // Active section tracking with IntersectionObserver
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
+    const observers = navItems.map((item) => {
+      const el = document.getElementById(item.targetId);
+      if (!el) return null;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(item.targetId);
+          }
+        },
+        {
+          rootMargin: "-25% 0px -55% 0px", // triggers when dominant
+        }
+      );
+      observer.observe(el);
+      return { observer, el, targetId: item.targetId };
+    });
+
+    return () => {
+      observers.forEach((obs) => {
+        if (obs) obs.observer.unobserve(obs.el);
+      });
+    };
+  }, [location.pathname]);
+
+  const handleNavClick = (targetId: string) => {
+    setIsOpen(false);
+    if (location.pathname === "/") {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/", { state: { scrollTo: targetId } });
+    }
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -40,7 +87,7 @@ export const Navbar = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link to="/">
+          <Link to="/" onClick={() => handleNavClick("home")}>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -53,20 +100,25 @@ export const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item, index) => (
-              <Link key={item.name} to={item.href}>
-                <motion.button
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`px-4 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent/50 ${location.pathname === item.href ? "text-orange" : "text-foreground hover:text-orange"
-                    }`}
-                >
-                  {item.name}
-                </motion.button>
-              </Link>
+              <motion.button
+                key={item.name}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                onClick={() => handleNavClick(item.targetId)}
+                className={`px-3 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent/50 relative ${activeSection === item.targetId ? "text-orange" : "text-foreground hover:text-orange"
+                  }`}
+              >
+                {item.name}
+                {activeSection === item.targetId && (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-orange"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </motion.button>
             ))}
-
-            {/* Theme Toggle Button Removed */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -93,15 +145,14 @@ export const Navbar = () => {
           >
             <div className="container mx-auto px-4 py-4 space-y-2">
               {navItems.map((item) => (
-                <Link
+                <button
                   key={item.name}
-                  to={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`block w-full text-left px-4 py-3 text-sm font-medium hover:bg-accent/50 rounded-md transition-colors ${location.pathname === item.href ? "text-orange" : "text-foreground hover:text-orange"
+                  onClick={() => handleNavClick(item.targetId)}
+                  className={`block w-full text-left px-4 py-3 text-sm font-medium hover:bg-accent/50 rounded-md transition-colors ${activeSection === item.targetId ? "text-orange" : "text-foreground hover:text-orange"
                     }`}
                 >
                   {item.name}
-                </Link>
+                </button>
               ))}
             </div>
           </motion.div>

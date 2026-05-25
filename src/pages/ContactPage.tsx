@@ -1,18 +1,13 @@
-
-import { Contact } from "@/components/Contact";
-
-
-import SEO from "@/components/SEO";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ContactPage = () => {
-    return (
-        <div className="relative">
-            <SEO title="Contact" description="Get in touch with Bhola Yadav for freelance work or job opportunities." />
-            <main className="relative z-10 pt-20">
-                <Contact />
-            </main>
-        </div>
-    );
+    const navigate = useNavigate();
+    useEffect(() => {
+        navigate("/", { replace: true, state: { scrollTo: "contact" } });
+    }, [navigate]);
+
+    return null;
 };
 
 export default ContactPage;

@@ -1,23 +1,13 @@
-
-import { About } from "@/components/About";
-import { Skills } from "@/components/Skills";
-
-import { Certifications } from "@/components/Certifications";
-
-
-import SEO from "@/components/SEO";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AboutPage = () => {
-    return (
-        <div className="relative">
-            <SEO title="About Me" description="Learn more about Bhola Yadav's background, skills, and certifications." />
-            <main className="relative z-10 pt-20">
-                <About />
-                <Skills />
-                <Certifications />
-            </main>
-        </div>
-    );
+    const navigate = useNavigate();
+    useEffect(() => {
+        navigate("/", { replace: true, state: { scrollTo: "about" } });
+    }, [navigate]);
+
+    return null;
 };
 
 export default AboutPage;

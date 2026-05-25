@@ -6,6 +6,13 @@ import { Link } from "react-router-dom";
 import resumePdf from "@/assets/resume/My_Resume.pdf";
 
 export const Hero = () => {
+  const handleScrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
       <div className="container mx-auto z-10">
@@ -54,17 +61,17 @@ export const Hero = () => {
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground glow-effect"
-                asChild
+                onClick={() => handleScrollTo("projects")}
               >
-                <Link to="/projects">View Projects</Link>
+                View Projects
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                asChild
+                onClick={() => handleScrollTo("contact")}
               >
-                <Link to="/contact">Contact Me</Link>
+                Contact Me
               </Button>
               <Button
                 size="lg"

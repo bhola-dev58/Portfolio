@@ -1,17 +1,13 @@
-
-import { Experience } from "@/components/Experience";
-
-import SEO from "@/components/SEO";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const InternshipPage = () => {
-    return (
-        <div className="relative">
-            <SEO title="Experience" description="View Bhola Yadav's professional experience and internship history." />
-            <main className="relative z-10 pt-20">
-                <Experience />
-            </main>
-        </div>
-    );
+    const navigate = useNavigate();
+    useEffect(() => {
+        navigate("/", { replace: true, state: { scrollTo: "experience" } });
+    }, [navigate]);
+
+    return null;
 };
 
 export default InternshipPage;
