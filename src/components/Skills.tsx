@@ -1,85 +1,128 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { skills as skillsApi } from "@/lib/api";
+import {
+    useScrollAnimation,
+    staggerContainer,
+    revealVariants,
+    scalePop,
+} from "@/hooks/useScrollAnimation";
 
 interface SkillCategory {
-  id: string;
-  category: string;
-  items: string[];
+    id: string;
+    category: string;
+    items: string[];
 }
 
 export const Skills = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
-  const [loading, setLoading] = useState(true);
+    const { ref, animate } = useScrollAnimation({ margin: "-80px" });
+    const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchSkills() {
-      try {
-        const { data, error } = await skillsApi.getAll();
-        if (error) {
-          console.error("Error fetching skills:", error);
-        } else if (data) {
-          setSkillCategories(data as SkillCategory[]);
+    useEffect(() => {
+        async function fetchSkills() {
+            try {
+                const { data, error } = await skillsApi.getAll();
+                if (!error && data) setSkillCategories(data as SkillCategory[]);
+            } catch (err) {
+                console.error("Error fetching skills:", err);
+            } finally {
+                setLoading(false);
+            }
         }
-      } catch (err) {
-        console.error("Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchSkills();
-  }, []);
+        fetchSkills();
+    }, []);
 
-  return (
-    <section id="skills" className="min-h-screen flex items-center py-20 px-4">
-      <div className="container mx-auto" ref={ref}>
-        <motion.div initial={{ opacity: 0, y: 50 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-            Technical <span className="text-gradient">Skills</span>
-          </h2>
-          <div className="max-w-5xl mx-auto space-y-8">
-            {loading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow space-y-4">
-                  <Skeleton className="h-8 w-48 mb-4" />
-                  <div className="flex flex-wrap gap-3">
-                    <Skeleton className="h-8 w-24 rounded-full" />
-                    <Skeleton className="h-8 w-32 rounded-full" />
-                    <Skeleton className="h-8 w-20 rounded-full" />
-                    <Skeleton className="h-8 w-28 rounded-full" />
-                  </div>
+    return (
+        <section id="skills" className="min-h-screen flex items-center py-20 px-4">
+            {/* @ts-expect-error framer-motion ref type */}
+            <div className="container mx-auto" ref={ref}>
+                {/* Heading */}
+                <motion.h2
+                    variants={revealVariants}
+                    initial="hidden"
+                    animate={animate}
+                    className="text-4xl md:text-5xl font-bold mb-12 text-center"
+                >
+                    Technical <span className="text-gradient">Skills</span>
+                </motion.h2>
+
+                <div className="max-w-5xl mx-auto space-y-8">
+                    {loading ? (
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 card-shadow space-y-4"
+                            >
+                                <Skeleton className="h-8 w-48 mb-4" />
+                                <div className="flex flex-wrap gap-3">
+                                    {[24, 32, 20, 28].map((w, j) => (
+                                        <Skeleton key={j} className={`h-8 w-${w} rounded-full`} />
+                                    ))}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="hidden"
+                            animate={animate}
+                            className="space-y-8"
+                        >
+                            {skillCategories.map((skillCat) => (
+                                <motion.div
+                                    key={skillCat.id}
+                                    variants={revealVariants}
+                                    className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 card-shadow hover:border-primary/50 hover:shadow-primary/10 hover:shadow-lg transition-all duration-300"
+                                >
+                                    <h3 className="text-xl font-bold mb-5 text-primary">{skillCat.category}</h3>
+
+                                    <motion.div
+                                        variants={staggerContainer}
+                                        initial="hidden"
+                                        animate={animate}
+                                        className="flex flex-wrap gap-3"
+                                    >
+                                        {skillCat.items.map((skill, idx) => (
+                                            <motion.div key={`${skillCat.id}-${idx}`} variants={scalePop}>
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="px-4 py-2 text-sm bg-secondary/20 hover:bg-primary/20 hover:text-primary hover:border-primary/50 border border-secondary/50 transition-all duration-200 cursor-default"
+                                                >
+                                                    {skill}
+                                                </Badge>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    )}
                 </div>
-              ))
-            ) : (
-              skillCategories.map((skillCat, categoryIndex) => (
-                <motion.div key={skillCat.id} initial={{ opacity: 0, x: -50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8, delay: categoryIndex * 0.2 }} className="bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow hover:border-primary/50 transition-all">
-                  <h3 className="text-xl font-bold mb-4 text-primary">{skillCat.category}</h3>
-                  <div className="flex flex-wrap gap-3">
-                    {skillCat.items.map((skill, index) => (
-                      <motion.div key={`${skillCat.id}-${index}`} initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: categoryIndex * 0.2 + index * 0.1 }}>
-                        <Badge variant="secondary" className="px-4 py-2 text-sm bg-secondary/20 hover:bg-secondary/30 border border-secondary/50 text-black dark:text-secondary-foreground transition-all">{skill}</Badge>
-                      </motion.div>
-                    ))}
-                  </div>
+
+                {/* LeetCode link footer */}
+                <motion.div
+                    variants={revealVariants}
+                    initial="hidden"
+                    animate={animate}
+                    transition={{ delay: 0.6 }}
+                    className="mt-12 text-center"
+                >
+                    <div className="inline-block bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 card-shadow hover:border-secondary/50 transition-all">
+                        <h3 className="text-xl font-bold mb-3 text-secondary">Coding Platform</h3>
+                        <a
+                            href="https://leetcode.com/u/bhola-dev58"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-muted-foreground hover:text-primary transition-colors"
+                        >
+                            LeetCode: <span className="font-semibold">bhola-dev58</span>
+                        </a>
+                    </div>
                 </motion.div>
-              ))
-            )}
-          </div>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.8 }} className="mt-12 text-center">
-            <div className="inline-block bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow">
-              <h3 className="text-xl font-bold mb-3 text-secondary">Coding Platform</h3>
-              <a href="https://leetcode.com/u/bhola-dev58" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                LeetCode: <span className="font-semibold">bhola-dev58</span>
-              </a>
             </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 };

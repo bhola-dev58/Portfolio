@@ -8,10 +8,11 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 90.01% / 95%;
-    --foreground: 0 0% 0%;
+    --background: 0 0% 100% / 0%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 98%;
+    /* Semi-transparent glass cards so the 3D background glows through */
+    --card: 0 0% 100% / 70%;
     --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
@@ -103,12 +104,16 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    /* Background is handled by ThreeBackground — keep text colour only */
+    @apply text-foreground;
+    background: transparent;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   html {
     scroll-behavior: smooth;
+    /* Subtle cream/dark base so text is readable if canvas is loading */
+    background: hsl(0 0% 96%);
   }
 }
 
