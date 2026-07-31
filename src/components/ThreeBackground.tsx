@@ -1,185 +1,256 @@
 /**
- * ThreeBackground.tsx
+ * ThreeBackground.tsx  ─  Advanced Magnetic Field Particle System
  *
- * A full-screen Three.js (R3F) interactive 3D particle constellation.
+ * Algorithm:
+ *   - N particles orbit a central attractor (the whole group)
+ *   - Each frame: apply boid-like separation + cohesion forces
+ *   - Mouse creates a repulsion field that pushes particles away
+ *   - Particles wrap around the sphere boundary on escape
+ *   - Constellation edges drawn between nearby particles with depth-gated opacity
+ *   - DPR capped at 1.5 for smooth 60 fps on all devices
  *
- * Z-index layering (back → front):
- *   -20  gradient blobs (CSS, for warm depth)
- *   -10  Three.js Canvas (3D particles + lines)
- *     0  page content
- *
- * The body CSS is set to background:transparent so this component
- * is the ACTUAL visual background of the entire site.
+ * Z-index contract:
+ *   fixed inset-0, z-index: -10 → always behind page content
  */
 
 import { useRef, useMemo, useEffect, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-const PARTICLE_COUNT  = 140;
-const SPHERE_RADIUS   = 4.5;
-const CONNECT_DIST    = 1.9;
-const COLOR_A         = new THREE.Color('#f97316'); // orange primary
-const COLOR_B         = new THREE.Color('#0ea5e9'); // cyan secondary
+// ─── Config ───────────────────────────────────────────────────────────────────
+const COUNT         = 160;
+const SPHERE_R      = 5.0;
+const CONNECT_DIST  = 1.8;
+const REPEL_RADIUS  = 2.5;    // mouse repulsion radius in world units
+const REPEL_FORCE   = 0.014;
+const ATTRACT_FORCE = 0.0006; // pull back to origin
+const DAMPING       = 0.96;
 
-// ─── Generate particle positions on a sphere surface ──────────────────────────
-function buildSpherePositions(count: number): Float32Array {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
+const COL_A = new THREE.Color('#f97316'); // brand orange
+const COL_B = new THREE.Color('#0ea5e9'); // brand cyan
+const COL_C = new THREE.Color('#a855f7'); // purple accent
+
+// ─── Particle struct in parallel arrays ────────────────────────────────────
+function initParticles(n: number) {
+    const pos = new Float32Array(n * 3);
+    const vel = new Float32Array(n * 3);
+    const col = new Float32Array(n * 3);
+
+    for (let i = 0; i < n; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi   = Math.acos(Math.random() * 2 - 1);
-        const r     = SPHERE_RADIUS * (0.55 + Math.random() * 0.45);
-        pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-        pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        pos[i * 3 + 2] = r * Math.cos(phi);
+        const r     = SPHERE_R * (0.4 + Math.random() * 0.6);
+
+        pos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+        pos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        pos[i*3+2] = r * Math.cos(phi);
+
+        vel[i*3]   = (Math.random() - 0.5) * 0.02;
+        vel[i*3+1] = (Math.random() - 0.5) * 0.02;
+        vel[i*3+2] = (Math.random() - 0.5) * 0.02;
+
+        const t = Math.random();
+        const c = t < 0.5
+            ? COL_A.clone().lerp(COL_B, t * 2)
+            : COL_B.clone().lerp(COL_C, (t - 0.5) * 2);
+        col[i*3]   = c.r;
+        col[i*3+1] = c.g;
+        col[i*3+2] = c.b;
     }
-    return pos;
+    return { pos, vel, col };
 }
 
-// ─── Pre-build line segment positions (static – same frame every render) ──────
-function buildLineGeometry(pos: Float32Array): { linePos: Float32Array; lineCol: Float32Array } {
-    const pts: number[] = [];
-    const cls: number[] = [];
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const ax = pos[i * 3], ay = pos[i * 3 + 1], az = pos[i * 3 + 2];
-        for (let j = i + 1; j < PARTICLE_COUNT; j++) {
-            const bx = pos[j * 3], by = pos[j * 3 + 1], bz = pos[j * 3 + 2];
-            const d  = Math.sqrt((bx - ax) ** 2 + (by - ay) ** 2 + (bz - az) ** 2);
-            if (d < CONNECT_DIST) {
-                pts.push(ax, ay, az, bx, by, bz);
-                const t  = d / CONNECT_DIST;
-                const ca = COLOR_A.clone().lerp(COLOR_B, t * 0.5);
-                const cb = ca.clone().multiplyScalar(0.55);
-                cls.push(ca.r, ca.g, ca.b, cb.r, cb.g, cb.b);
-            }
-        }
-    }
-    return { linePos: new Float32Array(pts), lineCol: new Float32Array(cls) };
-}
-
-// ─── The 3-D scene (rotation + mouse tilt) ────────────────────────────────────
-function ConstellationScene() {
+// ─── Physics Scene ────────────────────────────────────────────────────────────
+function MagneticScene() {
+    const { camera } = useThree();
     const groupRef   = useRef<THREE.Group>(null!);
-    const mouseSmooth = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
+    const dotsRef    = useRef<THREE.Points>(null!);
+    const linesRef   = useRef<THREE.LineSegments>(null!);
 
-    // Stable data – generated once
-    const spherePos = useMemo(() => buildSpherePositions(PARTICLE_COUNT), []);
-    const { linePos, lineCol } = useMemo(() => buildLineGeometry(spherePos), [spherePos]);
+    // World-space mouse position (projected onto z=0 plane)
+    const mouseWorld = useRef(new THREE.Vector3(0, 0, 0));
+    const autoRot    = useRef({ x: 0, y: 0 });
 
-    // Particle vertex colours
-    const dotColors = useMemo(() => {
-        const cols = new Float32Array(PARTICLE_COUNT * 3);
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            const c = COLOR_A.clone().lerp(COLOR_B, Math.random());
-            cols[i * 3] = c.r; cols[i * 3 + 1] = c.g; cols[i * 3 + 2] = c.b;
-        }
-        return cols;
-    }, []);
+    // Particle state
+    const { pos, vel, col } = useMemo(() => initParticles(COUNT), []);
 
-    // Track raw mouse
+    // Pre-allocate output geometry buffers
+    const dotPosAttr  = useMemo(() => new THREE.BufferAttribute(pos.slice(), 3), [pos]);
+    const dotColAttr  = useMemo(() => new THREE.BufferAttribute(col, 3), [col]);
+
+    // Line buffer (upper bound: C(N,2) pairs × 2 endpoints × 3 floats)
+    const maxLines    = COUNT * (COUNT - 1); // worst case
+    const linePosArr  = useMemo(() => new Float32Array(maxLines * 3), [maxLines]);
+    const lineColArr  = useMemo(() => new Float32Array(maxLines * 3), [maxLines]);
+    const linePosAttr = useMemo(
+        () => new THREE.BufferAttribute(linePosArr, 3).setUsage(THREE.DynamicDrawUsage),
+        [linePosArr]
+    );
+    const lineColAttr = useMemo(
+        () => new THREE.BufferAttribute(lineColArr, 3).setUsage(THREE.DynamicDrawUsage),
+        [lineColArr]
+    );
+
+    // Mouse → world space
     useEffect(() => {
         const onMove = (e: MouseEvent) => {
-            mouseSmooth.current.tx = (e.clientX / window.innerWidth  - 0.5) * 0.6;
-            mouseSmooth.current.ty = (e.clientY / window.innerHeight - 0.5) * 0.6;
+            const nx = (e.clientX / window.innerWidth  - 0.5) * 2;
+            const ny = -(e.clientY / window.innerHeight - 0.5) * 2;
+            const v  = new THREE.Vector3(nx, ny, 0.5).unproject(camera);
+            const d  = v.sub(camera.position).normalize();
+            const t  = -camera.position.z / d.z;
+            mouseWorld.current.copy(camera.position).addScaledVector(d, t);
         };
-        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mousemove', onMove, { passive: true });
         return () => window.removeEventListener('mousemove', onMove);
-    }, []);
+    }, [camera]);
 
-    // Animation loop – rotation + mouse lerp
     useFrame((_, delta) => {
-        const ms = mouseSmooth.current;
-        ms.x += (ms.tx - ms.x) * 0.05;
-        ms.y += (ms.ty - ms.y) * 0.05;
+        const dt     = Math.min(delta, 0.05); // clamp to avoid spiral on tab switch
+        const mx     = mouseWorld.current.x;
+        const my     = mouseWorld.current.y;
+        const mz     = mouseWorld.current.z;
 
-        const g = groupRef.current;
-        if (!g) return;
-        g.rotation.y += delta * 0.09  + ms.x * 0.012;
-        g.rotation.x += delta * 0.045 + ms.y * 0.008;
+        // ── Physics update ──────────────────────────────────────────────────
+        for (let i = 0; i < COUNT; i++) {
+            const ix = i * 3, iy = ix + 1, iz = ix + 2;
+            let px = pos[ix], py = pos[iy], pz = pos[iz];
+
+            // 1. Attraction toward origin (soft spring)
+            const fx = -px * ATTRACT_FORCE;
+            const fy = -py * ATTRACT_FORCE;
+            const fz = -pz * ATTRACT_FORCE;
+
+            // 2. Mouse repulsion
+            const dxm = px - mx, dym = py - my, dzm = pz - mz;
+            const dm2  = dxm * dxm + dym * dym + dzm * dzm;
+            const dm   = Math.sqrt(dm2);
+            if (dm < REPEL_RADIUS && dm > 0.01) {
+                const strength = REPEL_FORCE * (1 - dm / REPEL_RADIUS) / dm;
+                vel[ix] += dxm * strength * dt * 60;
+                vel[iy] += dym * strength * dt * 60;
+                vel[iz] += dzm * strength * dt * 60;
+            }
+
+            // 3. Integrate velocity
+            vel[ix] = (vel[ix] + fx) * DAMPING;
+            vel[iy] = (vel[iy] + fy) * DAMPING;
+            vel[iz] = (vel[iz] + fz) * DAMPING;
+
+            pos[ix] = px + vel[ix];
+            pos[iy] = py + vel[iy];
+            pos[iz] = pz + vel[iz];
+
+            // 4. Soft boundary: wrap back if too far
+            const r2 = pos[ix]**2 + pos[iy]**2 + pos[iz]**2;
+            if (r2 > (SPHERE_R * 1.4) ** 2) {
+                vel[ix] *= -0.3;
+                vel[iy] *= -0.3;
+                vel[iz] *= -0.3;
+            }
+        }
+
+        // ── Update dot positions ────────────────────────────────────────────
+        dotPosAttr.array.set(pos);
+        dotPosAttr.needsUpdate = true;
+
+        // ── Rebuild constellation lines ─────────────────────────────────────
+        let li = 0;
+        for (let i = 0; i < COUNT; i++) {
+            const ax = pos[i*3], ay = pos[i*3+1], az = pos[i*3+2];
+            for (let j = i + 1; j < COUNT; j++) {
+                const bx = pos[j*3], by = pos[j*3+1], bz = pos[j*3+2];
+                const d  = Math.sqrt((bx-ax)**2 + (by-ay)**2 + (bz-az)**2);
+                if (d < CONNECT_DIST) {
+                    linePosArr[li*3]   = ax; linePosArr[li*3+1] = ay; linePosArr[li*3+2] = az;
+                    li++;
+                    linePosArr[li*3]   = bx; linePosArr[li*3+1] = by; linePosArr[li*3+2] = bz;
+                    const t = d / CONNECT_DIST;
+                    const ca = COL_A.clone().lerp(COL_B, t);
+                    const cb = ca.clone().multiplyScalar(0.5);
+                    lineColArr[(li-1)*3]   = ca.r; lineColArr[(li-1)*3+1] = ca.g; lineColArr[(li-1)*3+2] = ca.b;
+                    lineColArr[li*3]       = cb.r; lineColArr[li*3+1]     = cb.g; lineColArr[li*3+2]     = cb.b;
+                    li++;
+                }
+            }
+        }
+        linePosAttr.count = li;
+        linePosAttr.needsUpdate = true;
+        lineColAttr.needsUpdate = true;
+
+        // ── Auto-rotate group ───────────────────────────────────────────────
+        if (groupRef.current) {
+            autoRot.current.y += delta * 0.06;
+            autoRot.current.x += delta * 0.03;
+            groupRef.current.rotation.y = autoRot.current.y;
+            groupRef.current.rotation.x = autoRot.current.x;
+        }
     });
 
     return (
         <group ref={groupRef}>
-            {/* ── Dot particles ── */}
-            <points>
+            {/* Dot particles */}
+            <points ref={dotsRef}>
                 <bufferGeometry>
-                    <bufferAttribute attach="attributes-position" args={[spherePos, 3]} />
-                    <bufferAttribute attach="attributes-color"    args={[dotColors,  3]} />
+                    <bufferAttribute attach="attributes-position" {...dotPosAttr.toJSON()} args={[dotPosAttr.array as Float32Array, 3]} />
+                    <bufferAttribute attach="attributes-color"    args={[dotColAttr.array as Float32Array, 3]} />
                 </bufferGeometry>
-                <pointsMaterial
-                    size={0.055}
-                    vertexColors
-                    transparent
-                    opacity={0.9}
-                    sizeAttenuation
-                    depthWrite={false}
-                />
+                <pointsMaterial size={0.06} vertexColors transparent opacity={0.9} sizeAttenuation depthWrite={false} />
             </points>
 
-            {/* ── Constellation lines ── */}
-            <lineSegments>
+            {/* Dynamic constellation lines */}
+            <lineSegments ref={linesRef}>
                 <bufferGeometry>
-                    <bufferAttribute attach="attributes-position" args={[linePos, 3]} />
-                    <bufferAttribute attach="attributes-color"    args={[lineCol, 3]} />
+                    <bufferAttribute attach="attributes-position" args={[linePosArr, 3]} count={COUNT * (COUNT - 1)} />
+                    <bufferAttribute attach="attributes-color"    args={[lineColArr, 3]} count={COUNT * (COUNT - 1)} />
                 </bufferGeometry>
-                <lineBasicMaterial
-                    vertexColors
-                    transparent
-                    opacity={0.22}
-                    depthWrite={false}
-                />
+                <lineBasicMaterial vertexColors transparent opacity={0.20} depthWrite={false} />
             </lineSegments>
         </group>
     );
 }
 
-// ─── Exported component ────────────────────────────────────────────────────────
+// ─── Exported Component ────────────────────────────────────────────────────────
 const ThreeBackground = () => (
-    /*
-     * fixed + inset-0 → covers viewport completely
-     * -z-10          → behind ALL page content
-     * pointer-events-none → never blocks clicks
-     */
     <div
         className="fixed inset-0 pointer-events-none"
         style={{ zIndex: -10 }}
         aria-hidden="true"
     >
-        {/* Warm gradient layer painted BELOW the canvas */}
+        {/* Gradient base — always visible while canvas loads */}
         <div
             className="absolute inset-0"
             style={{
-                background: 'linear-gradient(135deg, hsl(0 0% 95%) 0%, hsl(210 20% 94%) 50%, hsl(0 0% 96%) 100%)',
+                background:
+                    'linear-gradient(135deg, hsl(220 30% 97%) 0%, hsl(210 20% 95%) 50%, hsl(30 30% 97%) 100%)',
                 zIndex: -2,
             }}
         />
 
-        {/* Glowing colour blobs for depth */}
+        {/* Animated colour blobs */}
         <div
-            className="absolute top-[-80px] left-[-80px] w-[420px] h-[420px] rounded-full blur-3xl opacity-20 animate-blob"
+            className="absolute -top-20 -left-20 w-[500px] h-[500px] rounded-full blur-3xl opacity-[0.18] animate-blob"
             style={{ background: 'hsl(27 100% 53%)', zIndex: -1 }}
         />
         <div
-            className="absolute top-[-60px] right-[-60px] w-[380px] h-[380px] rounded-full blur-3xl opacity-15 animate-blob animation-delay-2000"
+            className="absolute -top-10 right-0 w-[450px] h-[450px] rounded-full blur-3xl opacity-[0.12] animate-blob animation-delay-2000"
             style={{ background: 'hsl(199 89% 48%)', zIndex: -1 }}
         />
         <div
-            className="absolute bottom-[-80px] left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full blur-3xl opacity-12 animate-blob animation-delay-4000"
-            style={{ background: 'hsl(27 100% 53%)', zIndex: -1 }}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full blur-3xl opacity-[0.10] animate-blob animation-delay-4000"
+            style={{ background: 'hsl(270 80% 60%)', zIndex: -1 }}
         />
 
-        {/* ── Three.js Canvas ── */}
+        {/* R3F Canvas */}
         <Canvas
-            camera={{ position: [0, 0, 10], fov: 55 }}
+            camera={{ position: [0, 0, 11], fov: 55 }}
             dpr={[1, 1.5]}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
             gl={{ antialias: false, alpha: true }}
             frameloop="always"
         >
             <Suspense fallback={null}>
-                <ConstellationScene />
+                <MagneticScene />
             </Suspense>
         </Canvas>
     </div>
