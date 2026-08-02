@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Briefcase, Award } from "lucide-react";
+import { Briefcase, Award, ExternalLink, X, Eye } from "lucide-react";
 import { useExperiences } from "@/lib/api";
 import { Experience as ExperienceType } from "@/lib/initialData";
 
@@ -11,9 +12,10 @@ const heading = {
 
 export const Experience = () => {
     const { data: experiences = [] } = useExperiences();
+    const [previewCert, setPreviewCert] = useState<{ title: string; company: string; url: string } | null>(null);
 
     return (
-        <section id="experience" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
+        <section id="experience" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
             <div className="container mx-auto">
 
                 {/* Heading */}
@@ -69,14 +71,12 @@ export const Experience = () => {
 
                                     {exp.internship_url && (
                                         <div className="pt-4 border-t border-border/60">
-                                            <a
-                                                href={exp.internship_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center text-sm font-semibold text-primary hover:underline gap-1.5"
+                                            <button
+                                                onClick={() => setPreviewCert({ title: exp.title, company: exp.company_name, url: exp.internship_url! })}
+                                                className="inline-flex items-center text-sm font-semibold text-primary hover:underline gap-1.5 cursor-pointer"
                                             >
-                                                View Certificate / Letter <Award className="w-4 h-4" />
-                                            </a>
+                                                <Eye className="w-4 h-4" /> Preview Certificate / Letter <Award className="w-4 h-4 ml-1" />
+                                            </button>
                                         </div>
                                     )}
                                 </Card>
@@ -85,6 +85,73 @@ export const Experience = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Interactive Certificate Preview Modal */}
+            <AnimatePresence>
+                {previewCert && (
+                    <div
+                        onClick={() => setPreviewCert(null)}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm cursor-pointer"
+                    >
+                        <motion.div
+                            onClick={(e) => e.stopPropagation()}
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative w-full max-w-2xl bg-card border-2 border-border shadow-2xl rounded-2xl p-4 md:p-5 max-h-[82vh] flex flex-col justify-between cursor-default"
+                        >
+                            <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
+                                <div>
+                                    <h3 className="text-lg font-bold text-foreground">{previewCert.title}</h3>
+                                    <p className="text-xs text-muted-foreground font-medium">Organization: {previewCert.company}</p>
+                                </div>
+                                <button
+                                    onClick={() => setPreviewCert(null)}
+                                    className="p-1.5 rounded-full bg-muted/80 hover:bg-muted text-foreground transition-colors"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            </div>
+
+                            {/* Document / Image / iframe Embed */}
+                            <div className="flex-1 w-full min-h-[45vh] max-h-[52vh] rounded-xl overflow-hidden bg-slate-950/60 border border-border/80 flex items-center justify-center p-1.5 relative">
+                                {/\.(jpg|jpeg|png|webp|gif|svg)($|\?)/i.test(previewCert.url) ? (
+                                    <img
+                                        src={previewCert.url}
+                                        alt={previewCert.title}
+                                        className="max-h-[50vh] w-auto max-w-full object-contain rounded-lg shadow-lg"
+                                    />
+                                ) : /\.pdf($|\?)/i.test(previewCert.url) ? (
+                                    <iframe
+                                        src={`${previewCert.url}#toolbar=0&navpanes=0&view=Fit`}
+                                        className="w-full h-full min-h-[50vh] rounded-lg border-0"
+                                        title={previewCert.title}
+                                    />
+                                ) : (
+                                    <iframe
+                                        src={previewCert.url}
+                                        className="w-full h-full min-h-[50vh] rounded-lg border-0"
+                                        title={previewCert.title}
+                                    />
+                                )}
+                            </div>
+
+                            {/* Modal Footer Controls */}
+                            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-border mt-3">
+                                <p className="text-[11px] text-muted-foreground">Click button to open original link in new tab.</p>
+                                <a
+                                    href={previewCert.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90 shadow-md text-xs transition-all"
+                                >
+                                    <ExternalLink className="w-3.5 h-3.5" /> Open Verification Link
+                                </a>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </section>
     );
 };

@@ -11,7 +11,9 @@ const SEO = ({ title, description, image }: SEOProps) => {
     const location = useLocation();
 
     useEffect(() => {
-        const fullTitle = `${title} | Bhola Yadav - Full Stack Developer (Bangalore & Remote)`;
+        const fullTitle = title === 'Home' || title === 'Bhola Yadav'
+            ? 'Bhola Yadav'
+            : `${title} | Bhola Yadav - Full-Stack Developer`;
         const desc = description || 'Official Portfolio of Bhola Yadav - Skill-First Full Stack Developer & AI Software Engineer. Seeking developer opportunities in Bangalore, Karnataka & Remote. Specialized in Java, Python, React, and Node.js.';
         const siteUrl = 'https://bhola-yadav.com.np';
         const currentUrl = `${siteUrl}${location.pathname}`;

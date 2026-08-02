@@ -1,3 +1,15 @@
+// Certificate & Internship Assets (bundled by Vite → hosted on Vercel CDN)
+import awsCertPdf from "@/assets/certificates/AWS Certified Developer - Associate Certification.pdf";
+import techsakshamPdf from "@/assets/certificates/AI-Transformative Learning with TechSaksham.pdf";
+import azurePdf from "@/assets/certificates/Azure 303 for Beginners.pdf";
+import mlPythonPdf from "@/assets/certificates/Explore Machine Learning using Python.pdf";
+import flipkartGridJpg from "@/assets/certificates/Flipkart GRiD 6.0 - Software Development.jpg";
+import fullstackPdf from "@/assets/certificates/Full-Stack-Web-Development-MASTERY-Course.pdf";
+import jsFullstackJpg from "@/assets/certificates/JavaScript Full-Stack Development.jpg";
+import linuxPng from "@/assets/certificates/Linux_mastery-certificate.png";
+import javaPdf from "@/assets/certificates/Programming In Java.pdf";
+import reactEcommercePng from "@/assets/certificates/React E-Commerce Platform Masterclass.png";
+
 export interface Project {
   id: string;
   title: string;
@@ -123,7 +135,7 @@ export const INITIAL_EXPERIENCES: Experience[] = [
       "Developed an AI chatbot for health diagnosis achieving 50% response accuracy on test cases",
       "Implemented voice recognition and chat logging features improving engagement"
     ],
-    internship_url: undefined
+    internship_url: techsakshamPdf
   },
   {
     id: "exp-3",
@@ -167,43 +179,61 @@ export const INITIAL_CERTIFICATIONS: Certification[] = [
     id: "cert-0",
     name: "AWS Certified Developer - Associate Certification",
     issuer: "Infosys Springboard (2026)",
-    url: "https://verify.onwingspan.com"
+    url: awsCertPdf
   },
   {
     id: "cert-1",
     name: "React E-Commerce Platform Masterclass",
     issuer: "Scaler (2026)",
-    url: "#"
+    url: reactEcommercePng
   },
   {
     id: "cert-2",
     name: "JavaScript Full-Stack Development",
     issuer: "Udemy (2025)",
-    url: "#"
+    url: jsFullstackJpg
   },
   {
     id: "cert-3",
     name: "Full-Stack Web Development Mastery",
     issuer: "Udemy (2024)",
-    url: "#"
+    url: fullstackPdf
   },
   {
     id: "cert-4",
     name: "Programming with Java",
     issuer: "NPTEL (2024)",
-    url: "#"
+    url: javaPdf
   },
   {
     id: "cert-5",
-    name: "Internal Smart India Hackathon",
-    issuer: "CMRIT Bengaluru (2025)",
-    url: "#"
+    name: "Linux System Administration Mastery",
+    issuer: "WsCube Tech",
+    url: linuxPng
   },
   {
     id: "cert-6",
-    name: "HackAthena25 & Flipkart GRID 6.0 Participant",
-    issuer: "Unstop / Jyothi Engg College",
-    url: "#"
+    name: "AI Transformative Learning -- TechSaksham",
+    issuer: "Microsoft & SAP via Edunet (2025)",
+    url: techsakshamPdf
+  },
+  {
+    id: "cert-7",
+    name: "Explore Machine Learning using Python",
+    issuer: "Infosys Springboard (2025)",
+    url: mlPythonPdf
+  },
+  {
+    id: "cert-8",
+    name: "Azure 303 for Beginners",
+    issuer: "Simplilearn SkillUp",
+    url: azurePdf
+  },
+  {
+    id: "cert-9",
+    name: "Flipkart GRID 6.0 -- Software Development Track",
+    issuer: "Unstop / Flipkart (2024)",
+    url: flipkartGridJpg
   }
 ];
 

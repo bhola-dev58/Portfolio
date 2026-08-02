@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, Code2, MessageSquare, Award } from "lucide-react";
 import profileImage from "@/assets/profile.png";
 import resumePdf from "@/assets/resume/My_Resume.pdf";
+import awsCertPdf from "@/assets/certificates/AWS Certified Developer - Associate Certification.pdf";
 
 // Official Tech Brand SVG Logo Components
 const JavaLogo = () => (
@@ -58,9 +59,10 @@ const AILogo = () => (
 );
 
 const AWSLogo = () => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6">
-    <path fill="#ff9900" d="M6.8 17.2c2.8 1.8 7.3 2.5 10.8.6.5-.3.8-.1.4.3-1.6 1.4-4.8 2.4-8.1 2.1-2.6-.2-5.1-1.3-6.9-3.2-.3-.3 0-.6.4-.3zM18.8 16.3c.4-.5 1.7-.2 2.1.3.4.5.1 1.6-.3 2.1-.4.5-1.1.2-1.3-.2-.2-.5-.9-1.7-.5-2.2z" />
-    <path fill="#ff9900" d="M12 4.5c-3.1 0-5.3 1.6-5.3 4.1 0 2.2 1.6 3.4 3.7 4.1.3.1.6.2.6.5 0 .3-.3.5-.8.5-.8 0-1.8-.3-2.6-.8-.3-.2-.5 0-.6.2l-.4.8c-.1.2 0 .4.2.5 1.1.7 2.4 1 3.7 1 3.3 0 5.4-1.7 5.4-4.1 0-2.3-1.6-3.4-3.7-4.1-.4-.1-.6-.2-.6-.5 0-.3.3-.4.7-.4.7 0 1.5.2 2.2.6.2.1.4 0 .5-.2l.4-.8c.1-.2 0-.4-.2-.5-.9-.6-2.1-.9-3.3-.9z" />
+  <svg viewBox="0 0 256 256" className="w-6 h-6">
+    <path fill="#FF9900" d="M219.6 182.2c-29 21.3-71.1 32.7-107.1 32.7-50.8 0-96.7-19-131.4-50.7-2.7-2.5-2.9-5.9-.4-8.6 2.5-2.7 5.9-2.9 8.6-.4 32.2 29.5 75 47.2 122.4 47.2 33.5 0 72.7-10.6 99.7-30.4 3.3-2.4 7.9-1.7 10.3 1.6 2.4 3.3 1.7 7.9-1.6 10.3z" />
+    <path fill="#FF9900" d="M233.7 168.1c-3.8-4.8-21.8-4.5-26.6-3.9-1.4.2-1.9-1.5-.7-2.3 7.8-5.6 22.4-3.9 26.7.4 4.4 4.3 3 18.9-2.3 26.9-.9 1.3-2.6.8-2.3-.7.7-4.7 1.5-22.8-.8-20.4z" />
+    <path fill="currentColor" d="M102.2 149.1c-7 5.2-16.9 7.8-29.6 7.8-11.3 0-20.3-2.2-27-6.6-6.7-4.4-10-10.3-10-17.7 0-6.8 2.9-12.4 8.6-16.7 5.7-4.4 14.1-7 25-8.1l26.1-2.3v-4.4c0-5.5-1.8-9.6-5.4-12.4-3.6-2.8-9.1-4.2-16.5-4.2-6 0-11.6 1-16.9 2.9-5.2 1.9-9.6 4.7-13 8.3l-8.1-10.4c4.9-5.2 11-9.1 18.4-11.6 7.4-2.6 15.3-3.9 23.8-3.9 13.6 0 23.7 2.9 30.4 8.7 6.7 5.8 10.1 14.4 10.1 25.7v45h-16.2v-10.3zm-.7-26.2l-20.3 2c-6.5.7-11.5 2.3-14.9 4.8-3.4 2.5-5.1 5.9-5.1 10.2 0 3.8 1.6 6.7 4.8 8.7 3.2 2 7.8 3.1 13.9 3.1 8.3 0 14.8-2.3 19.4-6.8 4.6-4.6 7-10.5 7-17.9v-4.1zM151.7 156.9l-17.7-62.1h18.2l9.9 39.3c2.6 10.4 4.6 19.6 5.9 27.7h.6c1.3-8.1 3.3-17.3 5.9-27.7l9.9-39.3h18.2l-17.7 62.1h-18.2zm61.4 0l-17.5-62.1h18.2l9.7 39.3c2.6 10.4 4.6 19.6 5.9 27.7h.6c1.3-8.1 3.3-17.3 5.9-27.7l9.7-39.3h18.2l-17.5 62.1h-18.2z" />
   </svg>
 );
 
@@ -373,7 +375,7 @@ export const Hero = () => {
 
                 {/* Verified AWS Badge Floating Over Bottom Border */}
                 <a
-                  href="https://verify.onwingspan.com"
+                  href={awsCertPdf}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="absolute bottom-1 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/95 dark:bg-slate-950/95 border-2 border-amber-500/80 shadow-xl text-[10px] md:text-[11px] font-extrabold text-amber-400 hover:text-amber-300 backdrop-blur-md transition-all cursor-pointer z-30 whitespace-nowrap hover:scale-105"

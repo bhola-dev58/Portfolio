@@ -95,12 +95,16 @@ export const Projects = () => {
             {/* Interactive Project Preview Modal */}
             <AnimatePresence>
                 {activeModalProject && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+                    <div
+                        onClick={() => setActiveModalProject(null)}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm cursor-pointer"
+                    >
                         <motion.div
+                            onClick={(e) => e.stopPropagation()}
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative w-full max-w-2xl bg-card border border-border shadow-2xl rounded-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto"
+                            className="relative w-full max-w-2xl bg-card border border-border shadow-2xl rounded-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto cursor-default"
                         >
                             <button
                                 onClick={() => setActiveModalProject(null)}
