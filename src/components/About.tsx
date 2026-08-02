@@ -3,33 +3,22 @@ import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { GraduationCap } from "lucide-react";
-import { profile as profileApi, education as educationApi } from "@/lib/api";
-
-interface Profile {
-  email_personal: string;
-  email_college: string;
-  phone_in: string;
-  phone_np: string;
-  address_temp: string;
-  address_perm: string;
-}
+import { useProfile, useEducation } from "@/lib/api";
+import { Education } from "@/lib/initialData";
 
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [profileData, setProfileData] = useState<Profile | null>(null);
-  const [education, setEducation] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadingEducation, setLoadingEducation] = useState(true);
+  const { data: profileData } = useProfile();
+  const { data: education = [] } = useEducation();
 
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
-    // Initial check
+    // Initial theme check for LeetCode card
     const isDark = document.documentElement.classList.contains("dark");
     setTheme(isDark ? "dark" : "catppuccin");
 
-    // Observer for changes
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === "class") {
@@ -40,23 +29,7 @@ export const About = () => {
     });
 
     observer.observe(document.documentElement, { attributes: true });
-
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      // Fetch Profile
-      const { data: pData } = await profileApi.get();
-      if (pData) setProfileData(pData as any);
-      setLoading(false);
-
-      // Fetch Education
-      const { data: eData } = await educationApi.getAll();
-      if (eData) setEducation(eData as any[]);
-      setLoadingEducation(false);
-    }
-    fetchData();
   }, []);
 
   return (
@@ -72,13 +45,13 @@ export const About = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <Card className="p-8 card-shadow bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all">
+            <Card className="p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-primary/50 transition-all">
               <h3 className="text-2xl font-bold mb-4 text-primary">Career Objective</h3>
               <p className="text-muted-foreground leading-relaxed">
                 To obtain a challenging position in Software Engineering where I can leverage my
-                expertise to contribute to organizational success while enhancing my professional growth.
-              </p><br></br>
-              <h2 className="text-xl mb-2 text-primary">LeetCode Stats 👇👇👇</h2>
+                expertise in Java, Python, React, and AI to contribute to organizational success while enhancing my professional growth.
+              </p><br />
+              <h3 className="text-xl mb-2 text-primary font-bold">LeetCode Activity</h3>
               <div className="mt-2">
                 <a
                   href="https://leetcode.com/u/bhola-dev58/"
@@ -95,7 +68,7 @@ export const About = () => {
               </div>
             </Card>
 
-            <Card className="p-8 card-shadow bg-card/50 backdrop-blur-sm border-border/50 hover:border-secondary/50 transition-all">
+            <Card className="p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-secondary/50 transition-all">
               <h3 className="text-2xl font-bold mb-6 text-secondary">Education</h3>
 
               <div className="relative">
@@ -103,52 +76,44 @@ export const About = () => {
                 <div className="absolute left-5 top-8 bottom-8 w-0.5 bg-gradient-to-b from-secondary via-primary to-secondary/20" />
 
                 <div className="space-y-8">
-                  {loadingEducation ? (
-                    <p className="pl-12 text-muted-foreground">Loading education...</p>
-                  ) : education.length === 0 ? (
-                    <p className="pl-12 text-muted-foreground">No education details found.</p>
-                  ) : (
-                    education.map((edu, index) => (
-                      <div key={edu.id || edu._id} className="relative pl-12">
-                        <div className={`absolute left-3 top-1 w-4 h-4 rounded-full border-4 border-background shadow-lg z-10 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
-                        <div className="space-y-1">
-                          <div className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-1 ${index % 2 === 0 ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
-                            {edu.period}
-                          </div>
-                          <h4 className="font-semibold text-foreground flex items-center gap-2">
-                            <GraduationCap className={`w-4 h-4 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
-                            {edu.institution}
-                          </h4>
-                          <p className="text-sm text-muted-foreground">{edu.degree}</p>
-                          <p className="text-sm text-muted-foreground">{edu.score}</p>
+                  {education.map((edu: Education, index: number) => (
+                    <div key={edu.id} className="relative pl-12">
+                      <div className={`absolute left-3 top-1 w-4 h-4 rounded-full border-4 border-background shadow-lg z-10 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
+                      <div className="space-y-1">
+                        <div className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold mb-1 ${index % 2 === 0 ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}>
+                          {edu.period}
                         </div>
+                        <h4 className="font-semibold text-card-foreground flex items-center gap-2">
+                          <GraduationCap className={`w-4 h-4 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                          {edu.institution}
+                        </h4>
+                        <p className="text-sm text-muted-foreground">{edu.degree}</p>
+                        <p className="text-sm text-muted-foreground font-medium">{edu.score}</p>
                       </div>
-                    ))
-                  )}
+                    </div>
+                  ))}
                 </div>
               </div>
             </Card>
 
-            <Card className="p-8 card-shadow bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all md:col-span-2">
+            <Card className="p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-primary/50 transition-all md:col-span-2">
               <h3 className="text-2xl font-bold mb-4 text-primary">Personal Details</h3>
-              {loading ? (
-                <p className="text-muted-foreground">Loading profile...</p>
-              ) : profileData ? (
+              {profileData && (
                 <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
                   <div>
                     <p><span className="font-semibold text-foreground">Temporary Address:</span> {profileData.address_temp}</p>
                     <p><span className="font-semibold text-foreground">Permanent Address:</span> {profileData.address_perm}</p>
                     <p><span className="font-semibold text-foreground">Personal Email:</span> {profileData.email_personal}</p>
                     <p><span className="font-semibold text-foreground">College Email:</span> {profileData.email_college}</p>
-                    <p><span className="font-semibold text-foreground">Phone:</span> {profileData.phone_in}</p>
+                    <p><span className="font-semibold text-foreground">Phone (India / Nepal):</span> {profileData.phone_in} / {profileData.phone_np}</p>
                   </div>
                   <div>
                     <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
                     <p><span className="font-semibold text-foreground">Languages:</span> English, Hindi, Nepali</p>
+                    <p><span className="font-semibold text-foreground">Status:</span> {profileData.status_text}</p>
+                    <p><span className="font-semibold text-foreground">Availability:</span> {profileData.open_for}</p>
                   </div>
                 </div>
-              ) : (
-                <p className="text-destructive">Failed to load profile.</p>
               )}
             </Card>
           </div>

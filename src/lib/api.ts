@@ -1,7 +1,18 @@
-/**
- * API Client - Replaces Supabase client
- * All database operations go through our Express backend now.
- */
+import { useQuery } from '@tanstack/react-query';
+import {
+    INITIAL_PROJECTS,
+    INITIAL_EXPERIENCES,
+    INITIAL_SKILLS,
+    INITIAL_CERTIFICATIONS,
+    INITIAL_EDUCATION,
+    INITIAL_PROFILE,
+    Project,
+    Experience,
+    SkillCategory,
+    Certification,
+    Education,
+    ProfileData,
+} from './initialData';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -183,3 +194,96 @@ export const messages = {
     }),
     delete: (id: string) => apiFetch(`/messages/${id}`, { method: 'DELETE' }),
 };
+
+// ============ REACT QUERY HOOKS WITH INSTANT STATIC FALLBACKS ============
+export function useProjects() {
+    return useQuery<Project[]>({
+        queryKey: ['projects'],
+        queryFn: async () => {
+            const { data, error } = await projects.getAll();
+            if (error || !data || !Array.isArray(data) || data.length === 0) {
+                return INITIAL_PROJECTS;
+            }
+            return data as Project[];
+        },
+        initialData: INITIAL_PROJECTS,
+        staleTime: 1000 * 60 * 10,
+    });
+}
+
+export function useExperiences() {
+    return useQuery<Experience[]>({
+        queryKey: ['experiences'],
+        queryFn: async () => {
+            const { data, error } = await experiences.getAll();
+            if (error || !data || !Array.isArray(data) || data.length === 0) {
+                return INITIAL_EXPERIENCES;
+            }
+            return data as Experience[];
+        },
+        initialData: INITIAL_EXPERIENCES,
+        staleTime: 1000 * 60 * 10,
+    });
+}
+
+export function useSkills() {
+    return useQuery<SkillCategory[]>({
+        queryKey: ['skills'],
+        queryFn: async () => {
+            const { data, error } = await skills.getAll();
+            if (error || !data || !Array.isArray(data) || data.length === 0) {
+                return INITIAL_SKILLS;
+            }
+            return data as SkillCategory[];
+        },
+        initialData: INITIAL_SKILLS,
+        staleTime: 1000 * 60 * 10,
+    });
+}
+
+export function useCertifications() {
+    return useQuery<Certification[]>({
+        queryKey: ['certifications'],
+        queryFn: async () => {
+            const { data, error } = await certifications.getAll();
+            if (error || !data || !Array.isArray(data) || data.length === 0) {
+                return INITIAL_CERTIFICATIONS;
+            }
+            return data as Certification[];
+        },
+        initialData: INITIAL_CERTIFICATIONS,
+        staleTime: 1000 * 60 * 10,
+    });
+}
+
+export function useProfile() {
+    return useQuery<ProfileData>({
+        queryKey: ['profile'],
+        queryFn: async () => {
+            const { data, error } = await profile.get();
+            if (error || !data) {
+                return INITIAL_PROFILE;
+            }
+            return data as ProfileData;
+        },
+        initialData: INITIAL_PROFILE,
+        staleTime: 1000 * 60 * 10,
+    });
+}
+
+export function useEducation() {
+    return useQuery<Education[]>({
+        queryKey: ['education'],
+        queryFn: async () => {
+            const { data, error } = await education.getAll();
+            if (error || !data || !Array.isArray(data) || data.length === 0) {
+                return INITIAL_EDUCATION;
+            }
+            return data as Education[];
+        },
+        initialData: INITIAL_EDUCATION,
+        staleTime: 1000 * 60 * 10,
+    });
+}
+
+

@@ -1,32 +1,15 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Award, ExternalLink } from "lucide-react";
-import { certifications as certificationsApi } from "@/lib/api";
-
-interface Certification {
-  id: string;
-  name: string;
-  issuer: string;
-  url: string;
-}
+import { useCertifications } from "@/lib/api";
+import { Certification } from "@/lib/initialData";
 
 export const Certifications = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [certifications, setCertifications] = useState<Certification[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchCertifications() {
-      const { data } = await certificationsApi.getAll();
-      if (data) setCertifications(data as Certification[]);
-      setLoading(false);
-    }
-    fetchCertifications();
-  }, []);
+  const { data: certifications = [] } = useCertifications();
 
   return (
     <section id="certifications" className="min-h-screen flex items-center py-20 px-4">
@@ -36,22 +19,13 @@ export const Certifications = () => {
             Certifications & <span className="text-gradient">Achievements</span>
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {loading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <Card key={i} className="p-6 card-shadow bg-card/50 backdrop-blur-sm border-border/50 h-full">
-                  <div className="flex items-start gap-4">
-                    <Skeleton className="w-12 h-12 rounded-full shrink-0" />
-                    <div className="flex-1 space-y-2"><Skeleton className="h-6 w-3/4" /><Skeleton className="h-4 w-1/2" /></div>
-                  </div>
-                </Card>
-              ))
-            ) : certifications.length === 0 ? (
+            {certifications.length === 0 ? (
               <p className="col-span-full text-center text-muted-foreground">No certifications found.</p>
             ) : (
-              certifications.map((cert, index) => (
+              certifications.map((cert: Certification, index: number) => (
                 <motion.div key={cert.id} initial={{ opacity: 0, scale: 0.9 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: index * 0.1 }}>
-                  <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block h-full">
-                    <Card className="p-6 card-shadow bg-card/50 backdrop-blur-sm border-border/50 hover:border-secondary/50 transition-all h-full group cursor-pointer">
+                  <a href={cert.url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
+                    <Card className="p-6 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-secondary/50 transition-all h-full group cursor-pointer">
                       <div className="flex items-start gap-4">
                         <div className="p-3 rounded-full bg-secondary/10 group-hover:bg-secondary/20 transition-all"><Award className="w-6 h-6 text-secondary" /></div>
                         <div className="flex-1">
@@ -69,9 +43,9 @@ export const Certifications = () => {
             )}
           </div>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.8 }} className="mt-12 text-center">
-            <div className="inline-block bg-card/50 backdrop-blur-sm p-6 rounded-lg border border-border/50 card-shadow">
+            <div className="inline-block bg-card/85 backdrop-blur-sm p-6 rounded-lg border border-border/60 card-shadow">
               <h3 className="text-xl font-bold mb-3 text-primary">Hobbies & Interests</h3>
-              <p className="text-muted-foreground">Chess • Traveling • Playing</p>
+              <p className="text-muted-foreground font-medium">Chess • Traveling • Open Source</p>
             </div>
           </motion.div>
         </motion.div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -17,6 +17,7 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,11 +29,31 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Force Light Mode
+  // Theme Initializer
   useEffect(() => {
-    document.documentElement.classList.remove("dark");
-    localStorage.setItem("theme", "light");
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const shouldBeDark = savedTheme ? savedTheme === "dark" : prefersDark || true;
+
+    setIsDarkMode(shouldBeDark);
+    if (shouldBeDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
+
+  const toggleTheme = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    if (newMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   // Active section tracking with IntersectionObserver
   useEffect(() => {
@@ -52,7 +73,7 @@ export const Navbar = () => {
           }
         },
         {
-          rootMargin: "-25% 0px -55% 0px", // triggers when dominant
+          rootMargin: "-25% 0px -55% 0px",
         }
       );
       observer.observe(el);
@@ -82,8 +103,9 @@ export const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-md bg-background/30" : ""
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "backdrop-blur-md bg-background/80 shadow-md" : "bg-background/40 backdrop-blur-sm"
+      }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -106,26 +128,45 @@ export const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => handleNavClick(item.targetId)}
-                className={`px-3 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent/50 relative ${activeSection === item.targetId ? "text-orange" : "text-foreground hover:text-orange"
-                  }`}
+                className={`px-3 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent/20 relative ${
+                  activeSection === item.targetId ? "text-primary font-semibold" : "text-foreground hover:text-primary"
+                }`}
               >
                 {item.name}
                 {activeSection === item.targetId && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-orange"
+                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
               </motion.button>
             ))}
+
+            {/* Dark / Light Mode Switcher Button */}
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle Dark / Light theme"
+              className="p-2 ml-2 rounded-full text-foreground hover:text-primary hover:bg-accent/20 transition-all"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
+            </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Actions */}
           <div className="md:hidden flex items-center gap-2">
             <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="p-2 rounded-full text-foreground hover:text-primary transition-all"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
+            </button>
+
+            <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-orange transition-colors p-2"
+              className="text-foreground hover:text-primary transition-colors p-2"
+              aria-label="Toggle navigation menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -148,8 +189,9 @@ export const Navbar = () => {
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.targetId)}
-                  className={`block w-full text-left px-4 py-3 text-sm font-medium hover:bg-accent/50 rounded-md transition-colors ${activeSection === item.targetId ? "text-orange" : "text-foreground hover:text-orange"
-                    }`}
+                  className={`block w-full text-left px-4 py-3 text-sm font-medium hover:bg-accent/20 rounded-md transition-colors ${
+                    activeSection === item.targetId ? "text-primary font-semibold" : "text-foreground hover:text-primary"
+                  }`}
                 >
                   {item.name}
                 </button>
