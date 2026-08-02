@@ -140,7 +140,7 @@ export const Hero = () => {
   const innerRadius = isMobile ? 105 : 160;
 
   return (
-    <section id="home" className="min-h-[70vh] flex items-center justify-center relative overflow-hidden px-4 pt-24 md:pt-16 pb-12">
+    <section id="home" className=" flex items-center justify-center relative overflow-hidden px-4 pt-[8rem] pb-16">
       <div className="container mx-auto z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
           {/* Left Section - Text Content */}

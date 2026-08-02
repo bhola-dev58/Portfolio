@@ -88,11 +88,18 @@ export const Navbar = () => {
 
   const handleNavClick = (targetId: string) => {
     setIsOpen(false);
-    if (location.pathname === "/") {
+    
+    const scrollToTarget = () => {
       const element = document.getElementById(targetId);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        const yOffset = -70; // Header offset
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
       }
+    };
+
+    if (location.pathname === "/") {
+      setTimeout(scrollToTarget, 120);
     } else {
       navigate("/", { state: { scrollTo: targetId } });
     }

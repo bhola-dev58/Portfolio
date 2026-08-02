@@ -22,7 +22,7 @@ export const Skills = () => {
     const { data: skillCategories = [] } = useSkills();
 
     return (
-        <section id="skills" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
+        <section id="skills" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
             <div className="container mx-auto">
                 {/* Heading */}
                 <motion.h2

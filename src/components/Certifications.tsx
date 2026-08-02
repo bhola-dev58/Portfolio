@@ -12,7 +12,7 @@ export const Certifications = () => {
   const { data: certifications = [] } = useCertifications();
 
   return (
-    <section id="certifications" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
+    <section id="certifications" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
       <div className="container mx-auto" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 50 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">

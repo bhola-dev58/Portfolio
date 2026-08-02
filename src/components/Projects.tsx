@@ -38,7 +38,7 @@ export const Projects = () => {
     });
 
     return (
-        <section id="projects" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
+        <section id="projects" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
             <div className="container mx-auto">
 
                 {/* Heading */}
@@ -63,11 +63,10 @@ export const Projects = () => {
                         <button
                             key={cat}
                             onClick={() => setSelectedCategory(cat)}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                                selectedCategory === cat
-                                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-105"
-                                    : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
-                            }`}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === cat
+                                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-105"
+                                : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+                                }`}
                         >
                             {cat}
                         </button>
