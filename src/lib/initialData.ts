@@ -66,9 +66,9 @@ export const INITIAL_PROJECTS: Project[] = [
       "Implemented 6-month validity engine with automated expiry, re-enrollment, and secure discount logic",
       "Created responsive analytics dashboard with live session tracking, reducing management effort by 60%"
     ],
-    tags: ["Next.js", "React.js", "Node.js", "MongoDB", "NextAuth", "Razorpay"],
+    tags: ["Full Stack", "Next.js", "React.js", "Node.js", "MongoDB", "Razorpay"],
     github_url: "https://github.com/bhola-dev58/smart-coach-lms",
-    deployed_url: "https://bhola-yadav.com.np"
+    deployed_url: "https://gradify.academy/"
   },
   {
     id: "proj-2",
@@ -80,7 +80,7 @@ export const INITIAL_PROJECTS: Project[] = [
       "Integrated voice recognition and chat logging projected to boost user engagement by 40%",
       "Designed an interactive chat UI with dynamic state management using Streamlit"
     ],
-    tags: ["Python", "Streamlit", "Gemini API", "AI / ML", "NLP"],
+    tags: ["Full Stack", "AI / ML", "Python", "Streamlit", "Gemini API"],
     github_url: "https://github.com/bhola-dev58/CareMate-AI",
     deployed_url: undefined
   },
@@ -94,7 +94,7 @@ export const INITIAL_PROJECTS: Project[] = [
       "Built responsive desktop UI using Java Swing and Abstract Window Toolkit (AWT)",
       "Deployed client-server networking layer using TCP Sockets on AWS"
     ],
-    tags: ["Java", "Sockets", "AWS", "Swing / AWT", "Networking"],
+    tags: ["Full Stack", "Java", "Sockets", "AWS", "Networking"],
     github_url: "https://github.com/bhola-dev58/JLiveChats",
     deployed_url: undefined
   }

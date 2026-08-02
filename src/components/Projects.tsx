@@ -30,7 +30,7 @@ export const Projects = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
 
     const filteredProjects = projects.filter((project) => {
-        if (selectedCategory === "All") return true;
+        if (selectedCategory === "All" || selectedCategory === "Full Stack") return true;
         return project.tags?.some((tag) =>
             tag.toLowerCase().includes(selectedCategory.toLowerCase())
         );

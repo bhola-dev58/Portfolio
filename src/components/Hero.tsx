@@ -177,7 +177,7 @@ export const Hero = () => {
               Crafting high-performance web applications & AI solutions with <span className="text-foreground font-semibold">Java, Python, ReactJS, Node.js, Express.js, MongoDB, Docker, and PostgreSQL</span>.
             </motion.p>
 
-            {/* Quick Stats Strip */}
+            {/* Impact-Driven Stats Bar */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -185,16 +185,16 @@ export const Hero = () => {
               className="grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-3 rounded-xl bg-card/60 backdrop-blur-sm border border-border/50 text-center"
             >
               <div>
-                <p className="text-base md:text-lg font-bold text-primary">B.Tech CSE</p>
-                <p className="text-xs text-muted-foreground font-medium">CMRIT Bengaluru</p>
+                <p className="text-base md:text-lg font-bold text-primary">3+ Apps</p>
+                <p className="text-xs text-muted-foreground font-medium">Shipped to Prod</p>
               </div>
               <div className="border-x border-border/40">
                 <p className="text-base md:text-lg font-bold text-secondary">150+</p>
                 <p className="text-xs text-muted-foreground font-medium">LeetCode Solved</p>
               </div>
               <div>
-                <p className="text-base md:text-lg font-bold text-primary">Full Stack</p>
-                <p className="text-xs text-muted-foreground font-medium">& AI Solutions</p>
+                <p className="text-base md:text-lg font-bold text-emerald-500">AWS Certified</p>
+                <p className="text-xs text-muted-foreground font-medium">Infosys Springboard</p>
               </div>
             </motion.div>
 
@@ -206,14 +206,14 @@ export const Hero = () => {
             >
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground glow-effect"
+                className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-orange-500/25 glow-effect"
                 onClick={() => handleScrollTo("projects")}
               >
                 View Projects
               </Button>
               <Button
                 size="lg"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20 font-semibold gap-2"
+                className="rounded-full px-8 py-6 bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/25 font-semibold gap-2"
                 asChild
               >
                 <a
@@ -221,13 +221,13 @@ export const Hero = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MessageSquare className="w-4 h-4" /> Quick Recruiter Chat
+                  <MessageSquare className="w-4 h-4" /> Quick Chat
                 </a>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                className="rounded-full px-8 py-6 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold"
                 asChild
               >
                 <a href={resumePdf} download="Bhola_Yadav_Resume.pdf">
