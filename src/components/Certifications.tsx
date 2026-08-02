@@ -12,7 +12,7 @@ export const Certifications = () => {
   const { data: certifications = [] } = useCertifications();
 
   return (
-    <section id="certifications" className="min-h-screen flex items-center py-20 px-4">
+    <section id="certifications" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
       <div className="container mx-auto" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 50 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
@@ -23,9 +23,15 @@ export const Certifications = () => {
               <p className="col-span-full text-center text-muted-foreground">No certifications found.</p>
             ) : (
               certifications.map((cert: Certification, index: number) => (
-                <motion.div key={cert.id} initial={{ opacity: 0, scale: 0.9 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: index * 0.1 }}>
+                <motion.div
+                  key={cert.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
                   <a href={cert.url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
-                    <Card className="p-6 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-secondary/50 transition-all h-full group cursor-pointer">
+                    <Card className="p-6 card-shadow bg-card/90 backdrop-blur-sm border-2 border-border hover:border-secondary/80 hover:shadow-secondary/25 hover:shadow-2xl transition-all duration-300 h-full group cursor-pointer">
                       <div className="flex items-start gap-4">
                         <div className="p-3 rounded-full bg-secondary/10 group-hover:bg-secondary/20 transition-all"><Award className="w-6 h-6 text-secondary" /></div>
                         <div className="flex-1">
@@ -42,8 +48,14 @@ export const Certifications = () => {
               ))
             )}
           </div>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.8 }} className="mt-12 text-center">
-            <div className="inline-block bg-card/85 backdrop-blur-sm p-6 rounded-lg border border-border/60 card-shadow">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            whileHover={{ scale: 1.03, y: -3 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="mt-12 text-center"
+          >
+            <div className="inline-block bg-card/90 backdrop-blur-sm p-6 rounded-2xl border-2 border-border hover:border-primary/80 shadow-xl hover:shadow-primary/20 transition-all duration-300">
               <h3 className="text-xl font-bold mb-3 text-primary">Hobbies & Interests</h3>
               <p className="text-muted-foreground font-medium">Chess • Traveling • Open Source</p>
             </div>

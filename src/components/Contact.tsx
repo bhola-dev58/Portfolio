@@ -41,21 +41,28 @@ export const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="min-h-screen flex items-center py-20 px-4">
+    <section id="contact" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
       <div className="container mx-auto" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 50 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             Get In <span className="text-gradient">Touch</span>
           </h2>
           <div className="max-w-4xl mx-auto">
-            <Card className="p-8 md:p-12 card-shadow bg-card/85 backdrop-blur-sm border-border/60">
+            <Card className="p-8 md:p-12 card-shadow bg-card/90 backdrop-blur-md border-2 border-border shadow-2xl">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-2xl font-bold mb-6 text-card-foreground">Contact Information</h3>
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     {contactInfo.map((info, index) => (
-                      <motion.div key={index} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }} className="flex items-start gap-4 group">
-                        <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-all shrink-0"><info.icon className="w-5 h-5 text-primary" /></div>
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        whileHover={{ scale: 1.03, x: 4 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="flex items-start gap-4 transition-all cursor-default group"
+                      >
+                        <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110 transition-all shrink-0"><info.icon className="w-5 h-5 text-primary" /></div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs text-muted-foreground font-medium">{info.label}</p>
                           <div className="flex items-center gap-2">
@@ -83,7 +90,16 @@ export const Contact = () => {
                     <h4 className="text-lg font-semibold mb-4 text-card-foreground">Connect With Me</h4>
                     <div className="flex gap-4">
                       {socialLinks.map((social, index) => (
-                        <motion.a key={index} href={social.href} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.1 }} className={`p-3 rounded-full bg-muted/60 ${social.color} transition-all border border-border/40`} aria-label={social.label}>
+                        <motion.a
+                          key={index}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ rotateY: 180, scale: 1.15 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          className={`p-3.5 rounded-full bg-muted/70 hover:bg-muted ${social.color} transition-all border-2 border-border shadow-md cursor-pointer`}
+                          aria-label={social.label}
+                        >
                           <social.icon className="w-5 h-5" />
                         </motion.a>
                       ))}

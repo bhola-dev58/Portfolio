@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Code2, MessageSquare } from "lucide-react";
+import { Github, Linkedin, Mail, Code2, MessageSquare, Award } from "lucide-react";
 import profileImage from "@/assets/profile.png";
 import resumePdf from "@/assets/resume/My_Resume.pdf";
 
@@ -140,7 +140,7 @@ export const Hero = () => {
   const innerRadius = isMobile ? 105 : 160;
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden px-4 pt-24 md:pt-16 pb-12">
+    <section id="home" className="min-h-[70vh] flex items-center justify-center relative overflow-hidden px-4 pt-24 md:pt-16 pb-12">
       <div className="container mx-auto z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
           {/* Left Section - Text Content */}
@@ -177,23 +177,24 @@ export const Hero = () => {
               Crafting high-performance web applications & AI solutions with <span className="text-foreground font-semibold">Java, Python, ReactJS, Node.js, Express.js, MongoDB, Docker, and PostgreSQL</span>.
             </motion.p>
 
-            {/* Impact-Driven Stats Bar */}
+            {/* Impact-Driven Stats Bar with Interactive Hover Card */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-3 rounded-xl bg-card/60 backdrop-blur-sm border border-border/50 text-center"
+              whileHover={{ scale: 1.03, y: -2 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-3.5 rounded-2xl bg-card/85 backdrop-blur-md border-2 border-border/80 hover:border-primary/70 shadow-lg hover:shadow-primary/20 hover:shadow-xl transition-all duration-300 text-center cursor-default group"
             >
-              <div>
-                <p className="text-base md:text-lg font-bold text-primary">3+ Apps</p>
+              <div className="p-1 rounded-xl group-hover:bg-primary/5 transition-colors">
+                <p className="text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform">3+ Apps</p>
                 <p className="text-xs text-muted-foreground font-medium">Shipped to Prod</p>
               </div>
-              <div className="border-x border-border/40">
-                <p className="text-base md:text-lg font-bold text-secondary">150+</p>
+              <div className="border-x border-border/60 p-1 rounded-xl group-hover:bg-secondary/5 transition-colors">
+                <p className="text-base md:text-lg font-bold text-secondary group-hover:scale-105 transition-transform">150+</p>
                 <p className="text-xs text-muted-foreground font-medium">LeetCode Solved</p>
               </div>
-              <div>
-                <p className="text-base md:text-lg font-bold text-emerald-500">AWS Certified</p>
+              <div className="p-1 rounded-xl group-hover:bg-emerald-500/5 transition-colors">
+                <p className="text-base md:text-lg font-bold text-emerald-500 group-hover:scale-105 transition-transform">AWS Certified</p>
                 <p className="text-xs text-muted-foreground font-medium">Infosys Springboard</p>
               </div>
             </motion.div>
@@ -355,18 +356,30 @@ export const Hero = () => {
             </motion.div>
 
             {/* Center Profile Photo Frame (The Core / Sun) */}
-            <div className="relative z-20">
+            <div className="relative z-20 flex flex-col items-center">
               <motion.div
-                className="relative w-36 h-36 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-primary/40 shadow-2xl glow-effect"
+                className="relative w-36 h-36 md:w-52 md:h-52"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <img
-                  src={profileImage}
-                  alt="Bhola Yadav - Full-Stack Developer"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                {/* Photo Circle */}
+                <div className="w-full h-full rounded-full overflow-hidden border-4 border-primary/40 shadow-2xl glow-effect">
+                  <img
+                    src={profileImage}
+                    alt="Bhola Yadav - Full-Stack Developer"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Verified AWS Badge Floating Over Bottom Border */}
+                <a
+                  href="https://verify.onwingspan.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-1 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/95 dark:bg-slate-950/95 border-2 border-amber-500/80 shadow-xl text-[10px] md:text-[11px] font-extrabold text-amber-400 hover:text-amber-300 backdrop-blur-md transition-all cursor-pointer z-30 whitespace-nowrap hover:scale-105"
+                >
+                  <Award className="w-3.5 h-3.5 text-amber-400 shrink-0" /> AWS Certified Dev
+                </a>
               </motion.div>
             </div>
 

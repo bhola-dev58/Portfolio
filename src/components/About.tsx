@@ -33,7 +33,7 @@ export const About = () => {
   }, []);
 
   return (
-    <section id="about" className="min-h-screen flex items-center py-20 px-4">
+    <section id="about" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
       <div className="container mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
