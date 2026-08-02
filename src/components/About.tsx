@@ -47,9 +47,8 @@ export const About = () => {
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             <Card className="p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-primary/50 transition-all">
               <h3 className="text-2xl font-bold mb-4 text-primary">Career Objective</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                To obtain a challenging position in Software Engineering where I can leverage my
-                expertise in Java, Python, React, and AI to contribute to organizational success while enhancing my professional growth.
+              <p className="text-muted-foreground leading-relaxed font-medium">
+                Final-year Computer Science and Engineering student at <span className="text-foreground font-semibold">CMR Institute of Technology, Bengaluru</span> with hands-on experience in full-stack development, applied Generative AI, and technical training. Built and shipped production-ready platforms including <span className="text-foreground font-semibold">Smart Coach LMS</span> and <span className="text-foreground font-semibold">CareMate-AI</span>. Seeking SDE & Full-Stack Engineering roles in Bangalore & Remote.
               </p><br />
               <h3 className="text-xl mb-2 text-primary font-bold">LeetCode Activity</h3>
               <div className="mt-2">
@@ -88,7 +87,6 @@ export const About = () => {
                           {edu.institution}
                         </h4>
                         <p className="text-sm text-muted-foreground">{edu.degree}</p>
-                        <p className="text-sm text-muted-foreground font-medium">{edu.score}</p>
                       </div>
                     </div>
                   ))}
@@ -105,7 +103,7 @@ export const About = () => {
                     <p><span className="font-semibold text-foreground">Permanent Address:</span> {profileData.address_perm}</p>
                     <p><span className="font-semibold text-foreground">Personal Email:</span> {profileData.email_personal}</p>
                     <p><span className="font-semibold text-foreground">College Email:</span> {profileData.email_college}</p>
-                    <p><span className="font-semibold text-foreground">Phone (India / Nepal):</span> {profileData.phone_in} / {profileData.phone_np}</p>
+                    <p><span className="font-semibold text-foreground">Phone (India):</span> {profileData.phone_in}</p>
                   </div>
                   <div>
                     <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>

@@ -45,7 +45,7 @@ export interface ProfileData {
   email_personal: string;
   email_college: string;
   phone_in: string;
-  phone_np: string;
+  phone_np?: string;
   address_temp: string;
   address_perm: string;
   github: string;
@@ -58,44 +58,44 @@ export interface ProfileData {
 export const INITIAL_PROJECTS: Project[] = [
   {
     id: "proj-1",
-    title: "AI-Powered Full Stack Debugger & Assistant",
-    period: "Mar 2025 – Apr 2025",
-    description: "Full-stack development helper featuring API integration and real-time interactive user feedback.",
+    title: "Smart Coach LMS -- Full-Stack Coaching Center Management Platform",
+    period: "Feb 2025 – Present",
+    description: "Production-ready Learning Management System with secure role-based access for students, instructors, and admins.",
     highlights: [
-      "Supports multiple programming languages and environments",
-      "Integrates generative artificial intelligence options with low latency",
-      "Optimized application performance by introducing local caching layers"
+      "Developed a course management platform with YouTube Live integration, batch curriculum, and Razorpay payment handling 100+ concurrent users",
+      "Implemented 6-month validity engine with automated expiry, re-enrollment, and secure discount logic",
+      "Created responsive analytics dashboard with live session tracking, reducing management effort by 60%"
     ],
-    tags: ["React.js", "Python", "FastAPI", "Tailwind CSS", "AI / ML"],
-    github_url: "https://github.com/bhola-dev58/ai-debugger",
+    tags: ["Next.js", "React.js", "Node.js", "MongoDB", "NextAuth", "Razorpay"],
+    github_url: "https://github.com/bhola-dev58/smart-coach-lms",
     deployed_url: "https://bhola-yadav.com.np"
   },
   {
     id: "proj-2",
-    title: "Interactive Medical Assistant Chatbot",
+    title: "CareMate-AI -- AI-Powered Healthcare Chatbot",
     period: "Jan 2025 – Feb 2025",
-    description: "Python web application utilizing machine learning frameworks to provide basic informational diagnostics.",
+    description: "AI healthcare chatbot powered by Google Gemini API providing real-time response to user medical queries.",
     highlights: [
-      "Decreased server response times using efficient pre-rendered data models",
-      "Designed responsive, accessible glassmorphic UI",
-      "Ensured reliable application state storage"
+      "Reduced API calls by 30% by implementing response caching for frequent queries, accelerating response times",
+      "Integrated voice recognition and chat logging projected to boost user engagement by 40%",
+      "Designed an interactive chat UI with dynamic state management using Streamlit"
     ],
-    tags: ["Python", "Streamlit", "NLP", "AI / ML"],
-    github_url: "https://github.com/bhola-dev58/medical-assistant",
+    tags: ["Python", "Streamlit", "Gemini API", "AI / ML", "NLP"],
+    github_url: "https://github.com/bhola-dev58/CareMate-AI",
     deployed_url: undefined
   },
   {
     id: "proj-3",
-    title: "Real-Time Multi-Threaded Messaging Client",
+    title: "JLiveChats -- Real-Time Multi-User Chat Client",
     period: "Aug 2024 – Sep 2024",
-    description: "Multi-client network application featuring custom socket-based communication protocols.",
+    description: "Client-server architecture for a Java real-time chat application with sub-second latency.",
     highlights: [
-      "Implemented reliable multi-thread message routing and sync",
-      "Constructed intuitive desktop UI and clean message history view",
-      "Optimized data serialization and deserialization over TCP sockets"
+      "Supported multiple concurrent users with real-time latency under 1 second",
+      "Built responsive desktop UI using Java Swing and Abstract Window Toolkit (AWT)",
+      "Deployed client-server networking layer using TCP Sockets on AWS"
     ],
-    tags: ["Java", "Sockets", "Multi-threading", "Desktop"],
-    github_url: "https://github.com/bhola-dev58/java-chat-client",
+    tags: ["Java", "Sockets", "AWS", "Swing / AWT", "Networking"],
+    github_url: "https://github.com/bhola-dev58/JLiveChats",
     deployed_url: undefined
   }
 ];
@@ -103,25 +103,37 @@ export const INITIAL_PROJECTS: Project[] = [
 export const INITIAL_EXPERIENCES: Experience[] = [
   {
     id: "exp-1",
-    title: "Software Developer Intern",
-    company_name: "Tech Development Company",
+    title: "AI Code Debugger Intern",
+    company_name: "Prasunet Company",
     period: "Mar 2025 – Apr 2025",
     type: "Internship",
     description: [
-      "Built modern full-stack web applications using Node.js, Express, and React",
-      "Collaborated with a cross-functional development team to design clean REST APIs and modular components"
+      "Built an AI-powered code debugging tool using MERN stack, reducing debugging time by ~30%",
+      "Deployed scalable cloud-based infrastructure supporting 100+ concurrent users"
     ],
     internship_url: undefined
   },
   {
     id: "exp-2",
-    title: "AI Development Intern",
-    company_name: "Innovative Learning Solutions",
+    title: "AI Intern -- TechSaksham",
+    company_name: "Edunet Foundation",
     period: "Jan 2025 – Feb 2025",
     type: "Internship",
     description: [
-      "Developed interactive chatbot systems using Python and Natural Language Processing",
-      "Optimized application performance and streamlined database queries"
+      "Developed an AI chatbot for health diagnosis achieving 50% response accuracy on test cases",
+      "Implemented voice recognition and chat logging features improving engagement"
+    ],
+    internship_url: undefined
+  },
+  {
+    id: "exp-3",
+    title: "Computer Instructor",
+    company_name: "Spangle Education & Computer Institute Pvt. Ltd.",
+    period: "Jun 2021 – Dec 2022",
+    type: "Work Experience",
+    description: [
+      "Delivered classroom & hands-on training to 100+ students in MS Office, HTML/CSS/JS, C/C++, and Hardware troubleshooting",
+      "Designed lesson plans and assessments, mentoring students to achieve strong practical computing skills"
     ],
     internship_url: undefined
   }
@@ -131,48 +143,66 @@ export const INITIAL_SKILLS: SkillCategory[] = [
   {
     id: "skill-1",
     category: "Programming Languages",
-    items: ["Java", "Python", "JavaScript", "TypeScript", "C++", "HTML5/CSS3"]
+    items: ["Java", "Python", "JavaScript", "C++", "HTML5", "CSS3"]
   },
   {
     id: "skill-2",
-    category: "Frameworks & Libraries",
-    items: ["React.js", "Node.js", "Express.js", "Tailwind CSS", "Framer Motion", "Three.js"]
+    category: "Frontend & Full Stack Frameworks",
+    items: ["React.js", "Next.js", "Tailwind CSS", "Node.js", "Express.js", "FastAPI"]
   },
   {
     id: "skill-3",
     category: "Databases & Cloud",
-    items: ["MongoDB", "PostgreSQL", "Supabase", "MySQL", "REST APIs"]
+    items: ["MySQL", "MongoDB", "Docker", "AWS (Basic)", "REST APIs", "CI/CD"]
   },
   {
     id: "skill-4",
-    category: "Tools & Architectures",
-    items: ["Git / GitHub", "VS Code", "Docker", "Vite", "Postman", "Linux/Bash"]
+    category: "Core Computer Science & Tools",
+    items: ["Data Structures & Algorithms", "DBMS", "Computer Networks", "Agentic AI", "Git / GitHub"]
   }
 ];
 
 export const INITIAL_CERTIFICATIONS: Certification[] = [
   {
+    id: "cert-0",
+    name: "AWS Certified Developer - Associate Certification",
+    issuer: "Infosys Springboard (2026)",
+    url: "https://verify.onwingspan.com"
+  },
+  {
     id: "cert-1",
-    name: "National Engineering Contest Participant",
-    issuer: "Tech Engineering Forum",
+    name: "React E-Commerce Platform Masterclass",
+    issuer: "Scaler (2026)",
     url: "#"
   },
   {
     id: "cert-2",
-    name: "Full Stack Software Architecture Certification",
-    issuer: "Coursera / Meta",
+    name: "JavaScript Full-Stack Development",
+    issuer: "Udemy (2025)",
     url: "#"
   },
   {
     id: "cert-3",
-    name: "React & Modern Web Development Specialization",
-    issuer: "Udemy",
+    name: "Full-Stack Web Development Mastery",
+    issuer: "Udemy (2024)",
     url: "#"
   },
   {
     id: "cert-4",
-    name: "Cloud & Microservices Infrastructure Essentials",
-    issuer: "Google Cloud Skills Boost",
+    name: "Programming with Java",
+    issuer: "NPTEL (2024)",
+    url: "#"
+  },
+  {
+    id: "cert-5",
+    name: "Internal Smart India Hackathon",
+    issuer: "CMRIT Bengaluru (2025)",
+    url: "#"
+  },
+  {
+    id: "cert-6",
+    name: "HackAthena25 & Flipkart GRID 6.0 Participant",
+    issuer: "Unstop / Jyothi Engg College",
     url: "#"
   }
 ];
@@ -180,38 +210,37 @@ export const INITIAL_CERTIFICATIONS: Certification[] = [
 export const INITIAL_EDUCATION: Education[] = [
   {
     id: "edu-1",
-    institution: "Lovely Professional University",
-    degree: "Bachelor of Technology - Computer Science and Engineering",
-    period: "2023 - 2027",
-    score: "CGPA: 8.0 / 10.0"
+    institution: "CMR Institute of Technology",
+    degree: "Bachelor of Engineering -- Computer Science and Engineering",
+    period: "2023 – 2027 (Pursuing)",
+    score: ""
   },
   {
     id: "edu-2",
-    institution: "Higher Secondary School",
-    degree: "High School (+2 Science)",
+    institution: "Shree Susanskrit Secondary School",
+    degree: "12th Grade -- Science (Technical and Vocational)",
     period: "2021",
-    score: "Grade / Percentage: 80%"
+    score: ""
   },
   {
     id: "edu-3",
-    institution: "Secondary School",
-    degree: "General Secondary Education (SEE)",
+    institution: "Shree Susanskrit Secondary School",
+    degree: "10th Standard (Technical & Vocational)",
     period: "2019",
-    score: "Grade / Percentage: 85%"
+    score: ""
   }
 ];
 
 export const INITIAL_PROFILE: ProfileData = {
   id: "profile-1",
   email_personal: "bhola.dev58@gmail.com",
-  email_college: "bhola.c@college.edu",
-  phone_in: "+91-9800000000",
-  phone_np: "+977-9800000000",
-  address_temp: "Kathmandu, Nepal",
-  address_perm: "Siraha, Nepal",
+  email_college: "bhya23cs@cmrit.ac.in",
+  phone_in: "+91-7483509984",
+  address_temp: "Bengaluru, Karnataka, India",
+  address_perm: "Rupandehi, Nepal",
   github: "https://github.com/bhola-dev58",
-  linkedin: "https://linkedin.com/in/bhya23cse",
+  linkedin: "https://linkedin.com/in/bhola-dev58",
   leetcode: "https://leetcode.com/u/bhola-dev58",
-  status_text: "Full-Stack Software Engineer & CS Student",
-  open_for: "Open to Full-Stack, Backend, and AI Engineering Opportunities"
+  status_text: "Final-Year B.E. CS Student at CMRIT Bengaluru",
+  open_for: "Seeking SDE / Full-Stack & AI Developer Opportunities in Bangalore & Remote"
 };

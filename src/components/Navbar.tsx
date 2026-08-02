@@ -29,11 +29,10 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Theme Initializer
+  // Theme Initializer - Default Dark Mode
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const shouldBeDark = savedTheme ? savedTheme === "dark" : prefersDark || true;
+    const shouldBeDark = savedTheme ? savedTheme === "dark" : true;
 
     setIsDarkMode(shouldBeDark);
     if (shouldBeDark) {

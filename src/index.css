@@ -8,15 +8,15 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100% / 0%;
-    --foreground: 0 0% 8%;
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
 
-    /* Semi-transparent glass cards so the 3D background glows through */
-    --card: 0 0% 100% / 70%;
-    --card-foreground: 0 0% 10%;
+    /* Semi-transparent crisp glass cards */
+    --card: 0 0% 100% / 92%;
+    --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 222.2 84% 4.9%;
 
     --primary: 27 100% 53%;
     --primary-foreground: 0 0% 100%;
@@ -24,8 +24,8 @@ All colors MUST be HSL.
     --secondary: 199 89% 48%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 210 40% 93.7%;
+    --muted-foreground: 215.4 16.3% 40%;
 
     --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
@@ -33,8 +33,8 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 214.3 31.8% 82%;
+    --input: 214.3 31.8% 82%;
     --ring: 27 100% 53%;
 
     --radius: 0.75rem;
@@ -42,28 +42,23 @@ All colors MUST be HSL.
     /* Custom portfolio colors */
     --orange: 27 100% 53%;
 
-
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(27 100% 53%) 0%, hsl(199 89% 48%) 100%);
 
-
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(27 100% 53% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.1);
-
-    /* Animations */
-
+    --shadow-glow: 0 0 30px hsl(27 100% 53% / 0.25);
+    --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
   }
 
   .dark {
-    --background: 0 0% 3.82% / 88%;
-    --foreground: 0 0% 95%;
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 222 47% 10% / 85%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 222 47% 10%;
+    --popover-foreground: 210 40% 98%;
 
     --primary: 27 100% 53%;
     --primary-foreground: 0 0% 100%;
@@ -71,8 +66,8 @@ All colors MUST be HSL.
     --secondary: 199 89% 48%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20.2% 72%;
 
     --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
@@ -80,21 +75,19 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
+    --border: 217 33% 22%;
+    --input: 217 33% 22%;
     --ring: 27 100% 53%;
 
     /* Custom portfolio colors - adjusted for dark mode */
     --orange: 27 100% 53%;
 
-
     /* Gradients - adjusted for dark mode */
     --gradient-primary: linear-gradient(135deg, hsl(27 100% 53%) 0%, hsl(199 89% 48%) 100%);
 
-
     /* Shadows - adjusted for dark mode */
-    --shadow-glow: 0 0 40px hsl(27 100% 53% / 0.4);
-    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
+    --shadow-glow: 0 0 50px hsl(27 100% 53% / 0.45);
+    --shadow-card: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -112,8 +105,7 @@ All colors MUST be HSL.
 
   html {
     scroll-behavior: smooth;
-    /* Subtle cream/dark base so text is readable if canvas is loading */
-    background: hsl(0 0% 96%);
+    background: hsl(var(--background));
   }
 }
 
