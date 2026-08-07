@@ -188,7 +188,7 @@ export const Hero = () => {
               className="grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-3.5 rounded-2xl bg-card/85 backdrop-blur-md border-2 border-border/80 hover:border-primary/70 shadow-lg hover:shadow-primary/20 hover:shadow-xl transition-all duration-300 text-center cursor-default group"
             >
               <div className="p-1 rounded-xl group-hover:bg-primary/5 transition-colors">
-                <p className="text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform">3+ Apps</p>
+                <p className="text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform">3+ Web application </p>
                 <p className="text-xs text-muted-foreground font-medium">Shipped to Prod</p>
               </div>
               <div className="border-x border-border/60 p-1 rounded-xl group-hover:bg-secondary/5 transition-colors">
