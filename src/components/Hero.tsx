@@ -8,9 +8,17 @@ import awsCertPdf from "@/assets/certificates/AWS Certified Developer - Associat
 
 // Official Tech Brand SVG Logo Components
 const JavaLogo = () => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-    <path fill="#e76f00" d="M8.851 18.56s-.917.518-.457.774c.734.409 2.502.583 3.659.27 1.157-.313 4.316-1.103 4.316-1.103s-1.637 1.022-1.077 1.416c.559.395 3.328-.352 4.417-.923 1.09-.57 2.766-1.603 2.766-1.603s-1.002.378-1.996.5c-.994.122-2.583-.075-2.583-.075s1.282-.44 2.302-.91c1.02-.47 1.865-1.116 1.865-1.116s-1.8.528-3.48.74c-1.68.212-4.298.118-4.298.118s1.956-.693 3.309-1.348c1.353-.655 2.368-1.503 2.368-1.503s-2.17.76-4.148 1.108c-1.978.348-3.957.375-3.957.375s2.072-.756 3.616-1.564c1.544-.808 2.411-1.724 2.411-1.724s-2.41.7-4.48 1.319c-2.07.618-3.37 1.077-3.37 1.077s.867-.484 2.025-.94c1.158-.457 2.315-1.049 2.315-1.049s-1.833.456-3.23.913c-1.397.457-2.41.913-2.41.913s.867-.512 1.832-.942c.965-.43 1.929-.834 1.929-.834s-1.543.296-2.701.726c-1.158.43-1.736.753-1.736.753s.578-.403 1.543-.753c.965-.35 1.832-.672 1.832-.672s-1.447.161-2.508.51c-1.061.35-1.398.538-1.398.538s.627-.35 1.495-.618c.868-.27 1.543-.457 1.543-.457s-1.205.054-2.073.296c-.868.242-1.109.377-1.109.377s.578-.269 1.254-.457c.675-.188 1.133-.269 1.133-.269s-.771 0-1.446.161c-.675.161-.844.242-.844.242s.41-.188.94-.323c.53-.134.843-.161.843-.161s-.578 0-1.036.107c-.458.107-.53.134-.53.134s.265-.107.65-.188c.386-.08.603-.08.603-.08s-.386 0-.699.054c-.313.054-.361.054-.361.054s.193-.054.458-.08c.265-.027.41-.027.41-.027s-.289 0-.506.027c-.217.027-.241.027-.241.027s.145-.027.337-.027c.193 0 .289 0 .289 0s-.217 0-.361.014c-.145.013-.169.013-.169.013s.096-.013.217-.013c.12 0 .193 0 .193 0" />
-    <path fill="#5382a1" d="M12.984 1.125s1.956 2.096.024 4.542c-1.543 1.96-2.583 3.655-2.025 5.56 0 0-2.435-2.016-.867-5.025 1.254-2.392 2.868-3.454 2.868-5.077z" />
+  <svg viewBox="0 0 100 100" className="w-6 h-6">
+    {/* Red Steam Plumes */}
+    <path fill="#E71B23" d="M51.5 5c-3 6.8-9 12.5-9 17.5 0 6.5 6.2 11.2 6.2 16.5 0 4.8-3.8 8.8-7.5 12.8 5.2-4.5 9-9.5 9-14.8 0-6.2-6.5-10.8-6.5-16.8 0-5.8 5.5-10.8 7.8-15.2z" />
+    <path fill="#E71B23" d="M60.8 19.5c-3 4.2-6.8 8-6.8 11.8 0 4.8 4.2 8.2 4.2 12.2 0 3.2-2.5 6.2-5 9 3.5-3.2 6.2-6.8 6.2-10.5 0-4.5-4.5-7.8-4.5-12.2 0-4.2 3.8-7.5 5.9-10.3z" />
+    {/* Blue Coffee Cup & Plate Layers */}
+    <path fill="#5382A1" d="M30 42c12-3.8 32-3.8 44 0 6.8 2.2 4 5.2-2 6.5-13.8 2.8-31 2.8-43.5 0-4.8-1-5.5-4.5 1.5-6.5z" />
+    <path fill="#3A5D7C" d="M37.5 51c8-2.2 21-2.2 29 0 4 1.2 2.2 3.2-1.5 4.2-9 2-20 2-28 0-3.5-1-4-3.2.5-4.2z" />
+    <path fill="#5382A1" d="M39 58c7-1.8 18-1.8 25 0 3.5 1 1.8 2.5-1.2 3.2-7.8 1.8-17 1.8-23.8 0-3-1-3.2-2.5 0-3.2z" />
+    <path fill="#3A5D7C" d="M24.5 66c17.5-4.8 46.5-4.8 63.8 0 7.8 2.2 3.5 5.5-4.8 7.2-20.2 4.2-47.5 4.2-66.2 0-7-1.5-6-5 7.2-7.2z" />
+    {/* Red "Java" Typography */}
+    <text x="50" y="94" textAnchor="middle" fill="#E71B23" fontSize="24" fontWeight="800" fontFamily="system-ui, -apple-system, sans-serif">Java</text>
   </svg>
 );
 
@@ -59,7 +67,7 @@ const AILogo = () => (
 );
 
 const AWSLogo = () => (
-  <svg viewBox="0 0 256 256" className="w-6 h-6">
+  <svg viewBox="-8 -8 272 272" className="h-3 md:h-3">
     <path fill="#FF9900" d="M219.6 182.2c-29 21.3-71.1 32.7-107.1 32.7-50.8 0-96.7-19-131.4-50.7-2.7-2.5-2.9-5.9-.4-8.6 2.5-2.7 5.9-2.9 8.6-.4 32.2 29.5 75 47.2 122.4 47.2 33.5 0 72.7-10.6 99.7-30.4 3.3-2.4 7.9-1.7 10.3 1.6 2.4 3.3 1.7 7.9-1.6 10.3z" />
     <path fill="#FF9900" d="M233.7 168.1c-3.8-4.8-21.8-4.5-26.6-3.9-1.4.2-1.9-1.5-.7-2.3 7.8-5.6 22.4-3.9 26.7.4 4.4 4.3 3 18.9-2.3 26.9-.9 1.3-2.6.8-2.3-.7.7-4.7 1.5-22.8-.8-20.4z" />
     <path fill="currentColor" d="M102.2 149.1c-7 5.2-16.9 7.8-29.6 7.8-11.3 0-20.3-2.2-27-6.6-6.7-4.4-10-10.3-10-17.7 0-6.8 2.9-12.4 8.6-16.7 5.7-4.4 14.1-7 25-8.1l26.1-2.3v-4.4c0-5.5-1.8-9.6-5.4-12.4-3.6-2.8-9.1-4.2-16.5-4.2-6 0-11.6 1-16.9 2.9-5.2 1.9-9.6 4.7-13 8.3l-8.1-10.4c4.9-5.2 11-9.1 18.4-11.6 7.4-2.6 15.3-3.9 23.8-3.9 13.6 0 23.7 2.9 30.4 8.7 6.7 5.8 10.1 14.4 10.1 25.7v45h-16.2v-10.3zm-.7-26.2l-20.3 2c-6.5.7-11.5 2.3-14.9 4.8-3.4 2.5-5.1 5.9-5.1 10.2 0 3.8 1.6 6.7 4.8 8.7 3.2 2 7.8 3.1 13.9 3.1 8.3 0 14.8-2.3 19.4-6.8 4.6-4.6 7-10.5 7-17.9v-4.1zM151.7 156.9l-17.7-62.1h18.2l9.9 39.3c2.6 10.4 4.6 19.6 5.9 27.7h.6c1.3-8.1 3.3-17.3 5.9-27.7l9.9-39.3h18.2l-17.7 62.1h-18.2zm61.4 0l-17.5-62.1h18.2l9.7 39.3c2.6 10.4 4.6 19.6 5.9 27.7h.6c1.3-8.1 3.3-17.3 5.9-27.7l9.7-39.3h18.2l-17.5 62.1h-18.2z" />
@@ -67,8 +75,8 @@ const AWSLogo = () => (
 );
 
 const PostgresLogo = () => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6">
-    <path fill="#336791" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 .88-.36 1.68-.93 2.25z" />
+  <svg viewBox="0 0 128 128" className="w-6 h-6">
+    <path fill="#336791" d="M115.1 26.7C112 22.1 107.4 18.8 102.1 16.8 96.2 14.4 89.4 13.5 82.5 13.5c-8.8 0-17.1 1.9-24.5 5.7C52.4 15.6 44.3 13.5 35.5 13.5c-10.4 0-19.8 3.5-26.8 10-6.8 6.3-10.4 14.8-10.3 24.1.2 13.9 8.7 25.9 21.2 31.7 1.5.7 3.1 1.3 4.7 1.8 6.4 2 13.2 2.7 20 2.1 4.4 4.1 10 6.8 16.2 7.8 4 .6 8.1.2 12-1.2 4.5 7.1 7.1 15.6 7.6 24.3H96c-.6-11.9-4.4-23.2-10.6-32.8 9.7-4.5 17.2-12.3 21-22.1 4.5-11.8 3.5-24.3-4.7-34.9zm-80.3 41.6c-11-3.1-18.5-12.8-18.7-24.2-.1-7.5 2.8-14.4 8.1-19.4 5.2-4.8 12.3-7.5 19.9-7.5 5.5 0 10.9 1.4 15.7 4-5.5 3.9-9.6 9.2-12.1 15.4-3.5 8.8-3.4 18.5.3 27.1-4.3 1.7-8.9 3.2-13.2 4.6zm45.8-31.5c-.5 1-1.2 1.8-2.2 2.3-1 .5-2.1.5-3.2.1-1.1-.5-1.9-1.2-2.4-2.2-.5-1-.5-2.1-.1-3.2.5-1 1.2-1.9 2.2-2.4 1-.5 2.1-.5 3.2-.1 1.1.5 1.9 1.2 2.4 2.2.4 1 .4 2.2.1 3.3z" />
   </svg>
 );
 
@@ -311,9 +319,9 @@ export const Hero = () => {
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-                      className={`w-9 h-9 md:w-11 md:h-11 rounded-full bg-white dark:bg-slate-900 border-2 ${skill.border} shadow-xl flex items-center justify-center hover:scale-125 transition-all group relative cursor-pointer`}
+                      className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-transparent border-2 ${skill.border} shadow-xl flex items-center justify-center hover:scale-125 transition-all group relative cursor-pointer`}
                     >
-                      <span className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">{skill.icon}</span>
+                      <span className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center [&_svg]:w-full [&_svg]:h-full">{skill.icon}</span>
                       <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900 text-white border border-border shadow-md whitespace-nowrap pointer-events-none z-30">
                         {skill.name}
                       </span>
@@ -345,9 +353,9 @@ export const Hero = () => {
                     <motion.div
                       animate={{ rotate: -360 }}
                       transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                      className={`w-8 h-8 md:w-10 md:h-10 rounded-full bg-white dark:bg-slate-900 border-2 ${skill.border} shadow-lg flex items-center justify-center hover:scale-125 transition-all group relative cursor-pointer`}
+                      className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-transparent border-2 ${skill.border} shadow-lg flex items-center justify-center hover:scale-125 transition-all group relative cursor-pointer`}
                     >
-                      <span className="w-3.5 h-3.5 md:w-4.5 md:h-4.5 flex items-center justify-center">{skill.icon}</span>
+                      <span className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center [&_svg]:w-full [&_svg]:h-full">{skill.icon}</span>
                       <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900 text-white border border-border shadow-md whitespace-nowrap pointer-events-none z-30">
                         {skill.name}
                       </span>
