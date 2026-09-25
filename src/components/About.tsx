@@ -33,8 +33,8 @@ export const About = () => {
   }, []);
 
   return (
-    <section id="about" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
-      <div className="container mx-auto" ref={ref}>
+    <section id="about" className="py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="container px-0 mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -44,7 +44,7 @@ export const About = () => {
             About <span className="text-gradient">Me</span>
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
             <Card className="p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-primary/50 transition-all">
               <h3 className="text-2xl font-bold mb-4 text-primary">Career Objective</h3>
               <p className="text-muted-foreground leading-relaxed font-medium">
@@ -94,18 +94,18 @@ export const About = () => {
               </div>
             </Card>
 
-            <Card className="p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-primary/50 transition-all md:col-span-2">
+            <Card className="p-5 sm:p-8 card-shadow bg-card/85 backdrop-blur-sm border-border/60 hover:border-primary/50 transition-all md:col-span-2">
               <h3 className="text-2xl font-bold mb-4 text-primary">Personal Details</h3>
               {profileData && (
-                <div className="grid md:grid-cols-2 gap-4 text-muted-foreground">
-                  <div>
+                <div className="grid md:grid-cols-2 gap-4 text-muted-foreground text-sm sm:text-base break-words">
+                  <div className="space-y-1.5">
                     <p><span className="font-semibold text-foreground">Temporary Address:</span> {profileData.address_temp}</p>
                     <p><span className="font-semibold text-foreground">Permanent Address:</span> {profileData.address_perm}</p>
                     <p><span className="font-semibold text-foreground">Personal Email:</span> {profileData.email_personal}</p>
                     <p><span className="font-semibold text-foreground">College Email:</span> {profileData.email_college}</p>
                     <p><span className="font-semibold text-foreground">Phone (India):</span> {profileData.phone_in}</p>
                   </div>
-                  <div>
+                  <div className="space-y-1.5">
                     <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
                     <p><span className="font-semibold text-foreground">Languages:</span> English, Hindi, Nepali</p>
                     <p><span className="font-semibold text-foreground">Status:</span> {profileData.status_text}</p>

@@ -25,7 +25,7 @@ export const Contact = () => {
   };
 
   const contactInfo = [
-    { icon: MessageSquare, label: "WhatsApp Direct", value: "+91-7483509984", href: "https://wa.me/917483509984?text=Hi%20Bhola,%20I%20reviewed%20your%20portfolio%20bhola-yadav.com.np!", copyable: true },
+    { icon: MessageSquare, label: "WhatsApp Direct", value: "+91-9198709984", href: "https://wa.me/919198709984?text=Hi%20Bhola,%20I%20reviewed%20your%20portfolio%20bhola-yadav.com.np!", copyable: true },
     { icon: Mail, label: "Personal Email", value: profile.email_personal, href: `mailto:${profile.email_personal}`, copyable: true },
     { icon: Mail, label: "College Email", value: profile.email_college, href: `mailto:${profile.email_college}`, copyable: true },
     { icon: Phone, label: "Phone (India)", value: profile.phone_in, href: `tel:${profile.phone_in}`, copyable: true },
@@ -34,7 +34,7 @@ export const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: MessageSquare, label: "WhatsApp", href: "https://wa.me/917483509984", color: "hover:text-emerald-500" },
+    { icon: MessageSquare, label: "WhatsApp", href: "https://wa.me/919198709984", color: "hover:text-emerald-500" },
     { icon: Github, label: "GitHub", href: profile.github, color: "hover:text-primary" },
     { icon: Linkedin, label: "LinkedIn", href: profile.linkedin, color: "hover:text-secondary" },
     { icon: Code2, label: "LeetCode", href: profile.leetcode, color: "hover:text-primary" },
@@ -42,7 +42,7 @@ export const Contact = () => {
 
   return (
     <section id="contact" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
-      <div className="container mx-auto" ref={ref}>
+      <div className="container px-0 mx-auto" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 50 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}>
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             Get In <span className="text-gradient">Touch</span>

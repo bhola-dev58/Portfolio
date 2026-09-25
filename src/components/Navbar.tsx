@@ -109,14 +109,12 @@ export const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
+      className="fixed top-3 left-0 right-0 z-50 transition-all duration-300 bg-transparent pointer-events-none"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-1" />
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+        <div className="flex items-center justify-between md:justify-center h-16">
+          {/* Desktop Navigation - Soft Transparent Neumorphic Capsule */}
+          <div className="hidden md:flex items-center space-x-1.5 pointer-events-auto px-4 py-1.5 rounded-full bg-background/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[6px_6px_18px_rgba(0,0,0,0.08),-6px_-6px_18px_rgba(255,255,255,0.6)] dark:shadow-[8px_8px_24px_rgba(0,0,0,0.7),-6px_-6px_20px_rgba(255,255,255,0.03)]">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
@@ -124,15 +122,17 @@ export const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => handleNavClick(item.targetId)}
-                className={`px-3 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent/20 relative ${
-                  activeSection === item.targetId ? "text-primary font-semibold" : "text-foreground hover:text-primary"
+                className={`px-4 py-2 text-sm font-medium transition-all rounded-full relative ${
+                  activeSection === item.targetId
+                    ? "text-primary font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.12),inset_-2px_-2px_5px_rgba(255,255,255,0.5)] dark:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.6),inset_-2px_-2px_5px_rgba(255,255,255,0.05)] bg-primary/10 dark:bg-primary/20"
+                    : "text-foreground/80 hover:text-primary hover:bg-white/30 dark:hover:bg-white/5"
                 }`}
               >
-                {item.name}
+                <span className="relative z-10">{item.name}</span>
                 {activeSection === item.targetId && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary"
+                    className="absolute inset-0 rounded-full bg-primary/15 dark:bg-primary/25 border border-primary/30"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -143,33 +143,34 @@ export const Navbar = () => {
             <button
               onClick={toggleTheme}
               aria-label="Toggle Dark / Light theme"
-              className="p-2 ml-2 rounded-full text-foreground hover:text-primary hover:bg-accent/20 transition-all"
+              className="p-2 ml-2 rounded-full text-foreground hover:text-primary transition-all shadow-[3px_3px_8px_rgba(0,0,0,0.08),-3px_-3px_8px_rgba(255,255,255,0.6)] dark:shadow-[4px_4px_10px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)] hover:scale-105 active:scale-95 bg-background/20 dark:bg-slate-900/30 border border-white/20 dark:border-white/5"
             >
               {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
             </button>
           </div>
 
           {/* Mobile Actions */}
-          <div className="md:hidden flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className="p-2 rounded-full text-foreground hover:text-primary transition-all"
-            >
-              {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
-            </button>
+          <div className="md:hidden flex items-center justify-end w-full gap-2 pointer-events-auto">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[6px_6px_16px_rgba(0,0,0,0.08),-6px_-6px_16px_rgba(255,255,255,0.5)] dark:shadow-[6px_6px_20px_rgba(0,0,0,0.6),-4px_-4px_16px_rgba(255,255,255,0.03)]">
+              <button
+                onClick={toggleTheme}
+                aria-label="Toggle theme"
+                className="p-2 rounded-full text-foreground hover:text-primary transition-all"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
+              </button>
 
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-primary transition-colors p-2"
-              aria-label="Toggle navigation menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-foreground hover:text-primary transition-colors p-2"
+                aria-label="Toggle navigation menu"
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <hr className="border-border/50" />
 
       {/* Mobile Navigation */}
       <AnimatePresence>
@@ -178,15 +179,17 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden backdrop-blur-md bg-background/95 border-t border-border/50"
+            className="md:hidden pointer-events-auto backdrop-blur-xl bg-background/80 dark:bg-slate-900/80 border-t border-border/50 shadow-2xl mt-2"
           >
             <div className="container mx-auto px-4 py-4 space-y-2">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.targetId)}
-                  className={`block w-full text-left px-4 py-3 text-sm font-medium hover:bg-accent/20 rounded-md transition-colors ${
-                    activeSection === item.targetId ? "text-primary font-semibold" : "text-foreground hover:text-primary"
+                  className={`block w-full text-left px-4 py-3 text-sm font-medium rounded-xl transition-all ${
+                    activeSection === item.targetId
+                      ? "text-primary font-semibold bg-primary/10 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.1)]"
+                      : "text-foreground hover:text-primary hover:bg-accent/20"
                   }`}
                 >
                   {item.name}

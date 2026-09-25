@@ -16,7 +16,7 @@ export const Experience = () => {
 
     return (
         <section id="experience" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[70vh]">
-            <div className="container mx-auto">
+            <div className="container px-0 mx-auto">
 
                 {/* Heading */}
                 <motion.h2

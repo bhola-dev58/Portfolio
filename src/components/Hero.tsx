@@ -184,51 +184,51 @@ export const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Crafting high-performance web applications & AI solutions with <span className="text-foreground font-semibold">Java, Python, ReactJS, Node.js, Express.js, MongoDB, Docker, and PostgreSQL</span>.
+              Crafting high-performance web applications & AI solutions with <span className="text-foreground font-semibold">Javascript, Java, Python, ReactJS, Node.js, Express.js, MongoDB, Docker, and PostgreSQL</span>.
             </motion.p>
 
-            {/* Impact-Driven Stats Bar with Interactive Hover Card */}
+            {/* Impact-Driven Stats Bar with Interactive Soft Neumorphic Card */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.03, y: -2 }}
+              whileHover={{ scale: 1.02, y: -2 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-3.5 rounded-2xl bg-card/85 backdrop-blur-md border-2 border-border/80 hover:border-primary/70 shadow-lg hover:shadow-primary/20 hover:shadow-xl transition-all duration-300 text-center cursor-default group"
+              className="grid grid-cols-3 gap-1.5 sm:gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-2.5 sm:p-3.5 rounded-2xl bg-background/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[6px_6px_18px_rgba(0,0,0,0.08),-6px_-6px_18px_rgba(255,255,255,0.6)] dark:shadow-[8px_8px_24px_rgba(0,0,0,0.7),-6px_-6px_20px_rgba(255,255,255,0.03)] hover:border-primary/40 transition-all duration-300 text-center cursor-default group"
             >
-              <div className="p-1 rounded-xl group-hover:bg-primary/5 transition-colors">
-                <p className="text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform">3+ Web application </p>
-                <p className="text-xs text-muted-foreground font-medium">Shipped to Prod</p>
+              <div className="p-1 sm:p-1.5 rounded-xl group-hover:bg-primary/10 transition-colors shadow-[inset_1px_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3)]">
+                <p className="text-xs sm:text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform leading-snug">3+ Web Apps</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium leading-tight mt-0.5">Shipped to Prod</p>
               </div>
-              <div className="border-x border-border/60 p-1 rounded-xl group-hover:bg-secondary/5 transition-colors">
-                <p className="text-base md:text-lg font-bold text-secondary group-hover:scale-105 transition-transform">150+</p>
-                <p className="text-xs text-muted-foreground font-medium">LeetCode Solved</p>
+              <div className="border-x border-border/40 p-1 sm:p-1.5 rounded-xl group-hover:bg-secondary/10 transition-colors shadow-[inset_1px_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3)]">
+                <p className="text-xs sm:text-base md:text-lg font-bold text-secondary group-hover:scale-105 transition-transform leading-snug">150+</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium leading-tight mt-0.5">LeetCode Solved</p>
               </div>
-              <div className="p-1 rounded-xl group-hover:bg-emerald-500/5 transition-colors">
-                <p className="text-base md:text-lg font-bold text-emerald-500 group-hover:scale-105 transition-transform">AWS Certified</p>
-                <p className="text-xs text-muted-foreground font-medium">Infosys Springboard</p>
+              <div className="p-1 sm:p-1.5 rounded-xl group-hover:bg-emerald-500/10 transition-colors shadow-[inset_1px_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3)]">
+                <p className="text-xs sm:text-base md:text-lg font-bold text-emerald-500 group-hover:scale-105 transition-transform leading-snug">AWS Certified</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium leading-tight mt-0.5">Infosys Springboard</p>
               </div>
             </motion.div>
 
             <motion.div
-              className="flex flex-wrap gap-4 justify-center lg:justify-start"
+              className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
               <Button
                 size="lg"
-                className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-orange-500/25 glow-effect"
+                className="rounded-full px-5 sm:px-8 py-5 sm:py-6 text-sm sm:text-base bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-orange-500/25 glow-effect"
                 onClick={() => handleScrollTo("projects")}
               >
                 View Projects
               </Button>
               <Button
                 size="lg"
-                className="rounded-full px-8 py-6 bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/25 font-semibold gap-2"
+                className="rounded-full px-5 sm:px-8 py-5 sm:py-6 text-sm sm:text-base bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/25 font-semibold gap-2"
                 asChild
               >
                 <a
-                  href="https://wa.me/917483509984?text=Hi%20Bhola,%20I%20reviewed%20your%20portfolio%20bhola-yadav.com.np%20and%20would%20like%20to%20discuss%20a%20Developer%20opportunity!"
+                  href="https://wa.me/919198709984?text=Hi%20Bhola,%20I%20reviewed%20your%20portfolio%20bhola-yadav.com.np%20and%20would%20like%20to%20discuss%20a%20Developer%20opportunity!"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -238,11 +238,11 @@ export const Hero = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 py-6 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold"
+                className="rounded-full px-5 sm:px-8 py-5 sm:py-6 text-sm sm:text-base border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold"
                 asChild
               >
                 <a href={resumePdf} download="Bhola_Yadav_Resume.pdf">
-                  Download Resume
+                  My Resume
                 </a>
               </Button>
             </motion.div>

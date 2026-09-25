@@ -265,7 +265,7 @@ export const INITIAL_PROFILE: ProfileData = {
   id: "profile-1",
   email_personal: "bhola.dev58@gmail.com",
   email_college: "bhya23cs@cmrit.ac.in",
-  phone_in: "+91-7483509984",
+  phone_in: "+91-9198709984",
   address_temp: "Bengaluru, Karnataka, India",
   address_perm: "Rupandehi, Nepal",
   github: "https://github.com/bhola-dev58",

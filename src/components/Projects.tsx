@@ -39,7 +39,7 @@ export const Projects = () => {
 
     return (
         <section id="projects" className="py-16  px-4 sm:px-6 lg:px-8 flex items-center justify-center ">
-            <div className="container mx-auto">
+            <div className="container px-0 mx-auto">
 
                 {/* Heading */}
                 <motion.h2
