@@ -69,7 +69,7 @@ const SEO = ({ title, description, image }: SEOProps) => {
             url: siteUrl,
             sameAs: [
                 'https://github.com/bhola-dev58',
-                'https://linkedin.com/in/bhya23cse',
+                'https://linkedin.com/in/bhola-dev58',
                 'https://leetcode.com/u/bhola-dev58'
             ],
             jobTitle: 'Full Stack Software Engineer',
@@ -86,4 +86,6 @@ const SEO = ({ title, description, image }: SEOProps) => {
     return null;
 };
 
+export { SEO };
 export default SEO;
+

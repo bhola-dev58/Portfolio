@@ -15,15 +15,39 @@ const profileSchema = new mongoose.Schema({
     open_for: { type: String, default: '' },
 }, { timestamps: true });
 
-// Projects Schema
+// Projects Schema (Dynamic Portfolio CMS)
 const projectSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    period: { type: String, required: true },
+    slug: { type: String, required: true, unique: true, index: true },
+    shortDescription: { type: String, default: '' },
     description: { type: String, required: true },
+    category: { type: String, default: 'Full Stack' },
+    projectType: { type: String, default: 'Web App' },
+    role: { type: String, default: 'Full Stack Engineer' },
+    status: { type: String, enum: ['Draft', 'Published', 'Archived'], default: 'Published' },
+    featured: { type: Boolean, default: false },
+    displayOrder: { type: Number, default: 0 },
+    period: { type: String, default: '' },
+    startDate: { type: String, default: '' },
+    endDate: { type: String, default: '' },
     highlights: [{ type: String }],
     tags: [{ type: String }],
+    technologies: [{ type: String }],
+    problem: { type: String, default: '' },
+    approach: { type: String, default: '' },
+    architecture: { type: String, default: '' },
+    keyFeatures: [{ type: String }],
+    challenges: { type: String, default: '' },
+    solutions: { type: String, default: '' },
+    results: { type: String, default: '' },
+    learnings: { type: String, default: '' },
     github_url: { type: String, default: null },
     deployed_url: { type: String, default: null },
+    doc_url: { type: String, default: null },
+    image: { type: String, default: '' },
+    images: [{ type: String }],
+    architectureImage: { type: String, default: '' },
+    publishedAt: { type: Date, default: Date.now },
 }, { timestamps: true });
 
 // Experiences Schema

@@ -4,13 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
-  { name: "Home", targetId: "home" },
-  { name: "About", targetId: "about" },
-  { name: "Skills", targetId: "skills" },
-  { name: "Internship", targetId: "experience" },
-  { name: "Projects", targetId: "projects" },
-  { name: "Certifications", targetId: "certifications" },
-  { name: "Contact", targetId: "contact" },
+  { name: "Home", targetId: "home", path: "/" },
+  { name: "About", targetId: "about", path: "/" },
+  { name: "Skills", targetId: "skills", path: "/" },
+  { name: "Internship", targetId: "experience", path: "/" },
+  { name: "My Work", targetId: "my-work", path: "/my-work" },
+  { name: "Projects", targetId: "projects", path: "/" },
+  { name: "Certifications", targetId: "certifications", path: "/" },
+  { name: "Contact", targetId: "contact", path: "/" },
 ];
 
 export const Navbar = () => {
@@ -56,12 +57,17 @@ export const Navbar = () => {
 
   // Active section tracking with IntersectionObserver
   useEffect(() => {
+    if (location.pathname.startsWith("/my-work")) {
+      setActiveSection("my-work");
+      return;
+    }
+
     if (location.pathname !== "/") {
       setActiveSection("");
       return;
     }
 
-    const observers = navItems.map((item) => {
+    const observers = navItems.filter(i => i.path === "/").map((item) => {
       const el = document.getElementById(item.targetId);
       if (!el) return null;
 
@@ -86,11 +92,17 @@ export const Navbar = () => {
     };
   }, [location.pathname]);
 
-  const handleNavClick = (targetId: string) => {
+  const handleNavClick = (item: { name: string; targetId: string; path?: string }) => {
     setIsOpen(false);
-    
+
+    if (item.path && item.path !== "/") {
+      navigate(item.path);
+      setActiveSection(item.targetId);
+      return;
+    }
+
     const scrollToTarget = () => {
-      const element = document.getElementById(targetId);
+      const element = document.getElementById(item.targetId);
       if (element) {
         const yOffset = -70; // Header offset
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
@@ -101,7 +113,7 @@ export const Navbar = () => {
     if (location.pathname === "/") {
       setTimeout(scrollToTarget, 120);
     } else {
-      navigate("/", { state: { scrollTo: targetId } });
+      navigate("/", { state: { scrollTo: item.targetId } });
     }
   };
 
@@ -121,7 +133,7 @@ export const Navbar = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                onClick={() => handleNavClick(item.targetId)}
+                onClick={() => handleNavClick(item)}
                 className={`px-4 py-2 text-sm font-medium transition-all rounded-full relative ${
                   activeSection === item.targetId
                     ? "text-primary font-bold shadow-[inset_2px_2px_5px_rgba(0,0,0,0.12),inset_-2px_-2px_5px_rgba(255,255,255,0.5)] dark:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.6),inset_-2px_-2px_5px_rgba(255,255,255,0.05)] bg-primary/10 dark:bg-primary/20"
@@ -185,7 +197,7 @@ export const Navbar = () => {
               {navItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => handleNavClick(item.targetId)}
+                  onClick={() => handleNavClick(item)}
                   className={`block w-full text-left px-4 py-3 text-sm font-medium rounded-xl transition-all ${
                     activeSection === item.targetId
                       ? "text-primary font-semibold bg-primary/10 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.1)]"

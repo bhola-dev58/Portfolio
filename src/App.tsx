@@ -14,6 +14,8 @@ const Home = lazy(() => import("./pages/Home"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const InternshipPage = lazy(() => import("./pages/InternshipPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
+const MyWorkPage = lazy(() => import("./pages/MyWorkPage"));
+const ProjectDetailPage = lazy(() => import("./pages/ProjectDetailPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
@@ -45,6 +47,8 @@ const App = () => {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/internship" element={<InternshipPage />} />
                 <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/my-work" element={<MyWorkPage />} />
+                <Route path="/my-work/:slug" element={<ProjectDetailPage />} />
                 <Route path="/contact" element={<ContactPage />} />
               </Route>
 

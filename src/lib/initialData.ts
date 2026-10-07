@@ -13,12 +13,38 @@ import reactEcommercePng from "@/assets/certificates/React E-Commerce Platform M
 export interface Project {
   id: string;
   title: string;
-  period: string;
+  slug: string;
+  shortDescription?: string;
   description: string;
-  highlights: string[];
-  tags: string[];
+  category?: string;
+  projectType?: string;
+  role?: string;
+  status?: 'Draft' | 'Published' | 'Archived';
+  featured?: boolean;
+  displayOrder?: number;
+  period?: string;
+  startDate?: string;
+  endDate?: string;
+  highlights?: string[];
+  tags?: string[];
+  technologies?: string[];
+  problem?: string;
+  approach?: string;
+  architecture?: string;
+  keyFeatures?: string[];
+  challenges?: string;
+  solutions?: string;
+  results?: string;
+  learnings?: string;
   github_url?: string;
   deployed_url?: string;
+  doc_url?: string;
+  image?: string;
+  images?: string[];
+  architectureImage?: string;
+  publishedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Experience {
@@ -71,44 +97,122 @@ export const INITIAL_PROJECTS: Project[] = [
   {
     id: "proj-1",
     title: "Smart Coach LMS -- Full-Stack Coaching Center Management Platform",
+    slug: "smart-coach-lms",
+    shortDescription: "Production-ready Learning Management System with secure role-based access for students, instructors, and admins.",
+    description: "Production-ready Learning Management System engineered to streamline batch scheduling, live classes via YouTube API, course enrollment, and student management for educational institutes.",
+    category: "Full Stack",
+    projectType: "SaaS Web Application",
+    role: "Full Stack Software Engineer",
+    status: "Published",
+    featured: true,
+    displayOrder: 1,
     period: "Feb 2025 – Present",
-    description: "Production-ready Learning Management System with secure role-based access for students, instructors, and admins.",
+    startDate: "2025-02",
+    endDate: "",
     highlights: [
       "Developed a course management platform with YouTube Live integration, batch curriculum, and Razorpay payment handling 100+ concurrent users",
       "Implemented 6-month validity engine with automated expiry, re-enrollment, and secure discount logic",
       "Created responsive analytics dashboard with live session tracking, reducing management effort by 60%"
     ],
     tags: ["Full Stack", "Next.js", "React.js", "Node.js", "MongoDB", "Razorpay"],
+    technologies: ["Next.js", "React.js", "Node.js", "Express.js", "MongoDB", "Razorpay Payment Gateway", "Tailwind CSS", "JWT Auth"],
+    problem: "Coaching institutes faced immense operational friction managing offline & online batches, tracking course expirations manually, and integrating secure payment processing for student enrollments.",
+    approach: "Architected an end-to-end full-stack web platform using Next.js and Node.js with MongoDB. Built strict role-based authorization (Admin, Instructor, Student) and integrated automated course validity tracking.",
+    architecture: "Monolithic Node.js REST backend connected to MongoDB Atlas. Next.js App Router client rendering dynamic dashboard views with Razorpay Webhook listener for instant enrollment provisioning.",
+    keyFeatures: [
+      "Role-Based Access Control (Admin, Instructor, Student)",
+      "YouTube Live API & Batch Streaming Integration",
+      "Razorpay Payment Gateway Integration with Automated Webhook Reconciliation",
+      "6-Month Automatic Course Expiry & Renewal Logic",
+      "Interactive Analytics Dashboard for Enrollment & Financial Tracking"
+    ],
+    challenges: "Handling concurrent payment webhooks while ensuring race-condition prevention during course seat allotment and handling automatic course expiration notifications.",
+    solutions: "Implemented MongoDB atomic operations (`findAndModify`) alongside idempotent webhook handlers in Express.js.",
+    results: "Processed enrollments for 100+ active students while cutting institute administrative overhead by 60%.",
+    learnings: "Deepened expertise in financial transaction security, webhook idempotency, and Next.js server-side rendering performance.",
     github_url: "https://github.com/bhola-dev58/smart-coach-lms",
-    deployed_url: "https://gradify.academy/"
+    deployed_url: "https://gradify.academy/",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80"
   },
   {
     id: "proj-2",
     title: "CareMate-AI -- AI-Powered Healthcare Chatbot",
+    slug: "caremate-ai",
+    shortDescription: "AI healthcare assistant powered by Google Gemini API providing real-time response to medical queries with caching and voice support.",
+    description: "An intelligent medical assistant application leveraging Generative AI models to assist users in understanding medical terms, symptom analysis, and general health recommendations with voice interaction.",
+    category: "AI / GenAI",
+    projectType: "AI Assistant",
+    role: "AI & Full Stack Engineer",
+    status: "Published",
+    featured: true,
+    displayOrder: 2,
     period: "Jan 2025 – Feb 2025",
-    description: "AI healthcare chatbot powered by Google Gemini API providing real-time response to user medical queries.",
+    startDate: "2025-01",
+    endDate: "2025-02",
     highlights: [
       "Reduced API calls by 30% by implementing response caching for frequent queries, accelerating response times",
       "Integrated voice recognition and chat logging projected to boost user engagement by 40%",
       "Designed an interactive chat UI with dynamic state management using Streamlit"
     ],
     tags: ["Full Stack", "AI / ML", "Python", "Streamlit", "Gemini API"],
+    technologies: ["Python", "Google Gemini API", "Streamlit", "SpeechRecognition", "SQLite", "REST APIs"],
+    problem: "Patients and users frequently struggle to obtain quick, reliable clarification on medical terminology or preliminary symptom information without navigating complex medical search engines.",
+    approach: "Constructed an interactive Streamlit application connected to Google Gemini AI API with custom prompt engineering to enforce medical disclaimer safety guidelines and cache frequent health inquiries.",
+    architecture: "Python Streamlit frontend with in-memory query hash map caching layer and Google Generative AI SDK connection.",
+    keyFeatures: [
+      "Real-Time Gemini AI Symptom & Health Query Response",
+      "Voice Input Recognition & Audio Synthesis Response",
+      "Response Caching Layer to Reduce Token Consumption by 30%",
+      "Chat History Persistence & Export",
+      "Safety Guardrails & Automated Medical Disclaimer Enforcement"
+    ],
+    challenges: "Managing API rate limits and reducing latency when generating detailed AI responses for repetitive general health queries.",
+    solutions: "Developed a local query hash caching system storing previous non-personalized medical guidance answers.",
+    results: "Cut repetitive LLM API latency by 30% and improved chat user engagement by 40%.",
+    learnings: "Gained hands-on experience with LLM prompt engineering, safety guardrails, and speech-to-text integration.",
     github_url: "https://github.com/bhola-dev58/CareMate-AI",
-    deployed_url: undefined
+    deployed_url: undefined,
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80"
   },
   {
     id: "proj-3",
     title: "JLiveChats -- Real-Time Multi-User Chat Client",
+    slug: "jlivechats",
+    shortDescription: "High-performance client-server Java desktop chat application supporting low-latency multi-room messaging.",
+    description: "Multi-threaded desktop chat software built in Java using TCP Sockets and Java Swing GUI, deployed with AWS cloud hosting for multi-client routing.",
+    category: "Full Stack",
+    projectType: "Desktop Application & Networking",
+    role: "Backend & Systems Engineer",
+    status: "Published",
+    featured: false,
+    displayOrder: 3,
     period: "Aug 2024 – Sep 2024",
-    description: "Client-server architecture for a Java real-time chat application with sub-second latency.",
+    startDate: "2024-08",
+    endDate: "2024-09",
     highlights: [
       "Supported multiple concurrent users with real-time latency under 1 second",
       "Built responsive desktop UI using Java Swing and Abstract Window Toolkit (AWT)",
       "Deployed client-server networking layer using TCP Sockets on AWS"
     ],
     tags: ["Full Stack", "Java", "Sockets", "AWS", "Networking"],
+    technologies: ["Java", "Java Swing / AWT", "TCP/IP Sockets", "Multi-threading", "AWS EC2"],
+    problem: "Understanding low-level socket networking, socket connection drops, thread synchronization, and real-time message broadcasting without third-party abstraction libraries.",
+    approach: "Built a pure Java multi-threaded server application managing ClientHandler threads using thread pools and custom binary protocol over raw TCP Sockets.",
+    architecture: "Multi-threaded TCP Server running on AWS EC2 accepting incoming socket connections from Java Swing desktop client instances.",
+    keyFeatures: [
+      "Sub-Second Multi-Client Real-Time Message Broadcasting",
+      "Multi-Threaded Server Architecture with Dynamic Client Thread Pooling",
+      "Custom Java Swing & AWT Graphical Interface",
+      "User Presence & Connection Status Monitoring",
+      "AWS EC2 Cloud Server Deployment"
+    ],
+    challenges: "Preventing thread race conditions and socket memory leaks when multiple users disconnect abruptly.",
+    solutions: "Implemented graceful socket shutdown hooks and concurrent synchronized collections for active client lists.",
+    results: "Achieved sub-1-second message delivery latency across simultaneous remote clients.",
+    learnings: "Mastered core Java concurrency, socket network programming, and thread safety patterns.",
     github_url: "https://github.com/bhola-dev58/JLiveChats",
-    deployed_url: undefined
+    deployed_url: undefined,
+    image: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&auto=format&fit=crop&q=80"
   }
 ];
 

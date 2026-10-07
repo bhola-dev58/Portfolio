@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./db');
 
+const path = require('path');
+
 // Import Routes
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
@@ -12,6 +14,7 @@ const skillRoutes = require('./routes/skills');
 const certificationRoutes = require('./routes/certifications');
 const educationRoutes = require('./routes/education');
 const messageRoutes = require('./routes/messages');
+const uploadRoutes = require('./routes/upload');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,7 +44,11 @@ app.use(cors({
     },
     credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+// Serve static uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -52,6 +59,7 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/certifications', certificationRoutes);
 app.use('/api/education', educationRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

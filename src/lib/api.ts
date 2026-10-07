@@ -118,6 +118,8 @@ export const profile = {
 // ============ PROJECTS ============
 export const projects = {
     getAll: () => apiFetch('/projects'),
+    getBySlug: (slug: string) => apiFetch(`/projects/${slug}`),
+    getAdminAll: () => apiFetch('/projects/admin/all'),
     create: (data: any) => apiFetch('/projects', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -127,6 +129,22 @@ export const projects = {
         body: JSON.stringify(data),
     }),
     delete: (id: string) => apiFetch(`/projects/${id}`, { method: 'DELETE' }),
+    togglePublish: (id: string, status: string) => apiFetch(`/projects/${id}/publish`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status }),
+    }),
+    toggleFeatured: (id: string, featured: boolean) => apiFetch(`/projects/${id}/featured`, {
+        method: 'PATCH',
+        body: JSON.stringify({ featured }),
+    }),
+    reorder: (items: { id: string; displayOrder: number }[]) => apiFetch('/projects/reorder', {
+        method: 'POST',
+        body: JSON.stringify({ items }),
+    }),
+    uploadImage: (image: string, fileName?: string, mimeType?: string) => apiFetch('/upload', {
+        method: 'POST',
+        body: JSON.stringify({ image, fileName, mimeType }),
+    }),
 };
 
 // ============ EXPERIENCES ============
@@ -208,6 +226,37 @@ export function useProjects() {
         },
         initialData: INITIAL_PROJECTS,
         staleTime: 1000 * 60 * 10,
+    });
+}
+
+export function useProjectBySlug(slug?: string) {
+    return useQuery<Project | null>({
+        queryKey: ['project', slug],
+        queryFn: async () => {
+            if (!slug) return null;
+            const { data, error } = await projects.getBySlug(slug);
+            if (error || !data) {
+                // Fallback search in INITIAL_PROJECTS by slug or id
+                const found = INITIAL_PROJECTS.find(p => p.slug === slug || p.id === slug);
+                return found || null;
+            }
+            return data as Project;
+        },
+        enabled: Boolean(slug),
+        staleTime: 1000 * 60 * 5,
+    });
+}
+
+export function useAdminProjects() {
+    return useQuery<Project[]>({
+        queryKey: ['admin-projects'],
+        queryFn: async () => {
+            const { data, error } = await projects.getAdminAll();
+            if (error || !data || !Array.isArray(data)) {
+                return INITIAL_PROJECTS;
+            }
+            return data as Project[];
+        },
     });
 }
 
