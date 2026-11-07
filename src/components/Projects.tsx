@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Globe, X, Eye, ChevronDown, ChevronUp, ArrowRight, FileText } from "lucide-react";
+import { ExternalLink, Globe, X, Eye, ArrowRight, FileText } from "lucide-react";
 import { useProjects } from "@/lib/api";
 import { Project } from "@/lib/initialData";
 
@@ -182,28 +182,13 @@ export const Projects = () => {
     );
 };
 
-/* ── Project card with Adjustable View ────────────────────────────────────── */
+/* ── Project card ─────────────────────────────────────────────────────────── */
 const ProjectCard = ({ project, onOpenModal }: { project: Project; onOpenModal: () => void }) => {
-    const [isDescExpanded, setIsDescExpanded] = useState(false);
-    const [isHighlightsExpanded, setIsHighlightsExpanded] = useState(false);
+    // Only display the concise summary on the card
+    const summary = project.shortDescription || project.description;
 
-    // Prefer shortDescription for compact view, falling back to truncated description
-    const hasLongDesc = (project.description && project.description.length > 200) ||
-        Boolean(project.shortDescription && project.shortDescription !== project.description);
-
-    const compactText = project.shortDescription || (
-        project.description && project.description.length > 200
-            ? project.description.slice(0, 190).trim() + "..."
-            : project.description
-    );
-
-    const highlights = project.highlights || [];
-    const MAX_HIGHLIGHTS = 2;
-    const hasExtraHighlights = highlights.length > MAX_HIGHLIGHTS;
-    const visibleHighlights = isHighlightsExpanded ? highlights : highlights.slice(0, MAX_HIGHLIGHTS);
-
-    const tags = project.tags || [];
-    const MAX_TAGS = 5;
+    const tags = project.tags || project.technologies || [];
+    const MAX_TAGS = 4;
     const visibleTags = tags.slice(0, MAX_TAGS);
     const remainingTagsCount = tags.length - MAX_TAGS;
 
@@ -242,57 +227,14 @@ const ProjectCard = ({ project, onOpenModal }: { project: Project; onOpenModal: 
                         {project.title}
                     </h3>
 
-                    {/* Description with Adjustable View */}
-                    <div className="mb-4">
-                        <p className="text-sm text-muted-foreground leading-relaxed break-words">
-                            {isDescExpanded ? project.description : compactText}
-                        </p>
-                        {hasLongDesc && (
-                            <button
-                                type="button"
-                                onClick={() => setIsDescExpanded(!isDescExpanded)}
-                                className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-1.5 cursor-pointer focus:outline-none"
-                            >
-                                <span>{isDescExpanded ? "Show concise summary" : "Read full overview"}</span>
-                                {isDescExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Highlights with Adjustable View */}
-                    {highlights.length > 0 && (
-                        <div className="mb-4 mt-auto pt-2.5 border-t border-border/40">
-                            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground/80 mb-2">
-                                Key Highlights:
-                            </p>
-                            <ul className="space-y-1.5">
-                                {visibleHighlights.map((h, i) => (
-                                    <li key={i} className="text-xs sm:text-sm text-muted-foreground flex items-start leading-snug">
-                                        <span className="text-secondary mr-2 shrink-0 font-bold">▸</span>
-                                        <span className="break-words">{h}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            {hasExtraHighlights && (
-                                <button
-                                    type="button"
-                                    onClick={() => setIsHighlightsExpanded(!isHighlightsExpanded)}
-                                    className="inline-flex items-center gap-1 text-xs font-semibold text-secondary hover:text-secondary/80 transition-colors mt-2 cursor-pointer focus:outline-none"
-                                >
-                                    <span>
-                                        {isHighlightsExpanded
-                                            ? "Show fewer highlights"
-                                            : `+${highlights.length - MAX_HIGHLIGHTS} more key findings`}
-                                    </span>
-                                    {isHighlightsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                                </button>
-                            )}
-                        </div>
-                    )}
+                    {/* Short Summary Only */}
+                    <p className="text-sm text-muted-foreground leading-relaxed break-words mb-4">
+                        {summary}
+                    </p>
                 </div>
 
                 {/* Footer: Tags & Action Links */}
-                <div className="pt-3 border-t border-border/50 space-y-3">
+                <div className="pt-3 border-t border-border/50 space-y-3 mt-auto">
                     {tags.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                             {visibleTags.map((tag, i) => (
