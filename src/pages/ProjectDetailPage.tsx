@@ -159,26 +159,6 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
   const hasResults = Boolean(project.results && project.results.trim());
   const hasLearnings = Boolean(project.learnings && project.learnings.trim());
 
-  const sectionNavItems = [
-    { id: "overview", label: "01 Overview", show: hasOverview },
-    { id: "problem", label: "02 Problem", show: hasProblem },
-    { id: "approach", label: "03 Approach", show: hasApproach },
-    { id: "architecture", label: "04 Architecture", show: hasArchitecture },
-    { id: "features", label: "05 Key Features", show: hasKeyFeatures },
-    { id: "tech-stack", label: "06 Tech Stack", show: hasTechStack },
-    { id: "challenges", label: "07 Challenges", show: hasChallenges },
-    { id: "solutions", label: "08 Solutions", show: hasSolutions },
-    { id: "results", label: "09 Results", show: hasResults },
-    { id: "learnings", label: "10 Learnings", show: hasLearnings },
-  ].filter((item) => item.show);
-
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
     <>
       <SEO
@@ -304,26 +284,6 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
             />
           </div>
         </header>
-
-        {/* Sticky Table of Contents Navigation Bar */}
-        {sectionNavItems.length > 2 && (
-          <nav className="sticky top-16 z-30 py-3 -my-3 bg-background/90 backdrop-blur-md overflow-x-auto no-scrollbar border-y border-border/50">
-            <div className="flex items-center gap-2 min-w-max px-1">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider mr-1">
-                Sections:
-              </span>
-              {sectionNavItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="px-3 py-1 rounded-full text-xs font-semibold bg-muted/60 hover:bg-primary hover:text-white transition-all border border-border/60 text-foreground/80 cursor-pointer"
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </nav>
-        )}
 
         {/* 01 — OVERVIEW */}
         {hasOverview && (
