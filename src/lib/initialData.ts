@@ -93,7 +93,104 @@ export interface ProfileData {
   open_for: string;
 }
 
+export const brainTumorXaiProject: Project = {
+  id: "brain-tumor-xai",
+  title: "BrainTumorXAI — Clinical Heterogeneous Tri-Ensemble & Anatomically Constrained XAI",
+  slug: "brain-tumor-xai",
+  category: "AI / ML",
+  projectType: "Medical Imaging & Deep Learning Diagnostic System",
+  role: "Lead Deep Learning & Full-Stack AI Engineer",
+  status: "Published",
+  featured: true,
+  displayOrder: 1,
+  period: "Aug 2026 - Present",
+  startDate: "2026-08-01",
+  endDate: "Present",
+
+  shortDescription:
+    "A clinical-grade diagnostic PACS workstation powered by a Heterogeneous Tri-Ensemble (ConvNeXt-Small, InceptionV3, DenseNet121) achieving 98.88% accuracy with Brain-Masked Grad-CAM++ visual explainability and automated PDF triage reporting.",
+
+  description:
+    "BrainTumorXAI is an end-to-end, clinical-grade medical imaging platform engineered to detect, classify, and segment brain tumors from multi-sequence MRI scans. Built on a heterogeneous tri-ensemble calibrated with Nelder-Mead optimization and 10-Pass Test-Time Augmentation (TTA), the framework achieves a state-of-the-art 98.88% diagnostic accuracy on the benchmark BraTS 2019 dataset. To ensure safety and interpretability in clinical practice, it introduces Brain-Masked Grad-CAM++, which utilizes dynamic Otsu contouring and Hadamard tissue gating to suppress 100% of non-cerebral artifacts and skull leakage. The system features a full-stack Web PACS workstation with real-time multi-colormap saliency viewports, automated morphological lesion quantification (mm² area and severity grading), automated clinical PDF generation via ReportLab, and containerized zero-setup deployment via Docker.",
+
+  problem:
+    "Traditional manual radiologic interpretation of brain MRI scans is time-intensive, subject to inter-observer variability, and vulnerable to diagnostic bottlenecks during emergency triage. While standard deep learning architectures achieve promising classification scores, they behave as uninterpretable 'black boxes.' Standard explainability methods like Grad-CAM suffer from intense skull-edge leakage and non-cerebral artifacts, misattributing predictions to bone rather than brain tissue and undermining clinician trust.",
+
+  approach:
+    "Engineered a multi-stage clinical intelligence pipeline: (1) Preprocessing with min-max intensity normalization and dynamic Otsu contour isolation to strip non-brain tissue; (2) Heterogeneous Tri-Ensemble combining three distinct inductive biases: modern spatial convolutional patches (ConvNeXt-Small, 39%), multi-scale spatial receptive fields (InceptionV3, 32%), and dense feature reuse (DenseNet121, 29%); (3) 10-Pass Test-Time Augmentation (TTA) with Nelder-Mead simplex-optimized soft voting; (4) Anatomically Constrained Grad-CAM++ with second-order gradients gated by anatomical tissue masks; (5) Weakly-supervised morphological lesion boundary segmentation and automated PDF diagnostic reporting.",
+
+  architecture:
+    "Full-stack decoupled architecture: The deep learning inference engine runs on TensorFlow/Keras with CPU-optimized asynchronous execution. The backend is powered by a high-throughput FastAPI ASGI REST service featuring non-blocking model initialization and SQLite patient history auditing with SHA-256 provenance hashes. The presentation tier is a responsive PACS clinical workstation built with vanilla HTML5/CSS3/ES6+ featuring quad-view multi-layer HTML5 canvases, client-side dynamic colormaps (Jet, Turbo, Inferno, Viridis), and interactive threshold sliders.",
+
+  highlights: [
+    "98.88% Diagnostic Accuracy: Validated on 1,269 isolated BraTS 2019 validation MRI scans using 10-pass TTA, outperforming published SOTA benchmarks (Pereira et al., 98.85%).",
+    "Zero Skull-Edge Leakage: Brain-Masked Grad-CAM++ eliminates 100% of non-cerebral saliency artifacts via dynamic Hadamard anatomical gating.",
+    "Weakly-Supervised Boundary Segmentation: Reaches a 0.902 Dice Similarity Coefficient for tumor perimeter isolation without requiring pixel-level training masks.",
+    "Fast CPU Inference: Executes complete heterogeneous tri-ensemble inference + Grad-CAM heatmap synthesis in <2.5 seconds on commodity CPUs.",
+    "Clinical PDF Synthesis: Programmatically compiles multi-planar patient diagnostic summaries with risk severity classifications via ReportLab.",
+    "One-Command Docker Deployment: Fully automated Docker Compose setup with GitHub Releases v3.0.0 model provisioning and persistent volume caching."
+  ],
+
+  tags: [
+    "AI / ML",
+    "Python",
+    "Deep Learning",
+    "Computer Vision",
+    "Explainable AI (XAI)",
+    "TensorFlow / Keras",
+    "FastAPI",
+    "Docker",
+    "Medical Imaging (PACS)"
+  ],
+
+  technologies: [
+    "Python 3.12",
+    "TensorFlow 2.x & Keras",
+    "ConvNeXt-Small",
+    "InceptionV3",
+    "DenseNet121",
+    "Grad-CAM / Grad-CAM++",
+    "OpenCV & NumPy",
+    "SciPy (Nelder-Mead)",
+    "FastAPI & Uvicorn",
+    "ReportLab (PDF Engine)",
+    "SQLite (Audit Provenance)",
+    "Docker & Docker Compose",
+    "HTML5 Canvas & Vanilla CSS"
+  ],
+
+  keyFeatures: [
+    "Heterogeneous Tri-Ensemble Classification (Glioma, Meningioma, Pituitary, No Tumor)",
+    "10-Pass Test-Time Augmentation (TTA) with Nelder-Mead Weighted Soft Voting",
+    "Anatomically Constrained Brain-Masked Grad-CAM++ Saliency Maps",
+    "Weakly-Supervised Lesion Boundary Segmentation & Quantitative Area Calculation (mm²)",
+    "Quad-View Interactive Viewport with Real-Time Colormap Switching (Jet, Turbo, Inferno, Viridis)",
+    "Interactive ROI Cutoff Threshold Slider with Real-Time Canvas Re-rendering",
+    "Automated Clinical Diagnostic PDF Report Generator with Demographic Metadata",
+    "SQLite Patient History Auditing with SHA-256 Provenance Fingerprints",
+    "One-Command Docker Setup with Automated Model Weight Provisioning"
+  ],
+
+  challenges:
+    "Key engineering challenges included: (1) Severe skull-edge artifact leakage in standard Grad-CAM causing false saliency peaks on cranial bone; (2) High memory footprint (~833 MB weights + computation graphs) leading to memory spikes on resource-constrained containers; (3) Slow cold-start latency when initializing 3 large deep learning models synchronously during API startup; (4) Container volume mounts accidentally masking baked model weights.",
+
+  solutions:
+    "Overcame these challenges by: (1) Formulating Hadamard tissue gating where dynamic Otsu contour brain masks multiply the raw saliency gradient matrix, zeroing out cranial leakage; (2) Streamlining TensorFlow memory allocators with MALLOC_ARENA_MAX=2, removing redundant cloned Grad-CAM graph copies, and leveraging DenseNet121 as the primary feature extractor for XAI; (3) Implementing non-blocking background lifespan initialization in FastAPI, allowing sub-second port binding (<1s) while models load asynchronously; (4) Structuring Docker Compose with dedicated named volume caching (brain-tumor-models) to prevent empty host bind-mounts from masking model weights.",
+
+  results:
+    "Achieved 98.88% overall classification accuracy (Macro-F1: 98.75%, Precision: 98.85%, Recall: 98.80%) across 4 tumor classes on BraTS 2019 validation cohorts. Lesion segmentation scored a 0.902 Dice Similarity Coefficient. System executes end-to-end inference in under 2.5 seconds per scan on standard CPU instances.",
+
+  learnings:
+    "Gained deep expertise in: Heterogeneous ensemble calibration and simplex-based voting weight optimization; Clinical Explainable AI (XAI) mathematics and saliency map gating; Asynchronous ASGI server architecture with TensorFlow runtimes; Hardened multi-stage Docker containerization and persistent storage volume mechanics.",
+
+  github_url: "https://github.com/bhola-dev58/brain-xai-ensemble",
+  doc_url: "https://www.kaggle.com/code/bholadev58/braintumor-98pct-ensemble-training",
+  deployed_url: "https://brain-tumor-xai-jf4z.onrender.com/",
+  image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&auto=format&fit=crop&q=80"
+};
+
 export const INITIAL_PROJECTS: Project[] = [
+  brainTumorXaiProject,
   {
     id: "proj-1",
     title: "Smart Coach LMS -- Full-Stack Coaching Center Management Platform",
@@ -105,7 +202,7 @@ export const INITIAL_PROJECTS: Project[] = [
     role: "Full Stack Software Engineer",
     status: "Published",
     featured: true,
-    displayOrder: 1,
+    displayOrder: 2,
     period: "Feb 2025 – Present",
     startDate: "2025-02",
     endDate: "",
@@ -145,7 +242,7 @@ export const INITIAL_PROJECTS: Project[] = [
     role: "AI & Full Stack Engineer",
     status: "Published",
     featured: true,
-    displayOrder: 2,
+    displayOrder: 3,
     period: "Jan 2025 – Feb 2025",
     startDate: "2025-01",
     endDate: "2025-02",
@@ -185,7 +282,7 @@ export const INITIAL_PROJECTS: Project[] = [
     role: "Backend & Systems Engineer",
     status: "Published",
     featured: false,
-    displayOrder: 3,
+    displayOrder: 4,
     period: "Aug 2024 – Sep 2024",
     startDate: "2024-08",
     endDate: "2024-09",
