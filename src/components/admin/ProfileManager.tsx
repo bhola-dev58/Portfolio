@@ -45,7 +45,7 @@ export const ProfileManager = () => {
                         <Input value={profile.email_college || ''} onChange={e => handleChange("email_college", e.target.value)} className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
                     </div>
                     <div className="space-y-2">
-                        <Label className="text-slate-700 font-semibold text-sm">Phone (India)</Label>
+                        <Label className="text-slate-700 font-semibold text-sm">Phone </Label>
                         <Input value={profile.phone_in || ''} onChange={e => handleChange("phone_in", e.target.value)} className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
                     </div>
                 </div>
@@ -57,7 +57,20 @@ export const ProfileManager = () => {
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <Label className="text-slate-700 font-semibold text-sm">Address</Label>
-                        <Input value={profile.address_temp || ''} onChange={e => handleChange("address_temp", e.target.value)} placeholder="ITPL Main Road Bengaluru, Karnataka, India" className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                        <Input
+                            value={profile.address || profile.address_temp || ''}
+                            onChange={e => {
+                                const val = e.target.value;
+                                setProfile({
+                                    ...profile,
+                                    address: val,
+                                    address_temp: val,
+                                    address_perm: val,
+                                });
+                            }}
+                            placeholder="ITPL Main Road Bengaluru, Karnataka, India"
+                            className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400"
+                        />
                     </div>
                 </div>
             </div>

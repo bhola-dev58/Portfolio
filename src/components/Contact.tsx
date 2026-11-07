@@ -29,8 +29,7 @@ export const Contact = () => {
     { icon: Mail, label: "Personal Email", value: profile.email_personal, href: `mailto:${profile.email_personal}`, copyable: true },
     { icon: Mail, label: "College Email", value: profile.email_college, href: `mailto:${profile.email_college}`, copyable: true },
     { icon: Phone, label: "Phone (India)", value: profile.phone_in, href: `tel:${profile.phone_in}`, copyable: true },
-    { icon: MapPin, label: "Temporary Address", value: profile.address_temp, href: null, copyable: false },
-    { icon: MapPin, label: "Permanent Address", value: profile.address_perm, href: null, copyable: false },
+    { icon: MapPin, label: "Address", value: profile.address || profile.address_temp || "ITPL Main Road Bengaluru, Karnataka, India", href: null, copyable: false },
   ];
 
   const socialLinks = [

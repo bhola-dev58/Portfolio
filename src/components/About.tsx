@@ -99,15 +99,12 @@ export const About = () => {
               {profileData && (
                 <div className="grid md:grid-cols-2 gap-4 text-muted-foreground text-sm sm:text-base break-words">
                   <div className="space-y-1.5">
-                    <p><span className="font-semibold text-foreground">Temporary Address:</span> {profileData.address_temp}</p>
-                    <p><span className="font-semibold text-foreground">Permanent Address:</span> {profileData.address_perm}</p>
+                    <p><span className="font-semibold text-foreground">Address:</span> {profileData.address || profileData.address_temp || "ITPL Main Road Bengaluru, Karnataka, India"}</p>
                     <p><span className="font-semibold text-foreground">Personal Email:</span> {profileData.email_personal}</p>
                     <p><span className="font-semibold text-foreground">College Email:</span> {profileData.email_college}</p>
-                    <p><span className="font-semibold text-foreground">Phone (India):</span> {profileData.phone_in}</p>
+                    <p><span className="font-semibold text-foreground">Phone:</span> {profileData.phone_in}</p>
                   </div>
                   <div className="space-y-1.5">
-                    <p><span className="font-semibold text-foreground">Date of Birth:</span> 12th July, 2001</p>
-                    <p><span className="font-semibold text-foreground">Languages:</span> English, Hindi, Nepali</p>
                     <p><span className="font-semibold text-foreground">Status:</span> {profileData.status_text}</p>
                     <p><span className="font-semibold text-foreground">Availability:</span> {profileData.open_for}</p>
                   </div>

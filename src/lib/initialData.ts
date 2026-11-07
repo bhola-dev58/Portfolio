@@ -84,8 +84,9 @@ export interface ProfileData {
   email_college: string;
   phone_in: string;
   phone_np?: string;
-  address_temp: string;
-  address_perm: string;
+  address?: string;
+  address_temp?: string;
+  address_perm?: string;
   github: string;
   linkedin: string;
   leetcode: string;
@@ -467,8 +468,9 @@ export const INITIAL_PROFILE: ProfileData = {
   email_personal: "bhola.dev58@gmail.com",
   email_college: "bhya23cs@cmrit.ac.in",
   phone_in: "+91-9198709984",
-  address_temp: "Bengaluru, Karnataka, India",
-  address_perm: "Rupandehi, Nepal",
+  address: "ITPL Main Road Bengaluru, Karnataka, India",
+  address_temp: "ITPL Main Road Bengaluru, Karnataka, India",
+  address_perm: "ITPL Main Road Bengaluru, Karnataka, India",
   github: "https://github.com/bhola-dev58",
   linkedin: "https://linkedin.com/in/bhola-dev58",
   leetcode: "https://leetcode.com/u/bhola-dev58",

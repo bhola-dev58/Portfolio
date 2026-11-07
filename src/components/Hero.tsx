@@ -196,11 +196,11 @@ export const Hero = () => {
               className="grid grid-cols-3 gap-1.5 sm:gap-3 max-w-md mx-auto lg:mx-0 mb-8 p-2.5 sm:p-3.5 rounded-2xl bg-background/30 dark:bg-slate-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[6px_6px_18px_rgba(0,0,0,0.08),-6px_-6px_18px_rgba(255,255,255,0.6)] dark:shadow-[8px_8px_24px_rgba(0,0,0,0.7),-6px_-6px_20px_rgba(255,255,255,0.03)] hover:border-primary/40 transition-all duration-300 text-center cursor-default group"
             >
               <div className="p-1 sm:p-1.5 rounded-xl group-hover:bg-primary/10 transition-colors shadow-[inset_1px_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3)]">
-                <p className="text-xs sm:text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform leading-snug">3+ Web Apps</p>
+                <p className="text-xs sm:text-base md:text-lg font-bold text-primary group-hover:scale-105 transition-transform leading-snug">4+ Web Apps</p>
                 <p className="text-[10px] sm:text-xs text-muted-foreground font-medium leading-tight mt-0.5">Shipped to Prod</p>
               </div>
               <div className="border-x border-border/40 p-1 sm:p-1.5 rounded-xl group-hover:bg-secondary/10 transition-colors shadow-[inset_1px_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3)]">
-                <p className="text-xs sm:text-base md:text-lg font-bold text-secondary group-hover:scale-105 transition-transform leading-snug">150+</p>
+                <p className="text-xs sm:text-base md:text-lg font-bold text-secondary group-hover:scale-105 transition-transform leading-snug">180+</p>
                 <p className="text-[10px] sm:text-xs text-muted-foreground font-medium leading-tight mt-0.5">LeetCode Solved</p>
               </div>
               <div className="p-1 sm:p-1.5 rounded-xl group-hover:bg-emerald-500/10 transition-colors shadow-[inset_1px_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3)]">
