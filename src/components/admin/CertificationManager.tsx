@@ -3,7 +3,7 @@ import { certifications as certificationsApi } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
@@ -42,28 +42,43 @@ export const CertificationManager = () => {
     };
 
     return (
-        <div className="space-y-6 mt-6">
-            <form onSubmit={handleSubmit} className="grid md:grid-cols-4 gap-4 p-4 border rounded-lg bg-card/50 items-end">
-                <div className="md:col-span-1 space-y-2"><Label>Name</Label><Input value={name} onChange={e => setName(e.target.value)} required /></div>
-                <div className="md:col-span-1 space-y-2"><Label>Issuer (Platform)</Label><Input value={issuer} onChange={e => setIssuer(e.target.value)} required /></div>
-                <div className="md:col-span-1 space-y-2"><Label>Certificate URL</Label><Input value={url} onChange={e => setUrl(e.target.value)} required /></div>
+        <div className="admin-panel space-y-6 mt-6">
+            <form onSubmit={handleSubmit} className="grid md:grid-cols-4 gap-4 p-4 border border-slate-200 rounded-xl bg-slate-50 items-end">
+                <div className="md:col-span-1 space-y-2">
+                    <Label className="text-slate-700 font-semibold text-sm">Name</Label>
+                    <Input value={name} onChange={e => setName(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                </div>
+                <div className="md:col-span-1 space-y-2">
+                    <Label className="text-slate-700 font-semibold text-sm">Issuer (Platform)</Label>
+                    <Input value={issuer} onChange={e => setIssuer(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                </div>
+                <div className="md:col-span-1 space-y-2">
+                    <Label className="text-slate-700 font-semibold text-sm">Certificate URL</Label>
+                    <Input value={url} onChange={e => setUrl(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                </div>
                 <div className="md:col-span-1 flex gap-2">
-                    <Button type="submit" className="w-full">{editingId ? <Pencil size={16} className="mr-2" /> : <Plus size={16} className="mr-2" />}{editingId ? "Update" : "Add"}</Button>
-                    {editingId && <Button type="button" variant="outline" onClick={handleCancel}>X</Button>}
+                    <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                        {editingId ? <Pencil size={16} className="mr-2" /> : <Plus size={16} className="mr-2" />}
+                        {editingId ? "Update" : "Add"}
+                    </Button>
+                    {editingId && <Button type="button" variant="outline" onClick={handleCancel} className="border-slate-200 text-slate-700">X</Button>}
                 </div>
             </form>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {data.map(item => (
-                    <Card key={item.id || item._id} className="p-4 relative group">
+                    <div key={item.id || item._id} className="p-4 relative group bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}><Pencil size={16} /></Button>
-                            <Button variant="ghost" size="icon" className="text-destructive" onClick={() => handleDelete(item.id || item._id)}><Trash2 size={16} /></Button>
+                            <Button variant="ghost" size="icon" className="text-slate-500 hover:text-slate-900 hover:bg-slate-100" onClick={() => handleEdit(item)}><Pencil size={16} /></Button>
+                            <Button variant="ghost" size="icon" className="text-rose-500 hover:text-rose-700 hover:bg-rose-50" onClick={() => handleDelete(item.id || item._id)}><Trash2 size={16} /></Button>
                         </div>
-                        <h4 className="font-bold pr-16 truncate" title={item.name}>{item.name}</h4>
-                        <p className="text-sm text-muted-foreground">{item.issuer}</p>
-                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary truncate block mt-1 hover:underline">{item.url}</a>
-                    </Card>
+                        <h4 className="font-bold pr-16 truncate text-slate-900" title={item.name}>{item.name}</h4>
+                        <p className="text-sm text-slate-500 mt-1">{item.issuer}</p>
+                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xs text-orange-500 truncate block mt-1 hover:underline">{item.url}</a>
+                    </div>
                 ))}
+                {data.length === 0 && (
+                    <p className="col-span-3 text-center text-slate-400 py-8">No certifications yet. Add one above.</p>
+                )}
             </div>
         </div>
     );

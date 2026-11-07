@@ -289,55 +289,55 @@ export const ProjectManager = () => {
   };
 
   return (
-    <div className="space-y-6 mt-4">
+    <div className="admin-panel space-y-6 mt-4">
       {/* Top Header Controls */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-card/60 p-4 rounded-xl border border-border/60 shadow-sm">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
         <div>
-          <h3 className="text-lg font-bold flex items-center gap-2">
-            <Layers className="w-5 h-5 text-primary" />
+          <h3 className="text-lg font-bold flex items-center gap-2 text-slate-900">
+            <Layers className="w-5 h-5 text-orange-500" />
             <span>Dynamic "My Work" CMS Manager</span>
           </h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-slate-500">
             Add, edit, publish, preview, and reorder projects dynamically.
           </p>
         </div>
 
-        <Button onClick={() => openModal()} className="gap-2 rounded-full font-semibold">
+        <Button onClick={() => openModal()} className="gap-2 rounded-full font-semibold bg-orange-500 hover:bg-orange-600 text-white">
           <Plus size={16} /> Add New Project
         </Button>
       </div>
 
       {/* Projects Management Table */}
-      <div className="rounded-xl border border-border/80 bg-card/80 overflow-hidden shadow-md">
+      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
         <Table>
           <TableHeader>
-            <TableRow className="bg-muted/40 hover:bg-muted/40">
-              <TableHead className="w-12 text-center">Order</TableHead>
-              <TableHead>Project Title</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-center">Featured</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+            <TableRow className="bg-slate-50 hover:bg-slate-50 border-b border-slate-200">
+              <TableHead className="w-12 text-center text-slate-700 font-semibold">Order</TableHead>
+              <TableHead className="text-slate-700 font-semibold">Project Title</TableHead>
+              <TableHead className="text-slate-700 font-semibold">Category</TableHead>
+              <TableHead className="text-slate-700 font-semibold">Status</TableHead>
+              <TableHead className="text-center text-slate-700 font-semibold">Featured</TableHead>
+              <TableHead className="text-right text-slate-700 font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={6} className="text-center py-8 text-slate-400">
                   No projects found in database. Click "Add New Project" to create one.
                 </TableCell>
               </TableRow>
             ) : (
               data.map((item, index) => (
-                <TableRow key={item.id} className="hover:bg-muted/30 transition-colors">
-                  <TableCell className="text-center font-mono text-xs">
+                <TableRow key={item.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                  <TableCell className="text-center font-mono text-xs text-slate-600">
                     <div className="flex items-center justify-center gap-1">
                       <span>#{item.displayOrder || index + 1}</span>
                       <div className="flex flex-col">
                         <button
                           disabled={index === 0}
                           onClick={() => handleMoveOrder(index, "up")}
-                          className="hover:text-primary disabled:opacity-20 text-muted-foreground"
+                          className="hover:text-orange-500 disabled:opacity-20 text-slate-400"
                           title="Move up"
                         >
                           <ArrowUp size={12} />
@@ -345,7 +345,7 @@ export const ProjectManager = () => {
                         <button
                           disabled={index === data.length - 1}
                           onClick={() => handleMoveOrder(index, "down")}
-                          className="hover:text-primary disabled:opacity-20 text-muted-foreground"
+                          className="hover:text-orange-500 disabled:opacity-20 text-slate-400"
                           title="Move down"
                         >
                           <ArrowDown size={12} />
@@ -356,8 +356,8 @@ export const ProjectManager = () => {
 
                   <TableCell className="font-semibold">
                     <div>
-                      <span className="text-foreground">{item.title}</span>
-                      <p className="text-xs text-muted-foreground font-normal">/my-work/{item.slug}</p>
+                      <span className="text-slate-900">{item.title}</span>
+                      <p className="text-xs text-slate-400 font-normal">/my-work/{item.slug}</p>
                     </div>
                   </TableCell>
 
@@ -442,36 +442,36 @@ export const ProjectManager = () => {
 
       {/* MULTI-TAB PROJECT EDITOR DIALOG */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border-slate-200 shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-              <Pencil className="w-5 h-5 text-primary" />
+            <DialogTitle className="text-2xl font-bold flex items-center gap-2 text-slate-900">
+              <Pencil className="w-5 h-5 text-orange-500" />
               <span>{editingItem ? "Edit Project" : "Create New Project"}</span>
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-slate-500">
               Configure basic information, case study details, media, and publishing status.
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-6 pt-2">
             <Tabs defaultValue="general" className="w-full">
-              <TabsList className="grid grid-cols-3 sm:grid-cols-6 w-full bg-muted/60 p-1 rounded-xl gap-1">
-                <TabsTrigger value="general" className="text-xs font-semibold">
+              <TabsList className="grid grid-cols-3 sm:grid-cols-6 w-full bg-slate-100 p-1 rounded-xl gap-1">
+                <TabsTrigger value="general" className="text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm">
                   General
                 </TabsTrigger>
-                <TabsTrigger value="casestudy" className="text-xs font-semibold">
+                <TabsTrigger value="casestudy" className="text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm">
                   Case Study
                 </TabsTrigger>
-                <TabsTrigger value="tech" className="text-xs font-semibold">
+                <TabsTrigger value="tech" className="text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm">
                   Tech
                 </TabsTrigger>
-                <TabsTrigger value="media" className="text-xs font-semibold">
+                <TabsTrigger value="media" className="text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm">
                   Media
                 </TabsTrigger>
-                <TabsTrigger value="links" className="text-xs font-semibold">
+                <TabsTrigger value="links" className="text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm">
                   Links
                 </TabsTrigger>
-                <TabsTrigger value="publish" className="text-xs font-semibold">
+                <TabsTrigger value="publish" className="text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm">
                   Publish
                 </TabsTrigger>
               </TabsList>
@@ -479,7 +479,7 @@ export const ProjectManager = () => {
               {/* TAB 1: GENERAL */}
               <TabsContent value="general" className="space-y-4 pt-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Project Title *
                   </label>
                   <Input
@@ -487,12 +487,13 @@ export const ProjectManager = () => {
                     value={form.title || ""}
                     onChange={(e) => handleTitleChange(e.target.value)}
                     required
+                    className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       SEO Slug *
                     </label>
                     <Input
@@ -501,13 +502,13 @@ export const ProjectManager = () => {
                       onChange={(e) => setForm((p) => ({ ...p, slug: slugify(e.target.value) }))}
                       required
                     />
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-[11px] text-slate-500">
                       Public URL: /my-work/{form.slug || "slug"}
                     </p>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Category
                     </label>
                     <Input
@@ -520,7 +521,7 @@ export const ProjectManager = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Project Type
                     </label>
                     <Input
@@ -531,7 +532,7 @@ export const ProjectManager = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Your Role
                     </label>
                     <Input
@@ -543,7 +544,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Short Description (Summary Card)
                   </label>
                   <Textarea
@@ -555,7 +556,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Full Description / Overview *
                   </label>
                   <Textarea
@@ -571,7 +572,7 @@ export const ProjectManager = () => {
               {/* TAB 2: CASE STUDY */}
               <TabsContent value="casestudy" className="space-y-4 pt-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     02 — Problem Statement
                   </label>
                   <Textarea
@@ -583,7 +584,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     03 — Technical Approach
                   </label>
                   <Textarea
@@ -595,7 +596,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     04 — Architecture Description
                   </label>
                   <Textarea
@@ -607,7 +608,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     05 — Key Features (One per line)
                   </label>
                   <Textarea
@@ -619,7 +620,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     07 — Engineering Challenges
                   </label>
                   <Textarea
@@ -631,7 +632,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     08 — Solutions Applied
                   </label>
                   <Textarea
@@ -644,7 +645,7 @@ export const ProjectManager = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       09 — Results & Metrics
                     </label>
                     <Textarea
@@ -656,7 +657,7 @@ export const ProjectManager = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       10 — Key Learnings
                     </label>
                     <Textarea
@@ -672,7 +673,7 @@ export const ProjectManager = () => {
               {/* TAB 3: TECH */}
               <TabsContent value="tech" className="space-y-4 pt-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Technologies & Framework Tags (Comma Separated) *
                   </label>
                   <Input
@@ -681,13 +682,13 @@ export const ProjectManager = () => {
                     onChange={(e) => setTechnologiesText(e.target.value)}
                     required
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-slate-500">
                     These badges will display on cards and technical stack section.
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Highlights / Bullets (One per line)
                   </label>
                   <Textarea
@@ -701,8 +702,8 @@ export const ProjectManager = () => {
 
               {/* TAB 4: MEDIA */}
               <TabsContent value="media" className="space-y-4 pt-4">
-                <div className="space-y-2 p-4 rounded-xl border border-border/60 bg-muted/20">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center justify-between">
+                <div className="space-y-2 p-4 rounded-xl border border-slate-200 bg-slate-50">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
                     <span>Main Project Thumbnail / Image</span>
                     {isUploading && <span className="text-primary animate-pulse">Uploading image...</span>}
                   </label>
@@ -725,14 +726,14 @@ export const ProjectManager = () => {
                   </div>
 
                   {form.image && (
-                    <div className="relative w-full h-36 rounded-lg overflow-hidden border border-border mt-2">
+                    <div className="relative w-full h-36 rounded-lg overflow-hidden border border-slate-200 mt-2">
                       <img src={form.image} alt="Thumbnail preview" className="w-full h-full object-cover" />
                     </div>
                   )}
                 </div>
 
-                <div className="space-y-2 p-4 rounded-xl border border-border/60 bg-muted/20">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center justify-between">
+                <div className="space-y-2 p-4 rounded-xl border border-slate-200 bg-slate-50">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
                     <span>Architecture Diagram Image</span>
                   </label>
 
@@ -754,7 +755,7 @@ export const ProjectManager = () => {
                   </div>
 
                   {form.architectureImage && (
-                    <div className="relative w-full h-36 rounded-lg overflow-hidden border border-border mt-2">
+                    <div className="relative w-full h-36 rounded-lg overflow-hidden border border-slate-200 mt-2">
                       <img
                         src={form.architectureImage}
                         alt="Architecture diagram preview"
@@ -768,7 +769,7 @@ export const ProjectManager = () => {
               {/* TAB 5: LINKS */}
               <TabsContent value="links" className="space-y-4 pt-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     GitHub Repository URL
                   </label>
                   <Input
@@ -779,7 +780,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Deployed / Live Demo URL
                   </label>
                   <Input
@@ -790,7 +791,7 @@ export const ProjectManager = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Documentation URL (Optional)
                   </label>
                   <Input
@@ -805,7 +806,7 @@ export const ProjectManager = () => {
               <TabsContent value="publish" className="space-y-4 pt-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Publication Status
                     </label>
                     <select
@@ -816,7 +817,7 @@ export const ProjectManager = () => {
                           status: e.target.value as "Draft" | "Published" | "Archived",
                         }))
                       }
-                      className="w-full p-2.5 rounded-md border border-input bg-background text-sm font-medium"
+                      className="w-full p-2.5 rounded-md border border-slate-200 bg-white text-slate-900 text-sm font-medium"
                     >
                       <option value="Published">Published (Public on /my-work)</option>
                       <option value="Draft">Draft (Admin Only)</option>
@@ -825,7 +826,7 @@ export const ProjectManager = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Display Order (Lower appears first)
                     </label>
                     <Input
@@ -836,7 +837,7 @@ export const ProjectManager = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-4 rounded-xl border border-border bg-muted/20">
+                <div className="flex items-center gap-3 p-4 rounded-xl border border-slate-200 bg-slate-50">
                   <input
                     type="checkbox"
                     id="featuredCheck"
@@ -852,7 +853,7 @@ export const ProjectManager = () => {
             </Tabs>
 
             {/* Bottom Actions */}
-            <div className="flex items-center justify-between border-t border-border pt-4">
+            <div className="flex items-center justify-between border-t border-slate-200 pt-4">
               <Button
                 type="button"
                 variant="outline"
@@ -877,8 +878,8 @@ export const ProjectManager = () => {
 
       {/* LIVE ADMIN PREVIEW MODAL */}
       <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-        <DialogContent className="max-w-5xl max-h-[92vh] overflow-y-auto p-0 border-none bg-background">
-          <div className="sticky top-0 z-50 bg-background/90 backdrop-blur-md px-6 py-3 border-b border-border flex items-center justify-between">
+        <DialogContent className="max-w-5xl max-h-[92vh] overflow-y-auto p-0 border-none bg-white">
+          <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md px-6 py-3 border-b border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Eye className="w-5 h-5 text-primary" />
               <span className="font-bold text-sm">Live Admin Case Study Preview</span>

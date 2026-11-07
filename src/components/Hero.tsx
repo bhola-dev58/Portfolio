@@ -228,7 +228,7 @@ export const Hero = () => {
                 asChild
               >
                 <a
-                  href="https://wa.me/919198709984?text=Hi%20Bhola,%20I%20reviewed%20your%20portfolio%20bhola-yadav.com.np%20and%20would%20like%20to%20discuss%20a%20Developer%20opportunity!"
+                  href="https://wa.me/919198709984?text=Hi%20Bhola,%20I%20reviewed%20your%20portfolio%20bhola-yadav.vercel.app%20and%20would%20like%20to%20discuss%20a%20Developer%20opportunity!"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

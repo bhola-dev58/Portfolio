@@ -35,5 +35,6 @@ server/uploads/*
 coverage
 *.lcov
 
-# Typescript
-*.tsbuildinfo
+# Brain Knowledge & Privacy
+brain/knowledge/private.jsonl
+brain/**/*private*

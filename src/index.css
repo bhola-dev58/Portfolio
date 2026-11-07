@@ -90,10 +90,16 @@ All colors MUST be HSL.
     --shadow-card: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
   }
 
-  /* Enforce Light Mode on Admin Dashboard and Portals */
+  /* ================================================================
+   * ADMIN LIGHT MODE — Enforce light tokens globally including portals
+   * ================================================================ */
+
+  /* Override dark-mode CSS vars whenever admin page is active */
   .admin-light-mode,
   .admin-light-mode.dark,
-  body.admin-light-mode {
+  body.admin-light-mode,
+  html.light,
+  html:not(.dark) {
     --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
@@ -130,6 +136,75 @@ All colors MUST be HSL.
   body.admin-light-mode {
     background-color: #f8fafc !important;
     color: #0f172a !important;
+  }
+
+  /* Explicit element-level overrides so portals/dialogs render correctly */
+  body.admin-light-mode [data-radix-popper-content-wrapper],
+  body.admin-light-mode [role="dialog"],
+  body.admin-light-mode [data-state="open"] {
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 93.7%;
+    --muted-foreground: 215.4 16.3% 40%;
+    --border: 214.3 31.8% 85%;
+    --input: 214.3 31.8% 85%;
+    color-scheme: light !important;
+  }
+
+  /* Admin table, card, form element explicit colours */
+  .admin-panel th,
+  .admin-panel td,
+  .admin-panel label,
+  .admin-panel h2,
+  .admin-panel h3,
+  .admin-panel h4,
+  .admin-panel p,
+  .admin-panel span:not([class*="text-"]) {
+    color: #1e293b;
+  }
+
+  .admin-panel input,
+  .admin-panel textarea,
+  .admin-panel select {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  .admin-panel input::placeholder,
+  .admin-panel textarea::placeholder {
+    color: #94a3b8 !important;
+  }
+
+  .admin-panel .bg-card,
+  .admin-panel [class*="bg-card"] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .admin-panel [class*="bg-muted"] {
+    background-color: #f1f5f9 !important;
+    color: #334155 !important;
+  }
+
+  .admin-panel [class*="text-muted-foreground"] {
+    color: #64748b !important;
+  }
+
+  .admin-panel [class*="text-foreground"] {
+    color: #0f172a !important;
+  }
+
+  .admin-panel [class*="border-border"] {
+    border-color: #e2e8f0 !important;
+  }
+
+  .admin-panel [class*="bg-background"] {
+    background-color: #f8fafc !important;
   }
 }
 

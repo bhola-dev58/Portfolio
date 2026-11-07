@@ -71,37 +71,55 @@ export const ExperienceManager = () => {
     };
 
     return (
-        <div className="space-y-4 mt-4">
-            <div className="flex justify-end"><Button onClick={() => openModal()} className="gap-2"><Plus size={16} /> Add Experience</Button></div>
-            <div className="rounded-md border bg-card">
+        <div className="admin-panel space-y-4 mt-4">
+            <div className="flex justify-end">
+                <Button onClick={() => openModal()} className="gap-2 bg-orange-500 hover:bg-orange-600 text-white">
+                    <Plus size={16} /> Add Experience
+                </Button>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
                 <Table>
-                    <TableHeader><TableRow><TableHead>Title</TableHead><TableHead>Company</TableHead><TableHead>Type</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                    <TableHeader>
+                        <TableRow className="bg-slate-50 border-b border-slate-200">
+                            <TableHead className="text-slate-700 font-semibold">Title</TableHead>
+                            <TableHead className="text-slate-700 font-semibold">Company</TableHead>
+                            <TableHead className="text-slate-700 font-semibold">Type</TableHead>
+                            <TableHead className="text-right text-slate-700 font-semibold">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
                     <TableBody>
                         {data.map((item) => (
-                            <TableRow key={item.id}>
-                                <TableCell>{item.title}</TableCell>
-                                <TableCell>{item.company_name}</TableCell>
-                                <TableCell>{item.type}</TableCell>
+                            <TableRow key={item.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                <TableCell className="text-slate-800 font-medium">{item.title}</TableCell>
+                                <TableCell className="text-slate-700">{item.company_name}</TableCell>
+                                <TableCell className="text-slate-600">{item.type}</TableCell>
                                 <TableCell className="text-right">
-                                    <Button variant="ghost" size="icon" onClick={() => openModal(item)}><Pencil size={16} /></Button>
-                                    <Button variant="ghost" size="icon" className="text-destructive" onClick={() => handleDelete(item.id)}><Trash2 size={16} /></Button>
+                                    <Button variant="ghost" size="icon" className="text-slate-500 hover:text-slate-900 hover:bg-slate-100" onClick={() => openModal(item)}><Pencil size={16} /></Button>
+                                    <Button variant="ghost" size="icon" className="text-rose-500 hover:text-rose-700 hover:bg-rose-50" onClick={() => handleDelete(item.id)}><Trash2 size={16} /></Button>
                                 </TableCell>
                             </TableRow>
                         ))}
+                        {data.length === 0 && (
+                            <TableRow>
+                                <TableCell colSpan={4} className="text-center text-slate-400 py-8">No experiences yet. Add one above.</TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </div>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent>
-                    <DialogHeader><DialogTitle>{editingItem ? "Edit" : "Add"} Experience</DialogTitle></DialogHeader>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <Input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required />
-                        <Input placeholder="Company" value={company} onChange={e => setCompany(e.target.value)} required />
-                        <Input placeholder="Period" value={period} onChange={e => setPeriod(e.target.value)} required />
-                        <Input placeholder="Type" value={type} onChange={e => setType(e.target.value)} required />
-                        <Textarea placeholder="Description (lines)" value={desc} onChange={e => setDesc(e.target.value)} className="h-32" required />
-                        <Input placeholder="Internship/Certificate URL" value={internshipUrl} onChange={e => setInternshipUrl(e.target.value)} />
-                        <Button type="submit" className="w-full">Save</Button>
+                <DialogContent className="bg-white border-slate-200 shadow-xl">
+                    <DialogHeader>
+                        <DialogTitle className="text-slate-900 text-lg font-bold">{editingItem ? "Edit" : "Add"} Experience</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+                        <Input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                        <Input placeholder="Company" value={company} onChange={e => setCompany(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                        <Input placeholder="Period (e.g. Jan 2025 – Mar 2025)" value={period} onChange={e => setPeriod(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                        <Input placeholder="Type (e.g. Internship, Full-time)" value={type} onChange={e => setType(e.target.value)} required className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                        <Textarea placeholder="Description — one bullet per line" value={desc} onChange={e => setDesc(e.target.value)} className="h-32 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" required />
+                        <Input placeholder="Internship / Certificate URL (optional)" value={internshipUrl} onChange={e => setInternshipUrl(e.target.value)} className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400" />
+                        <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold">Save Experience</Button>
                     </form>
                 </DialogContent>
             </Dialog>
