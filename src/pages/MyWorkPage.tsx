@@ -121,7 +121,7 @@ export const MyWorkPage = () => {
 
         {/* Projects Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 gap-6 md:gap-8 max-w-5xl mx-auto w-full">
             {[1, 2, 3].map((n) => (
               <div
                 key={n}
@@ -134,7 +134,7 @@ export const MyWorkPage = () => {
             ))}
           </div>
         ) : filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 gap-6 md:gap-8 max-w-5xl mx-auto w-full">
             {filteredProjects.map((project) => (
               <ProjectCard key={project.id || project.slug} project={project} />
             ))}
