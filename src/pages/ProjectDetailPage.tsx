@@ -1,5 +1,4 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useProjectBySlug } from "@/lib/api";
 import { Project } from "@/lib/initialData";
 import SEO from "@/components/SEO";
@@ -26,6 +25,82 @@ import {
 interface ProjectDetailPageProps {
   previewProject?: Project | null;
 }
+
+interface StructuredSectionContentProps {
+  content?: string;
+  variant?: "default" | "amber" | "emerald" | "rose" | "secondary";
+}
+
+const StructuredSectionContent = ({ content, variant = "default" }: StructuredSectionContentProps) => {
+  if (!content) return null;
+
+  // Split content into major paragraphs
+  const rawParagraphs = content.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+
+  const bulletColors = {
+    default: "bg-primary",
+    amber: "bg-amber-500",
+    emerald: "bg-emerald-500",
+    rose: "bg-rose-500",
+    secondary: "bg-secondary",
+  };
+
+  return (
+    <div className="space-y-4">
+      {rawParagraphs.map((para, pIdx) => {
+        const lines = para.split("\n").map((l) => l.trim()).filter(Boolean);
+        const isList = lines.some((l) => /^[•\-▸\d+\.]/.test(l));
+
+        if (isList) {
+          return (
+            <div key={pIdx} className="grid grid-cols-1 gap-2.5 pt-1">
+              {lines.map((line, lIdx) => {
+                const cleaned = line
+                  .replace(/^[•\-▸\s]+/, "")
+                  .replace(/^\d+\.\s*/, "")
+                  .replace(/^\(\d+\)\s*/, "");
+
+                // Highlight title prefix before colon or em-dash
+                const splitMatch = cleaned.match(/^([^:—]+)([:—])\s*(.*)$/);
+                if (splitMatch) {
+                  const [, title, sep, desc] = splitMatch;
+                  return (
+                    <div
+                      key={lIdx}
+                      className="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl bg-background/50 border border-border/50 hover:border-border transition-colors shadow-xs"
+                    >
+                      <div className={`w-2 h-2 rounded-full mt-2 shrink-0 ${bulletColors[variant]}`} />
+                      <div className="text-sm sm:text-base leading-relaxed">
+                        <strong className="text-foreground font-semibold">{title}{sep}</strong>{" "}
+                        <span className="text-muted-foreground">{desc}</span>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div
+                    key={lIdx}
+                    className="flex items-start gap-3 p-3 sm:p-3.5 rounded-xl bg-background/40 border border-border/40 text-sm sm:text-base text-foreground/90"
+                  >
+                    <div className={`w-2 h-2 rounded-full mt-2 shrink-0 ${bulletColors[variant]}`} />
+                    <span className="leading-relaxed">{cleaned}</span>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }
+
+        return (
+          <p key={pIdx} className="text-base sm:text-lg text-foreground/90 leading-relaxed font-normal">
+            {para}
+          </p>
+        );
+      })}
+    </div>
+  );
+};
 
 export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) => {
   const { slug } = useParams<{ slug: string }>();
@@ -84,6 +159,26 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
   const hasResults = Boolean(project.results && project.results.trim());
   const hasLearnings = Boolean(project.learnings && project.learnings.trim());
 
+  const sectionNavItems = [
+    { id: "overview", label: "01 Overview", show: hasOverview },
+    { id: "problem", label: "02 Problem", show: hasProblem },
+    { id: "approach", label: "03 Approach", show: hasApproach },
+    { id: "architecture", label: "04 Architecture", show: hasArchitecture },
+    { id: "features", label: "05 Key Features", show: hasKeyFeatures },
+    { id: "tech-stack", label: "06 Tech Stack", show: hasTechStack },
+    { id: "challenges", label: "07 Challenges", show: hasChallenges },
+    { id: "solutions", label: "08 Solutions", show: hasSolutions },
+    { id: "results", label: "09 Results", show: hasResults },
+    { id: "learnings", label: "10 Learnings", show: hasLearnings },
+  ].filter((item) => item.show);
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <>
       <SEO
@@ -91,7 +186,7 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
         description={project.shortDescription || project.description}
       />
 
-      <article className="min-h-screen pt-24 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-16">
+      <article className="min-h-screen pt-24 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
         {/* Back Link */}
         {!previewProject && (
           <div className="pt-2">
@@ -120,7 +215,7 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
               )}
               {project.featured && (
                 <Badge className="rounded-full px-3 py-1 bg-amber-500 text-white gap-1">
-                  <Sparkles className="w-3 h-3 fill-current" /> Featured
+                  <Sparkles className="w-3 h-3 fill-current" /> Featured Case Study
                 </Badge>
               )}
             </div>
@@ -135,21 +230,40 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground pt-2">
-              {project.role && (
-                <div className="flex items-center gap-2">
-                  <UserCheck className="w-4 h-4 text-primary" />
-                  <span>
-                    Role: <strong className="text-foreground">{project.role}</strong>
-                  </span>
-                </div>
-              )}
-              {project.period && (
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-secondary" />
-                  <span>{project.period}</span>
-                </div>
-              )}
+            {/* Quick At-a-Glance Executive Summary Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
+              <div className="p-3.5 rounded-xl bg-card/60 border border-border/60">
+                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block mb-1">
+                  Domain
+                </span>
+                <span className="text-sm font-semibold text-foreground">
+                  {project.category || "Full Stack"}
+                </span>
+              </div>
+              <div className="p-3.5 rounded-xl bg-card/60 border border-border/60">
+                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block mb-1">
+                  Project Type
+                </span>
+                <span className="text-sm font-semibold text-foreground">
+                  {project.projectType || "Web Application"}
+                </span>
+              </div>
+              <div className="p-3.5 rounded-xl bg-card/60 border border-border/60">
+                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block mb-1">
+                  Engineering Role
+                </span>
+                <span className="text-sm font-semibold text-primary truncate block" title={project.role}>
+                  {project.role || "Full Stack Engineer"}
+                </span>
+              </div>
+              <div className="p-3.5 rounded-xl bg-card/60 border border-border/60">
+                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block mb-1">
+                  Timeline
+                </span>
+                <span className="text-sm font-semibold text-secondary">
+                  {project.period || "2025"}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -191,56 +305,70 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
           </div>
         </header>
 
+        {/* Sticky Table of Contents Navigation Bar */}
+        {sectionNavItems.length > 2 && (
+          <nav className="sticky top-16 z-30 py-3 -my-3 bg-background/90 backdrop-blur-md overflow-x-auto no-scrollbar border-y border-border/50">
+            <div className="flex items-center gap-2 min-w-max px-1">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider mr-1">
+                Sections:
+              </span>
+              {sectionNavItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className="px-3 py-1 rounded-full text-xs font-semibold bg-muted/60 hover:bg-primary hover:text-white transition-all border border-border/60 text-foreground/80 cursor-pointer"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
+
         {/* 01 — OVERVIEW */}
         {hasOverview && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="overview" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-primary">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-primary/10 text-primary">
                 01
               </span>
-              Overview
+              Executive Overview
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.description}
-            </p>
+            <StructuredSectionContent content={project.description} variant="default" />
           </section>
         )}
 
         {/* 02 — PROBLEM */}
         {hasProblem && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="problem" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-amber-500">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-amber-500/10 text-amber-500">
                 02
               </span>
               <Target className="w-5 h-5" />
-              The Problem
+              The Problem & Core Bottlenecks
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.problem}
-            </p>
+            <StructuredSectionContent content={project.problem} variant="amber" />
           </section>
         )}
 
         {/* 03 — APPROACH */}
         {hasApproach && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="approach" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-secondary">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-secondary/10 text-secondary">
                 03
               </span>
               <Lightbulb className="w-5 h-5" />
-              Engineering Approach
+              Engineering Approach & Methodology
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.approach}
-            </p>
+            <StructuredSectionContent content={project.approach} variant="secondary" />
           </section>
         )}
 
         {/* 04 — ARCHITECTURE */}
         {hasArchitecture && (
-          <section className="space-y-6 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="architecture" className="space-y-6 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-primary">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-primary/10 text-primary">
                 04
@@ -250,9 +378,7 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
             </h2>
 
             {project.architecture && (
-              <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-                {project.architecture}
-              </p>
+              <StructuredSectionContent content={project.architecture} variant="default" />
             )}
 
             {project.architectureImage && (
@@ -269,28 +395,49 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
 
         {/* 05 — KEY FEATURES */}
         {hasKeyFeatures && (
-          <section className="space-y-6 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="features" className="space-y-6 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-emerald-500">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500">
                 05
               </span>
               <CheckCircle2 className="w-5 h-5" />
-              Key Features
+              Key Features & Highlights
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {(project.keyFeatures || project.highlights || []).map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-background/40 border border-border/40">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-sm text-foreground/90 leading-snug">{feature}</span>
-                </div>
-              ))}
+              {(project.keyFeatures || project.highlights || []).map((feature, idx) => {
+                const splitMatch = feature.match(/^([^:—]+)([:—])\s*(.*)$/);
+                if (splitMatch) {
+                  const [, title, sep, desc] = splitMatch;
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-3 p-4 rounded-xl bg-background/50 border border-border/50 shadow-xs hover:border-emerald-500/40 transition-colors"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-1 flex-shrink-0" />
+                      <div className="text-sm leading-relaxed">
+                        <strong className="text-foreground font-semibold block mb-0.5">{title}</strong>
+                        <span className="text-muted-foreground">{desc}</span>
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-3 p-3.5 rounded-xl bg-background/40 border border-border/40 shadow-xs hover:border-emerald-500/30 transition-colors"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-1 flex-shrink-0" />
+                    <span className="text-sm text-foreground/90 leading-snug">{feature}</span>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}
 
         {/* 06 — TECH STACK */}
         {hasTechStack && (
-          <section className="space-y-6 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="tech-stack" className="space-y-6 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-secondary">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-secondary/10 text-secondary">
                 06
@@ -303,7 +450,7 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
                 <Badge
                   key={idx}
                   variant="secondary"
-                  className="text-sm px-4 py-1.5 rounded-full font-semibold bg-secondary/15 text-secondary border border-secondary/20"
+                  className="text-sm px-4 py-1.5 rounded-full font-semibold bg-secondary/15 text-secondary border border-secondary/20 hover:bg-secondary/25 transition-colors"
                 >
                   {tech}
                 </Badge>
@@ -314,7 +461,7 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
 
         {/* 07 — CHALLENGES */}
         {hasChallenges && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="challenges" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-rose-500">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-rose-500/10 text-rose-500">
                 07
@@ -322,59 +469,73 @@ export const ProjectDetailPage = ({ previewProject }: ProjectDetailPageProps) =>
               <AlertTriangle className="w-5 h-5" />
               Technical Challenges
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.challenges}
-            </p>
+            <StructuredSectionContent content={project.challenges} variant="rose" />
           </section>
         )}
 
         {/* 08 — SOLUTIONS */}
         {hasSolutions && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="solutions" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-emerald-500">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500">
                 08
               </span>
               <CheckCircle2 className="w-5 h-5" />
-              Solutions & Engineering Impact
+              Engineering Solutions & Implementation
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.solutions}
-            </p>
+            <StructuredSectionContent content={project.solutions} variant="emerald" />
           </section>
         )}
 
         {/* 09 — RESULTS */}
         {hasResults && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="results" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-amber-500">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-amber-500/10 text-amber-500">
                 09
               </span>
               <Trophy className="w-5 h-5" />
-              Results & Metrics
+              Quantified Results & Metrics
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.results}
-            </p>
+            <StructuredSectionContent content={project.results} variant="amber" />
           </section>
         )}
 
         {/* 10 — LEARNINGS */}
         {hasLearnings && (
-          <section className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60">
+          <section id="learnings" className="space-y-4 p-6 sm:p-8 rounded-2xl bg-card/60 border border-border/60 scroll-mt-28">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2.5 text-primary">
               <span className="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-primary/10 text-primary">
                 10
               </span>
               <BookOpen className="w-5 h-5" />
-              Key Learnings
+              Key Learnings & Takeaways
             </h2>
-            <p className="text-base text-foreground/90 leading-relaxed whitespace-pre-line">
-              {project.learnings}
-            </p>
+            <StructuredSectionContent content={project.learnings} variant="default" />
           </section>
         )}
+
+        {/* Footer Navigation CTA */}
+        <div className="pt-8 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Link
+            to="/my-work"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to All Projects
+          </Link>
+          <div className="flex items-center gap-3">
+            {project.deployed_url && (
+              <Button size="sm" asChild>
+                <a href={project.deployed_url} target="_blank" rel="noopener noreferrer" className="gap-1.5">
+                  <ExternalLink className="w-3.5 h-3.5" /> Visit Live
+                </a>
+              </Button>
+            )}
+            <Button size="sm" variant="outline" asChild>
+              <Link to="/#contact">Contact Bhola</Link>
+            </Button>
+          </div>
+        </div>
       </article>
     </>
   );
