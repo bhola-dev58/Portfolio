@@ -455,7 +455,7 @@ export const ProjectManager = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6 pt-2">
             <Tabs defaultValue="general" className="w-full">
-              <TabsList className="grid grid-cols-6 w-full bg-muted/60 p-1 rounded-xl">
+              <TabsList className="grid grid-cols-3 sm:grid-cols-6 w-full bg-muted/60 p-1 rounded-xl gap-1">
                 <TabsTrigger value="general" className="text-xs font-semibold">
                   General
                 </TabsTrigger>
