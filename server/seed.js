@@ -307,6 +307,49 @@ const seed = async () => {
             github_url: "https://github.com/bhola-dev58/JLiveChats",
             deployed_url: null,
             image: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+            title: "Full-Stack Developer Portfolio & Headless Admin CMS",
+            slug: "developer-portfolio",
+            shortDescription: "A production-grade, full-stack developer portfolio and headless CMS engineered with React 18, TypeScript, Three.js 3D physics, and a decoupled Express/MongoDB REST API.",
+            description: "A full-stack portfolio platform and headless administrative CMS engineered for recruiter discovery, interactive project case studies, and live content management.\n\nBuilt on React 18, Vite, and TypeScript with Tailwind CSS and Framer Motion, it features real-time 3D Three.js magnetic particle physics, instant client-side state caching via TanStack React Query, and an administrative CMS with JWT authentication for dynamic management of projects, experiences, skills, and certifications.\n\nThe system includes dedicated case study pages with structured problem-solution workflows, executive summary cards, and dual-mode resilient architecture with automated offline fallback data ensuring 100% availability across edge CDNs.",
+            category: "Full Stack",
+            projectType: "Full-Stack Web App & Headless CMS",
+            role: "Full-Stack Software Engineer & UI/UX Designer",
+            status: "Published",
+            featured: true,
+            displayOrder: 4,
+            period: "Apr 2026 – Present",
+            startDate: "2026-04",
+            endDate: "Present",
+            highlights: [
+                "Interactive 3D Particle Physics: Engineered real-time Three.js magnetic field canvas responding to cursor dynamics with locked 60 FPS rendering",
+                "Headless Admin CMS Architecture: Built full CRUD administrative panels with JWT authentication for dynamic management of projects, experiences, skills, and certifications",
+                "Comprehensive Case Study System: Implemented deep-dive architectural case studies featuring executive metrics, problem-approach callouts, and quantified engineering results",
+                "Resilient Dual-Mode Caching: Engineered TanStack React Query client caching with automated offline fallback hydration ensuring 100% page availability",
+                "Containerized & Cloud Deployed: Configured multi-stage Docker Compose orchestration alongside seamless Vercel edge deployment"
+            ],
+            tags: ["Full Stack", "React.js", "TypeScript", "Node.js", "Express.js", "MongoDB", "Three.js", "Tailwind CSS", "Docker"],
+            technologies: ["React 18", "TypeScript", "Vite", "Node.js", "Express.js", "MongoDB Atlas", "Three.js", "Tailwind CSS", "Framer Motion", "TanStack React Query", "JWT Auth", "Docker & Compose"],
+            problem: "Static developer portfolios lack real-time content management capabilities, require manual Git commits for routine resume updates, and often fail to provide interactive engineering depth or scannable case studies for recruiters and hiring managers.",
+            approach: "Architected a decoupled, full-stack platform featuring a high-performance React 18/TypeScript frontend and a secure Node.js Express REST API:\n\n• Interactive Presentation Tier: Three.js magnetic particle canvas, fluid Framer Motion transitions, and responsive Tailwind UI.\n• Headless CMS & Auth: Secure JWT-authenticated administration tier with modular CRUD managers for profile, skills, projects, and experiences.\n• Resilient Data Caching: TanStack React Query integration with optimistic UI updates, automated cache invalidation, and static data fallback.\n• Production Containerization: Docker and Docker Compose configs with multi-stage Nginx builds for containerized hosting.",
+            architecture: "Decoupled Full-Stack Architecture:\n\n• Client Tier: React 18 with Vite, TypeScript, Tailwind CSS, Framer Motion, and Three.js canvas shaders.\n• State & Cache Layer: TanStack React Query with optimistic UI mutations, query invalidation, and synchronous initial data hydration.\n• Backend REST API: Modular Express.js service providing authenticated CRUD routes for projects, skills, education, experiences, and certifications.\n• Persistence: MongoDB Atlas cluster with structured Mongoose schemas and automated seeding scripts.",
+            keyFeatures: [
+                "Interactive 3D Three.js magnetic field particle canvas responding to cursor movements",
+                "Headless Admin CMS Dashboard with JWT authentication for real-time portfolio management",
+                "Comprehensive Case Study Reader with executive metrics, technical architecture, and impact breakdowns",
+                "Resilient dual-mode architecture with automated offline/static fallback hydration",
+                "Categorized Technical Skills matrix with dynamic MongoDB Atlas synchronization",
+                "Responsive, accessibility-focused UI engineered for mobile, tablet, and desktop viewports",
+                "Single-command containerized deployment via Docker and Docker Compose"
+            ],
+            challenges: "Key technical bottlenecks encountered:\n\n• 3D Canvas Rendering Performance: Preventing Three.js particle animation loops from dropping frames or blocking the main React thread during heavy DOM interactions.\n• Edge Static Deployment vs Dynamic API: Ensuring the Vercel-hosted frontend renders smoothly with zero downtime even when the backend API is cold-starting or offline.\n• Real-Time CMS State Sync: Eliminating stale cache latency between admin management updates and public reader views.",
+            solutions: "Engineering solutions implemented:\n\n• GPU-Accelerated Particle Shaders: Optimized Three.js requestAnimationFrame loops and memoized geometries to sustain locked 60 FPS.\n• Resilient Fallback Architecture: Programmed React Query queries with synchronous initial data hydration from strongly typed datasets, ensuring 100% page availability.\n• Granular Query Invalidation: Integrated automated cache invalidations across all CMS manager forms to guarantee instant UI synchronization.",
+            results: "Quantified project impact:\n\n• 100% Lighthouse accessibility and best practices score.\n• Sub-second initial page load with Vite code-splitting and asset chunking.\n• Zero-downtime resilient offline fallback architecture across all public routes.\n• Fully functional headless admin CMS reducing portfolio update cycles from code deployments to seconds.",
+            learnings: "Core takeaways and domain expertise gained:\n\n• Advanced Three.js particle dynamics and GPU-bound browser performance optimization.\n• Headless CMS architecture, JWT auth security, and RESTful resource modeling.\n• Production state management and cache synchronization with TanStack React Query.",
+            github_url: "https://github.com/bhola-dev58/Portfolio",
+            deployed_url: "https://bhola-yadav.vercel.app/",
+            image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80"
         }
     ]);
     console.log('Project records seeded/migrated (3)');
