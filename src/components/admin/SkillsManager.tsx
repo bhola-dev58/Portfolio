@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { skills as skillsApi } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 export const SkillsManager = () => {
+    const queryClient = useQueryClient();
     const [skills, setSkills] = useState<any[]>([]);
     const [category, setCategory] = useState("");
     const [items, setItems] = useState("");
@@ -30,6 +32,7 @@ export const SkillsManager = () => {
             await skillsApi.create({ category, items: skillItems });
             toast.success("Skill Category Added");
         }
+        await queryClient.invalidateQueries({ queryKey: ['skills'] });
         setCategory(""); setItems(""); fetchData();
     };
 
@@ -44,6 +47,7 @@ export const SkillsManager = () => {
     const handleDelete = async (id: string) => {
         if (!confirm("Delete?")) return;
         await skillsApi.delete(id);
+        await queryClient.invalidateQueries({ queryKey: ['skills'] });
         fetchData(); toast.success("Deleted");
     };
 

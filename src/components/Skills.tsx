@@ -39,7 +39,7 @@ export const Skills = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
                     {skillCategories.map((skillCat: SkillCategory) => (
                         <motion.div
-                            key={skillCat.id}
+                            key={skillCat.id || skillCat._id || skillCat.category}
                             variants={card}
                             initial="hidden"
                             whileInView="visible"
@@ -61,8 +61,8 @@ export const Skills = () => {
                                     viewport={{ once: true, amount: 0.1 }}
                                     className="flex flex-wrap justify-center gap-2.5"
                                 >
-                                    {skillCat.items.map((skill: string, idx: number) => (
-                                        <motion.div key={`${skillCat.id}-${idx}`} variants={badge}>
+                                    {(Array.isArray(skillCat.items) ? skillCat.items : []).map((skill: string, idx: number) => (
+                                        <motion.div key={`${skillCat.id || skillCat._id || skillCat.category}-${skill}-${idx}`} variants={badge}>
                                             <Badge
                                                 variant="secondary"
                                                 className="px-3.5 py-1.5 text-xs md:text-sm bg-secondary/15 text-foreground hover:bg-primary/15 hover:text-primary border border-secondary/40 hover:border-primary/50 transition-all duration-200 cursor-default font-medium"

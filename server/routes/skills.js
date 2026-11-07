@@ -23,7 +23,9 @@ router.get('/', async (req, res) => {
 router.post('/', authMiddleware, async (req, res) => {
     try {
         const skill = await Skill.create(req.body);
-        res.status(201).json({ data: skill });
+        const obj = skill.toObject();
+        obj.id = obj._id;
+        res.status(201).json({ data: obj });
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
     }
@@ -33,7 +35,12 @@ router.post('/', authMiddleware, async (req, res) => {
 router.put('/:id', authMiddleware, async (req, res) => {
     try {
         const updated = await Skill.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json({ data: updated });
+        if (!updated) {
+            return res.status(404).json({ error: 'Skill not found' });
+        }
+        const obj = updated.toObject();
+        obj.id = obj._id;
+        res.json({ data: obj });
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
     }

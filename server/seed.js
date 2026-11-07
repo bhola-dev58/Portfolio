@@ -333,8 +333,12 @@ const seed = async () => {
                 category: 'Tools & Platforms',
                 items: ['Git', 'GitHub', 'VS Code', 'Docker', 'CI/CD'],
             },
+            {
+                category: 'AI / ML',
+                items: ['Generative-AI', 'Agentic-AI', 'RAG'],
+            },
         ]);
-        console.log('Skills records created (4 categories)');
+        console.log('Skills records created (5 categories)');
     } else {
         console.log(`Skills already has ${existingSkills} records`);
     }

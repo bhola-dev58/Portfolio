@@ -58,7 +58,8 @@ export interface Experience {
 }
 
 export interface SkillCategory {
-  id: string;
+  id?: string;
+  _id?: string;
   category: string;
   items: string[];
 }
@@ -357,22 +358,27 @@ export const INITIAL_SKILLS: SkillCategory[] = [
   {
     id: "skill-1",
     category: "Programming Languages",
-    items: ["Java", "Python", "JavaScript", "C++", "HTML5", "CSS3"]
+    items: ["Python", "JavaScript", "TypeScript", "Java", "C++"]
   },
   {
     id: "skill-2",
-    category: "Frontend & Full Stack Frameworks",
-    items: ["React.js", "Next.js", "Tailwind CSS", "Node.js", "Express.js", "FastAPI"]
+    category: "Frameworks & Libraries",
+    items: ["React.js", "Node.js", "Express.js", "FastAPI", "TensorFlow"]
   },
   {
     id: "skill-3",
-    category: "Databases & Cloud",
-    items: ["MySQL", "MongoDB", "Docker", "AWS (Basic)", "REST APIs", "CI/CD"]
+    category: "Databases",
+    items: ["MySQL", "MongoDB", "Firebase"]
   },
   {
     id: "skill-4",
-    category: "Core Computer Science & Tools",
-    items: ["Data Structures & Algorithms", "DBMS", "Computer Networks", "Agentic AI", "Git / GitHub"]
+    category: "Tools & Platforms",
+    items: ["Git", "GitHub", "VS Code", "Firebase", "CI/CD", "AI Integration"]
+  },
+  {
+    id: "skill-5",
+    category: "AI / ML",
+    items: ["Generative-AI", "Agentic-AI", "RAG"]
   }
 ];
 
