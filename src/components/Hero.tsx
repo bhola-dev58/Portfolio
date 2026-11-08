@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Code2, MessageSquare, Award } from "lucide-react";
+import { Github, Linkedin, Mail, Code2, MessageSquare, Award, FileText, Download, ExternalLink } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import profileImage from "@/assets/profile.png";
 import resumePdf from "@/assets/resume/My_Resume.pdf";
 import awsCertPdf from "@/assets/certificates/AWS Certified Developer - Associate Certification.pdf";
@@ -112,6 +118,7 @@ const DockerLogo = () => (
 
 export const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -238,12 +245,11 @@ export const Hero = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-5 sm:px-8 py-5 sm:py-6 text-sm sm:text-base border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold"
-                asChild
+                className="rounded-full px-5 sm:px-8 py-5 sm:py-6 text-sm sm:text-base border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold cursor-pointer gap-2"
+                onClick={() => setIsResumeOpen(true)}
               >
-                <a href={resumePdf} download="Bhola_Yadav_Resume.pdf">
-                  My Resume
-                </a>
+                <FileText className="w-4 h-4" />
+                My Resume
               </Button>
             </motion.div>
 
@@ -412,6 +418,45 @@ export const Hero = () => {
           />
         </div>
       </motion.div>
+
+      {/* Resume In-Page Browser PDF Viewer Modal */}
+      <Dialog open={isResumeOpen} onOpenChange={setIsResumeOpen}>
+        <DialogContent className="max-w-5xl w-[95vw] h-[88vh] flex flex-col p-4 sm:p-6 bg-card border border-border shadow-2xl rounded-2xl z-50">
+          <DialogHeader className="flex flex-row items-center justify-between pr-8 pb-3 border-b border-border/60">
+            <DialogTitle className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
+              Bhola Yadav — Resume
+            </DialogTitle>
+            <div className="flex items-center gap-2 mr-2">
+              <a
+                href={resumePdf}
+                download="Bhola_Yadav_Resume.pdf"
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 flex items-center gap-1.5 transition-colors"
+                title="Download PDF"
+              >
+                <Download className="w-3.5 h-3.5" /> Download
+              </a>
+              <a
+                href={resumePdf}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-secondary/15 hover:bg-secondary/25 text-foreground border border-border flex items-center gap-1.5 transition-colors"
+                title="Open in new tab"
+              >
+                <ExternalLink className="w-3.5 h-3.5" /> Open Tab
+              </a>
+            </div>
+          </DialogHeader>
+
+          <div className="flex-1 w-full h-full min-h-0 rounded-xl overflow-hidden border border-border/60 bg-muted/20">
+            <iframe
+              src={`${resumePdf}#toolbar=1`}
+              title="Bhola Yadav Resume"
+              className="w-full h-full border-0 rounded-xl"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
