@@ -191,8 +191,110 @@ export const brainTumorXaiProject: Project = {
   image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&auto=format&fit=crop&q=80"
 };
 
+export const trustMossProject: Project = {
+  id: "trustmoss",
+  title: "TrustMoss — Real-Time Trust, Security & Reliability Gateway for AI Agents",
+  slug: "trustmoss",
+  category: "AI / ML",
+  projectType: "Enterprise AI Safety Gateway & Real-Time Guardrails",
+  role: "Lead Full-Stack & AI Systems Architect",
+  status: "Published",
+  featured: true,
+  displayOrder: 2,
+  period: "Sep 2026 – Present",
+  startDate: "2026-09",
+  endDate: "Present",
+
+  shortDescription:
+    "Enterprise runtime trust and security gateway for autonomous AI voice and text agents, achieving sub-45ms P95 latency with sub-15ms Moss vector retrieval, speculative parallel NLI groundedness verification, WebRTC circuit breaking, and HITL hot-patching.",
+
+  description:
+    "TrustMoss is an enterprise runtime trust and security gateway engineered to eliminate hallucinations, prompt injections, and PII exfiltration in autonomous multi-agent voice and text systems with sub-45ms P95 overhead.\n\nDeveloped for the YC Fall 2026 x Moss: Zero Latency Builder Sprint, TrustMoss sits as an active zero-trust verification intermediary between client ingress (duplex WebRTC voice or text chat) and LLM response generation.\n\nBy coupling Moss hybrid sparse-dense vector retrieval (<15ms) with ultra-fast generation (Groq Llama-3.1-8B and Gemini Flash), the platform introduces a speculative parallel Natural Language Inference (NLI) pipeline to evaluate premise-hypothesis entailment in under 5ms. In addition, an automated WebRTC audio circuit breaker suppresses hallucinated speech in-flight, while an encrypted Human-in-the-Loop (HITL) triage console enables 1-click atomic knowledge index hot-patching with zero downtime.",
+
+  problem:
+    "Enterprise deployment of autonomous AI agents and conversational Voice AI systems suffers from four critical, interconnected failure modes that prevent production rollout:\n\n• Hallucination & Ungrounded Answers: Standard RAG pipelines blindly feed retrieved context into LLMs. When semantic relevance is low (<= 0.60), the model hallucinates plausible-sounding but erroneous facts.\n• Security & Compliance Liabilities: Inbound prompt injections (OWASP LLM01), jailbreaks, and accidental egress of PII violate GDPR, HIPAA, and the EU AI Act.\n• Severe Real-Time Latency Budgets: Conversational voice agents require turnarounds under 300ms. Traditional multi-pass LLM judges add 400–800ms of lag, making real-time verification in voice conversations historically impossible.\n• Knowledge Drift & High MTTR: When bad responses are flagged, engineering teams spend an average of 4.2 minutes per incident manually diagnosing logs, editing documents, and triggering expensive, full-reindexing downtime windows.",
+
+  approach:
+    "Architected an 8-stage synchronous real-time trust pipeline and asynchronous governance loop across 24 formal architectural nodes:\n\n• Stage 1 — Inbound Guardrails: Screens inbound prompts and WebRTC transcripts for prompt injection, jailbreaks, and PII entropy before reaching model reasoning.\n• Stage 2 — Sub-15ms Moss Retrieval: Queries Moss hybrid vector engine with calibrated domain namespaces (security, healthcare, finance), extracting top-k contextual evidence.\n• Stage 3 — Pre-Generation Relevance Gating: Drops retrieved chunks scoring below cosine similarity tau = 0.60 to prevent prompt poisoning.\n• Stage 4 — Constrained LLM Generation: Directs high-speed inference via Groq Llama-3.1-8B-Instant or Gemini Flash with strict CRISPE system constraints.\n• Stage 5 — Outbound Data Sanitization: Scans token candidate streams for PII and credential leakage via Microsoft Presidio and compiled regex.\n• Stage 6 — Speculative Parallel NLI (<5ms): Evaluates early token buffers with a 4-bit distilled cross-encoder in parallel with stream generation.\n• Stage 7 — Dynamic Circuit Breaker: Computes a composite Trust Score and automatically suppresses ungrounded or toxic responses before transmission (3 strikes fast-fail for 300s).\n• Stage 8 — Closed-Loop HITL Hot-Patching: Encrypts tripped incidents with AES-256-GCM and routes them to a triage console for 1-click atomic vector index hot-patching with Git-like rollback.",
+
+  architecture:
+    "Decoupled 24-node microservices architecture engineered for high-concurrency real-time agent verification:\n\n• Ingress & Client Layer: Next.js 14 App Router operations console with streaming HUD and LiveKit WebRTC duplex voice client for real-time streaming.\n• Synchronous Real-Time Trust Fabric: FastAPI ASGI orchestrator dispatching parallel sub-services for inbound guardrails, Moss vector retrieval (<15ms), speculative NLI evaluation (<5ms), and in-flight circuit breaking.\n• Asynchronous Governance Loop: Celery workers and an Index Version Registry ('Git for Moss') managing staged shadow index hot-patches and automated rollback commit logs.\n• Persistence & Security: PostgreSQL 16 with JSONB document indexing for telemetry, Redis 7 for sliding turn sessions and circuit breaker strike counters, and HashiCorp Vault KV v2 for zero-downtime secret rotation.",
+
+  highlights: [
+    "<45ms P95 End-to-End Latency: Achieves real-time trust verification overhead without violating conversational voice turnaround budgets.",
+    "<15ms Context Retrieval: Powered by Moss hybrid sparse-dense vector retrieval with domain namespace prefixing.",
+    "<5ms Groundedness Evaluation: Replaced 400ms+ LLM-as-a-judge pipelines with speculative parallel NLI cross-encoders.",
+    "Real-Time WebRTC Voice Circuit Breaker: Intercepts in-flight audio packets via LiveKit to prevent hallucinated speech from reaching user ears.",
+    "93% MTTR Reduction: Cut incident remediation from 4.2 minutes to 18 seconds via 1-click atomic shadow index hot-patching.",
+    "257+ Automated Tests & Zero CVEs: 100% test pass rate with an 85%+ coverage gate and clean Bandit/pip-audit security scans."
+  ],
+
+  tags: [
+    "AI / ML",
+    "Python",
+    "FastAPI",
+    "Next.js",
+    "WebRTC",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "Terraform",
+    "Security"
+  ],
+
+  technologies: [
+    "Next.js 14 (App Router)",
+    "React 18",
+    "FastAPI",
+    "Python 3.12",
+    "Moss Vector Engine",
+    "Groq (Llama-3.1-8B)",
+    "Gemini Flash",
+    "LiveKit (WebRTC)",
+    "PostgreSQL 16 (JSONB)",
+    "Redis 7",
+    "HashiCorp Vault",
+    "Microsoft Presidio",
+    "Grafana k6 OSS",
+    "Terraform",
+    "Docker & Compose",
+    "Pytest (257+ Tests)"
+  ],
+
+  keyFeatures: [
+    "Sub-15ms Moss hybrid vector retrieval with domain context prefixing",
+    "Speculative parallel NLI (<5ms) for microsecond factual consistency evaluation",
+    "Dynamic tri-state Trust Score aggregator (PASS/WARN/FAIL) and automated strike circuit breaker",
+    "LiveKit WebRTC voice gateway with in-flight audio packet suppression",
+    "Real-time microsecond latency waterfall HUD powered by OpenTelemetry W3C traceparents",
+    "Closed-loop Human-in-the-Loop (HITL) triage portal with side-by-side NLI token diffs",
+    "1-Click atomic knowledge index hot-patching with Git-like semantic commit rollback",
+    "Native Grafana k6 OSS performance testing engine with automated P95 < 45ms SLA gating",
+    "Cryptographic audit trail with SHA-256 Merkle leaf hashing and GDPR/EU AI Act compliance export",
+    "Unified multi-tier secrets cascade (HashiCorp Vault -> AWS Secrets Manager -> .env)"
+  ],
+
+  challenges:
+    "Key engineering bottlenecks resolved:\n\n• The Verification vs Latency Dilemma: Traditional LLM-as-a-judge pipelines introduce 300–800ms of latency, destroying real-time conversational voice cadence.\n• In-Flight Audio Interception: Standard post-generation checks cannot prevent already-transmitted WebRTC audio packets from playing in user ears.\n• Atomic Zero-Downtime Index Updates: Modifying live vector databases normally requires full re-indexing or locking tables, risking stale reads.\n• Local High-Concurrency Benchmarking: Cloud load testing services require paid SaaS subscriptions and internet routing, compromising local development privacy.\n• Multi-Tier Secret Resilience: Managing secure key rotation across production Vault clusters while ensuring zero-downtime fallback to local environments.",
+
+  solutions:
+    "Innovative architectural solutions implemented:\n\n• Speculative Parallel NLI: Evaluates drafted token buffers in parallel with stream generation using a 4-bit cross-encoder, cutting verification overhead to <5ms.\n• Chunk-Buffered WebRTC Interceptor: Buffers audio packets behind a 200ms speculative window, issuing packet suppression signals if groundedness trips mid-sentence.\n• Git-Like Index Version Registry: Writes human corrections to a staged shadow index and promotes it via an atomic pointer swap in <1ms after automated sanity tests pass.\n• Native Grafana k6 OSS Orchestrator: Built an embedded load test engine executing 5 standard traffic profiles locally with automated P95 < 45ms SLA assertions.\n• Cascading SecretProvider: Engineered a dynamic key resolution chain (Vault KV v2 -> AWS Secrets Manager -> .env) with TTL caching and instant cache invalidation hooks.",
+
+  results:
+    "Quantified engineering benchmarks and operational impact:\n\n• 93% Reduction in End-to-End Latency: Maintained <45ms P95 overhead compared to 650–1200ms traditional guardrail baselines.\n• 98.5% Lower Groundedness Evaluation Overhead: Reduced factuality verification from 350–700ms down to <5ms.\n• 93% Operational MTTR Reduction: Dropped knowledge remediation time from 4.2 minutes down to 18 seconds.\n• 84% Operator Alert Fatigue Reduction: Filtered false positives down to 16% through NLI confidence thresholds.\n• 257+ Automated Tests: Achieved 100% test pass rate with strict 85%+ coverage gate and 0 High/Critical CVEs.",
+
+  learnings:
+    "Core technical insights and architectural mastery:\n\n• Microsecond latency budget optimization for synchronous real-time voice and text agent pipelines.\n• Natural Language Inference (NLI) mathematical formulations and speculative cross-encoder evaluation.\n• WebRTC SFU media pipelines, live packet suppression, and duplex audio streaming with LiveKit.\n• Immutable cryptographic audit ledgers, Merkle tree hashing, and enterprise regulatory compliance (GDPR / EU AI Act).\n• Declarative cloud infrastructure using Terraform, multi-stage Docker containerization, and automated canary deployments.",
+
+  github_url: "https://github.com/bhola-dev58/TrustMoss",
+  deployed_url: "https://trustmoss.vercel.app",
+  doc_url: "https://github.com/bhola-dev58/TrustMoss#readme",
+  image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+};
+
 export const INITIAL_PROJECTS: Project[] = [
   brainTumorXaiProject,
+  trustMossProject,
   {
     id: "proj-1",
     title: "Smart Coach LMS -- Full-Stack Coaching Center Management Platform",
@@ -204,7 +306,7 @@ export const INITIAL_PROJECTS: Project[] = [
     role: "Full Stack Software Engineer",
     status: "Published",
     featured: true,
-    displayOrder: 2,
+    displayOrder: 3,
     period: "Feb 2025 – Present",
     startDate: "2025-02",
     endDate: "Present",
@@ -250,7 +352,7 @@ export const INITIAL_PROJECTS: Project[] = [
     role: "AI & Full Stack Engineer",
     status: "Published",
     featured: true,
-    displayOrder: 3,
+    displayOrder: 5,
     period: "Jan 2025 – Feb 2025",
     startDate: "2025-01",
     endDate: "2025-02",
@@ -290,7 +392,7 @@ export const INITIAL_PROJECTS: Project[] = [
     role: "Backend & Systems Engineer",
     status: "Published",
     featured: false,
-    displayOrder: 4,
+    displayOrder: 6,
     period: "Aug 2024 – Sep 2024",
     startDate: "2024-08",
     endDate: "2024-09",
